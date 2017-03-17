@@ -1,0 +1,21 @@
+﻿## Interface: 70100
+## Title: [BF] FestivalHelper
+## Title-zhCN: [大脚]节日助手
+## Title-zhTW: [大腳]節日助手
+## Notes: |cffbc8f8fAccording to different festivals provide different content,to help players to complete the festival achievement.——By BigFoot|r
+## Notes-zhCN: |cff00ff00FestivalHelper|r|n|cffbc8f8f大脚原创：根据当前节日提供不同的增强内容，方便玩家更好的寻找NPC、完成任务及成就。|r
+## Notes-zhTW: |cff00ff00FestivalHelper|r|n|cffbc8f8f大腳原創：根據當前節日提供不同的增強內容，方便玩家更好的尋找NPC、完成任務及成就。|r
+## Author: BigFoot_WorkTeam 
+## SavedVariables: FestivalHelper_Config
+## Dependencies: BigFoot
+## X-Revision: BigFoot
+## LoadOnDemand: 1
+
+locale.lua
+
+FestivalHelper_Data.lua
+MapMark.lua
+Tip.lua
+target.lua
+BigfootDayEvent.lua
+FestivalHelper_GUI.xml

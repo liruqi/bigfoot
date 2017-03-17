@@ -1,0 +1,15 @@
+## Interface: 70100
+## Title: Q-genius
+## Title-zhCN: [大脚][集]任务达人
+## Title-zhTW: [大腳][集]任務達人
+## Notes-zhCN: |cff00ff00Q-genius|r
+## Notes-zhTW: |cff00ff00Q-genius|r
+## Author: DengSir
+## Version: 70100.01
+## LoadWith: Blizzard_AchievementUI
+## LoadOnDemand: 1
+## X-WoWBox-Ver: 1
+## Dependencies: BigFoot
+## X-Revision: BigFoot
+
+Load.xml
