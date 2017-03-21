@@ -64,7 +64,7 @@ function MountEnhanceConfigFunc()
 				MOUNT_ENHANCE_ENABLE_TEXT,
 				nil,
 				"EnableCollector",
-				1,
+				0,
 				function (arg)
 					if ( arg == 1 ) then
 						if (not BigFoot_IsAddOnLoaded("Collector")) then
