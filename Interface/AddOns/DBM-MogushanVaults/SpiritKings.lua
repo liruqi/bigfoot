@@ -118,7 +118,7 @@ mod:AddDropdownOption("optKZ", {"noKZ", "KZ1", "KZ2"}, "noKZ", "sound")
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
 local function register(e)	
-	DBMHudMap:RegisterEncounterMarker(e)
+	-- DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
 

@@ -68,7 +68,7 @@ local iconsSet = {[1] = false, [2] = false, [3] = false, [4] = false, [5] = fals
 
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -137,9 +137,9 @@ do
 	frame:SetScript("OnEvent", function(self, event, timestamp, subEvent, _, _, _, _, _, destGUID, _, _, _, ...)
 		if damagedMob == destGUID then
 			local damage
-			if subEvent == "SWING_DAMAGE" then 
-				damage = select( 1, ... ) 
-			elseif subEvent == "RANGE_DAMAGE" or subEvent == "SPELL_DAMAGE" or subEvent == "SPELL_PERIODIC_DAMAGE" then 
+			if subEvent == "SWING_DAMAGE" then
+				damage = select( 1, ... )
+			elseif subEvent == "RANGE_DAMAGE" or subEvent == "SPELL_DAMAGE" or subEvent == "SPELL_PERIODIC_DAMAGE" then
 				damage = select( 4, ... )
 			end
 			if damage then
@@ -147,7 +147,7 @@ do
 			end
 		end
 	end)
-	
+
 	function showDamagedHealthBar(self, mob, spellName, health)
 		damagedMob = mob
 		hpRemaining = health
@@ -155,7 +155,7 @@ do
 		DBM.BossHealth:RemoveBoss(getDamagedHP)
 		DBM.BossHealth:AddBoss(getDamagedHP, spellName)
 	end
-	
+
 	function hideDamagedHealthBar()
 		DBM.BossHealth:RemoveBoss(getDamagedHP)
 	end
@@ -195,7 +195,7 @@ function mod:OnCombatStart(delay)
 		berserkTimer:Start(420-delay)
 	else
 		berserkTimer:Start(-delay)
-	end	
+	end
 end
 
 function mod:OnCombatEnd()
@@ -215,7 +215,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args:IsSpellID(123250) then
 		local elapsed, total = timerSpecialCD:GetTime(specialsCast+1)
 		specialRemaining = total - elapsed
-		lastProtect = GetTime()	
+		lastProtect = GetTime()
 		warnProtect:Show()
 		specWarnAnimatedProtector:Show()
 		self:Schedule(0.2, function()
@@ -276,12 +276,9 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 			end
 		end
-		if not hideActive and self:UnitIsTank(args.destName) then--filter out all the splash sprays that go out during hide.
-			timerSpray:Start(args.destName)
-		end
 	elseif args:IsSpellID(123705) then
 		if self:AntiSpam(2, 2) then
-			self:ScaryFogRepeat()		
+			self:ScaryFogRepeat()
 		end
 		if self.Options.HudMAP then
 			if (args.amount or 1) < 5 then return end
@@ -301,7 +298,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		if timerSpecialCD:GetTime(specialsCast+1) == 0 then -- failsafe. (i.e : 79.8% hide -> protect... bar remains)
 			local protectElapsed = GetTime() - lastProtect
 			local specialCD = specialRemaining - protectElapsed
-			if specialCD < 5 then 
+			if specialCD < 5 then
 				timerSpecialCD:Start(5, specialsCast+1)
 			else
 				timerSpecialCD:Start(specialCD, specialsCast+1)
@@ -407,7 +404,7 @@ end
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 127524 then
 		DBM:EndCombat(self)
-	end	
+	end
 end
 
 function mod:SPELL_DAMAGE(_, _, _, _, destGUID, destName, _, _, spellId, _, _, spellDamage)
@@ -433,7 +430,7 @@ function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT(event)
 	warnHideOver:Show(GetSpellInfo(123244))
 	warnHideProgress:Cancel()
 	warnHideProgress:Show(hideDebug, damageDebug, tostring(format("%.1f", timeDebug)))--Show right away instead of waiting out the schedule
-	sndWOP:Play("ex_mop_ysjs") --隱身結束 
+	sndWOP:Play("ex_mop_ysjs") --隱身結束
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Show(3, bossTank)--Go back to showing only tanks
 	end

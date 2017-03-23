@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1762, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16042 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16059 $"):sub(12, -3))
 mod:SetCreatureID(103685)
 mod:SetEncounterID(1862)
 mod:SetZone()
@@ -31,7 +31,7 @@ mod:RegisterEventsInCombat(
  --(ability.id = 212997 or ability.id = 213238 or ability.id = 208230 or ability.id = 213531 or ability.id = 206365) and type = "begincast"
 local warnCarrionPlague				= mod:NewTargetAnnounce(206480, 3)
 local warnBrandOfArgus				= mod:NewTargetAnnounce(212794, 4)
-local warnBloodFang					= mod:NewCountAnnounce("ej13528", 1)
+local warnBloodFang					= mod:NewCountAnnounce("ej13528", 1, 24733)
 --Nightborne
 local warnVolatileWound				= mod:NewStackAnnounce(216024, 3, nil, false, 2)
 --The Legion
@@ -65,7 +65,7 @@ local timerIllusionaryNight			= mod:NewBuffActiveTimer(32, 206365, nil, nil, nil
 local timerAddsCD					= mod:NewAddsTimer(25, 216726, nil, "-Healer")
 local timerCarrionNightmare			= mod:NewNextCountTimer(4, 215988, nil, nil, nil, 2)
 
-local berserkTimer					= mod:NewBerserkTimer(470)
+local berserkTimer					= mod:NewBerserkTimer(463)
 
 local countdownSeekerSwarm			= mod:NewCountdown(25, 213238)
 local countdownEchoesOfVoid			= mod:NewCountdown("Alt65", 213531)
@@ -197,6 +197,8 @@ function mod:OnCombatStart(delay)
 	if not self:IsEasy() then
 		timerBrandOfArgusCD:Start(15-delay, 1)
 		berserkTimer:Start(-delay)
+	else
+		berserkTimer:Start(523-delay)
 	end
 	if self.Options.NPAuraOnCarrionPlague then
 		DBM:FireEvent("BossMod_EnableFriendlyNameplates")
@@ -502,7 +504,7 @@ function mod:UNIT_DIED(args)
 	local cid = self:GetCIDFromGUID(args.destGUID)
 	if cid == 104326 then--Dark Phase bats
 		self.vb.batsKilled = self.vb.batsKilled + 1
-		if self.vb.batsKilled % 5 == 0 then
+		if self.vb.batsKilled % 4 == 0 then
 			warnBloodFang:Show(self.vb.batsKilled)
 		end
 	end

@@ -1,19 +1,21 @@
 local mod	= DBM:NewMod(1751, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 15987 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16070 $"):sub(12, -3))
 mod:SetCreatureID(104881)
 mod:SetEncounterID(1871)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)
 mod:SetHotfixNoticeRev(15984)
+mod.respawnTime = 29
 
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_CAST_START 213853 213567 213564 213852 212735 213275 213390 213083 212492 230504",
-	"SPELL_CAST_SUCCESS 230403",
-	"SPELL_AURA_APPLIED 213864 216389 213867 213869 212531 213148 213569 212587 230951 213760 213808",
+	"SPELL_CAST_START 213853 213567 213564 213852 212735 213390 213083 212492 230504",
+	"SPELL_CAST_SUCCESS 230403 212492 213275",
+	"SPELL_AURA_APPLIED 213864 216389 213867 213869 212531 213148 213569 212587 230951 213760 213808 212647",
+	"SPELL_AURA_APPLIED_DOSE 212647",
 	"SPELL_AURA_REMOVED 213569 212531 213148 230951 212587",
 	"SPELL_PERIODIC_DAMAGE 212736 213278 213504 230414",
 	"SPELL_PERIODIC_MISSED 212736 213278 213504 230414",
@@ -51,6 +53,7 @@ local specWarnAnnihilateOther		= mod:NewSpecialWarningTaunt(212492, nil, nil, ni
 --Debuffs
 local specWarnMarkOfFrost			= mod:NewSpecialWarningYou(212531, nil, nil, nil, 1, 2)
 local yellMarkofFrost				= mod:NewYell(212531)
+local specWarnFrostbitten			= mod:NewSpecialWarningStack(212647, nil, 6, nil, nil, 1, 6)
 local specWarnSearingBrand			= mod:NewSpecialWarningMoveAway(213148, nil, nil, nil, 1, 2)
 local specWarnSearingBrandDodge		= mod:NewSpecialWarningDodge(213148, nil, nil, nil, 2, 6)
 local specWarnArcaneOrb				= mod:NewSpecialWarningDodge(213519, nil, nil, nil, 2, 2)
@@ -80,7 +83,7 @@ local timerAnnihilateCD				= mod:NewNextCountTimer(40, 212492, nil, "Tank", nil,
 --Debuffs
 local timerMarkOfFrostCD			= mod:NewNextTimer(16, 212531, nil, nil, nil, 3)
 local timerSearingBrandCD			= mod:NewNextTimer(16, 213148, nil, nil, nil, 3)
-local timerArcaneOrbCD				= mod:NewNextTimer(14.5, 213519, nil, nil, nil, 3)
+local timerArcaneOrbCD				= mod:NewNextTimer(11.5, 213519, nil, nil, nil, 3)
 --Replicates
 local timerMarkOfFrostRepCD			= mod:NewNextTimer(16, 212530, 160324, nil, nil, 3)--Short name "Replicate"
 local timerSearingBrandRepCD		= mod:NewNextTimer(16, 213182, 160324, nil, nil, 3)--Short name "Replicate"
@@ -90,7 +93,7 @@ local timerMarkOfFrostDetonateCD	= mod:NewNextTimer(16, 212735, 29870, nil, nil,
 local timerSearingBrandDetonateCD	= mod:NewNextTimer(16, 213275, 29870, nil, nil, 3, nil, DBM_CORE_HEALER_ICON)--Short name "Detonate"
 local timerArcaneOrbDetonateCD		= mod:NewNextTimer(16, 213390, 29870, nil, nil, 3, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_HEALER_ICON)--Short name "Detonate"
 --Animates
-local timerAnimateFrostCD			= mod:NewNextTimer(16, 213853, 124338, nil, nil, 1, nil, DBM_CORE_TANK_ICON)--"Animated" short name. Wrong tense but only short spell I can use
+local timerAnimateFrostCD			= mod:NewNextTimer(16, 213853, 124338, nil, nil, 1, 57612, DBM_CORE_TANK_ICON)--"Animated" short name. Wrong tense but only short spell I can use
 local timerAnimateFireCD			= mod:NewNextTimer(16, 213567, 124338, nil, nil, 1, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_TANK_ICON)--"Animated" short name. Wrong tense but only short spell I can use
 local timerAnimateArcaneCD			= mod:NewNextTimer(16, 213564, 124338, nil, nil, 1, nil, DBM_CORE_DEADLY_ICON..DBM_CORE_DAMAGE_ICON..DBM_CORE_TANK_ICON)--"Animated" short name. Wrong tense but only short spell I can use
 --Animate Specials
@@ -115,6 +118,7 @@ local voicePhaseChange				= mod:NewVoice(nil, nil, DBM_CORE_AUTO_VOICE2_OPTION_T
 local voiceAnnihilate				= mod:NewVoice(212492, "Tank")--defensive/tauntboss
 --Debuffs
 local voiceMarkOfFrost				= mod:NewVoice(212531)--scatter/??? (??? not used yet, need to determine stacks for grouping up to clear then make voice maybe that says "stand near another mark of frost" maybe?)
+local voiceFrostbitten				= mod:NewVoice(212647)--stackhigh
 local voiceSearingBrand				= mod:NewVoice(213148)--scatter/farfromline
 local voiceArcaneOrb				= mod:NewVoice(213519)--watchorb
 --Detonates
@@ -264,8 +268,6 @@ function mod:SPELL_CAST_START(args)
 			voiceFrostDetonate:Play("runout")
 			yellFrostDetonate:Yell()
 		end
-	elseif spellId == 213275 then--Detonate: Searing Brand
-		--Do nothing
 	elseif spellId == 213390 then--Detonate: Arcane Orb
 		--specWarnArcaneDetonate:Show()
 		--voiceArcaneDetonate:Play("watchorb")
@@ -276,27 +278,16 @@ function mod:SPELL_CAST_START(args)
 			self:ScanForMobs(args.sourceGUID, 2, 8, 1, 0.2, 10, "SetIconOnFrozenTempest")
 		end
 	elseif spellId == 212492 then--Annihilate
-		self.vb.annihilateCount = self.vb.annihilateCount + 1
 		local targetName, uId, bossuid = self:GetBossTarget(104881, true)
 		local tanking, status = UnitDetailedThreatSituation("player", bossuid)
 		if tanking or (status == 3) then--Player is current target
-			specWarnAnnihilate:Show(self.vb.annihilateCount)
+			specWarnAnnihilate:Show(self.vb.annihilateCount+1)
 			voiceAnnihilate:Play("defensive")
 		else
 			if not UnitDebuff("player", annihilatedDebuff) then
 				specWarnAnnihilateOther:Schedule(4, targetName)
 				voiceAnnihilate:Schedule(4, "tauntboss")
 			end
-		end
-		local nextCount = self.vb.annihilateCount+1
-		local timer = self:IsMythic() and mythicAnnihilateTimers[nextCount] or annihilateTimers[nextCount]
-		if timer then	
-			timerAnnihilateCD:Start(timer, nextCount)
-			countdownAnnihilate:Start(timer)
-		end
-		if nextCount == 6 then
-			--Better place to start arcane orb timer since it's cast 1.5 seconds after arcane phase begins and this is last annihilate in fire phase
-			timerArcaneOrbCD:Start()
 		end
 	elseif spellId == 230951 then
 		warnFelSoul:Show()
@@ -325,6 +316,20 @@ function mod:SPELL_CAST_SUCCESS(args)
 			timerFelLashCD:Start(timer, self.vb.felLashCount+1)
 			countdownFelLash:Start(timer)
 		end
+	elseif spellId == 212492 then--Annihilate
+		self.vb.annihilateCount = self.vb.annihilateCount + 1
+		local nextCount = self.vb.annihilateCount+1
+		local timer = self:IsMythic() and mythicAnnihilateTimers[nextCount] or annihilateTimers[nextCount]
+		if timer then	
+			timerAnnihilateCD:Start(timer-3, nextCount)
+			countdownAnnihilate:Start(timer-3)
+		end
+		if nextCount == 6 and not self:IsMythic() then
+			--Better place to start arcane orb timer since it's cast 1.5 seconds after arcane phase begins and this is last annihilate in fire phase
+			timerArcaneOrbCD:Start()
+		end
+	elseif spellId == 213275 and self.Options.SetIconOnBurstOfFlame then--Detonate: Searing Brand
+		self:ScanForMobs(107285, 0, 8, 6, 0.1, 20, "SetIconOnBurstOfFlame", false, 107285)--Second CID isn't actually second ID, just more redundancy to try and get god damn thing to work AT ALL
 	end
 end
 
@@ -447,12 +452,19 @@ function mod:SPELL_AURA_APPLIED(args)
 		self.vb.armageddonAdds = self.vb.armageddonAdds + 1
 	elseif spellId == 230951 then
 		timerFelSoul:Start()
-	elseif spellId == 213760 and self.Options.SetIconOnBurstOfFlame then--Burst of Flame
-		self:ScanForMobs(args.destGUID, 0, 8, 6, 0.1, 10, "SetIconOnBurstOfFlame")
-	elseif spellId == 213808 and self.Options.SetIconOnBurstOfMagic then--Burst of Magic
-		self:ScanForMobs(args.destGUID, 0, 8, 8, 0.1, 12, "SetIconOnBurstOfMagic")
+--	elseif spellId == 213760 and self.Options.SetIconOnBurstOfFlame then--Burst of Flame
+		--self:ScanForMobs(args.destGUID, 0, 8, 6, 0.1, 10, "SetIconOnBurstOfFlame")
+--	elseif spellId == 213808 and self.Options.SetIconOnBurstOfMagic then--Burst of Magic
+		--self:ScanForMobs(args.destGUID, 0, 8, 8, 0.1, 12, "SetIconOnBurstOfMagic")
+	elseif spellId == 212647 then
+		local amount = args.amount or 1
+		if args:IsPlayer() and amount % 2 == 0 and amount >= 6 then
+			specWarnFrostbitten:Show(amount)
+			voiceFrostbitten:Play("stackhigh")
+		end
 	end
 end
+mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
 	local spellId = args.spellId
@@ -534,6 +546,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		specWarnArcaneOrb:Show()
 		voiceArcaneOrb:Play("watchorb")
 	elseif spellId == 213390 then--Detonate: Arcane Orb (still missing from combat log, although this event is 3 seconds slower than scheduling or using yell)
+		self:ScanForMobs(107287, 0, 8, 8, 0.1, 20, "SetIconOnBurstOfMagic", false, 107287)--Second CID isn't actually second ID, just more redundancy to try and get god damn thing to work AT ALL
 --		specWarnArcaneDetonate:Show()
 --		voiceArcaneDetonate:Play("watchorb")
 	end

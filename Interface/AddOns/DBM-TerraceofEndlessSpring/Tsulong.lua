@@ -3,7 +3,6 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:SoundMM("SoundWOP")
 local sndJK		= mod:SoundMM("SoundWOP")
 local sndGH		= mod:NewSound(nil, mod:IsHealer(), "SoundGH")
-local sndHX		= mod:NewSound(nil, mod:IsTank() or mod:IsHealer(), "SoundHX")
 local sndMY		= mod:NewSound(nil, false, "SoundMY")
 
 mod:SetRevision(("$Revision: 9656 $"):sub(12, -3))
@@ -70,7 +69,7 @@ mod:AddBoolOption("WarnJK", mod:IsHealer(), "sound")
 
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -241,14 +240,6 @@ end
 
 function mod:OnCombatStart(delay)
 	timerShadowBreathCD:Start(8.5-delay)
-	sndHX:Cancel("ex_mop_zbhx")
-	sndHX:Cancel("countthree")
-	sndHX:Cancel("counttwo")
-	sndHX:Cancel("countone")
-	sndHX:Schedule(5, "ex_mop_zbhx")--準備火息
-	sndHX:Schedule(6, "countthree")
-	sndHX:Schedule(7, "counttwo")
-	sndHX:Schedule(8, "countone")
 	timerNightmaresCD:Start(13.5-delay)
 	sndMY:Cancel("countseven")
 	sndMY:Cancel("countsix")
@@ -354,21 +345,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		else
 			timerShadowBreathCD:Start()
 		end
-		sndHX:Cancel("ex_mop_zbhx")
-		sndHX:Cancel("countthree")
-		sndHX:Cancel("counttwo")
-		sndHX:Cancel("countone")
-		if self:IsDifficulty("heroic10", "heroic25") then
-			sndHX:Schedule(21, "ex_mop_zbhx")
-			sndHX:Schedule(22.5, "countthree")
-			sndHX:Schedule(23.5, "counttwo")
-			sndHX:Schedule(24.5, "countone")
-		else
-			sndHX:Schedule(24, "ex_mop_zbhx")
-			sndHX:Schedule(25.5, "countthree")
-			sndHX:Schedule(26.5, "counttwo")
-			sndHX:Schedule(27.5, "countone")
-		end
 	elseif args:IsSpellID(124176, 123630) then
 		DBM:EndCombat(self)
 	end
@@ -397,7 +373,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		if self:IsDifficulty("normal25", "heroic25", "lfr25") then
 			sndWOP:Play("firecircle")--注意火圈
 		end
-		targetScansDone = 0		
+		targetScansDone = 0
 		self:TargetScanner()
 		if timerDayCD:GetTime() < 106 then
 			timerNightmaresCD:Start()
@@ -415,10 +391,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		mobcount = 0
 		hxcount = 0
 		timerShadowBreathCD:Cancel()
-		sndHX:Cancel("ex_mop_zbhx")
-		sndHX:Cancel("countthree")
-		sndHX:Cancel("counttwo")
-		sndHX:Cancel("countone")
 		timerSunbeamCD:Cancel()
 		timerNightmaresCD:Cancel()
 		sndMY:Cancel("countseven")
@@ -478,10 +450,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		end
 		sndWOP:Play("phasechange")
 		timerShadowBreathCD:Start(10)
-		sndHX:Schedule(6, "ex_mop_zbhx")--準備火息
-		sndHX:Schedule(7.5, "countthree")
-		sndHX:Schedule(8.5, "counttwo")
-		sndHX:Schedule(9.5, "countone")
 		timerNightmaresCD:Start(16)
 		sndMY:Schedule(9.5, "countseven")
 		sndMY:Schedule(10.5, "countsix")

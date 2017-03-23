@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1743, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16049 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16066 $"):sub(12, -3))
 mod:SetCreatureID(106643)
 mod:SetEncounterID(1872)
 mod:SetZone()
@@ -489,7 +489,6 @@ function mod:SPELL_AURA_REMOVED(args)
 		end
 	elseif spellId == 209598 then
 		self.vb.burstDebuffCount = self.vb.burstDebuffCount - 1
-		warnConflexiveBurst:CombinedShow(0.5, args.destName)
 		if args:IsPlayer() then
 			--Cancel yells when they are added
 		end
