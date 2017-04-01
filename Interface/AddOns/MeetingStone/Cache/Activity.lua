@@ -76,7 +76,7 @@ function Activity:Update()
     if not self:UpdateCustomData(comment, title) then
         return false
     end
-    
+
     wipe(self.killedBosses)
     local customId = self:GetCustomID()
     if customId and CUSTOM_PROGRESSION_LIST[customId] then

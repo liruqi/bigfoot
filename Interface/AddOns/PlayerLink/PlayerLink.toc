@@ -1,4 +1,4 @@
-﻿## Interface: 70100
+﻿## Interface: 70200
 ## Title: [BF] PlayerLink
 ## Title-zhCN: [大脚]链接增强
 ## Title-zhTW: [大腳]鏈接增強

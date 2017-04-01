@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: [BF] BFGadgets
 ## Title-zhCN: [大脚]小工具
 ## Title-zhTW: [大腳]小工具

@@ -1,4 +1,4 @@
-﻿## Interface: 70100
+﻿## Interface: 70200
 ## Title: TargetCharms
 ## Title-zhCN: [大脚][集]标记助手
 ## Title-zhTW: [大腳][集]標記助手

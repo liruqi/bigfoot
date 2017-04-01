@@ -1,4 +1,4 @@
-﻿## Interface: 70100
+﻿## Interface: 70200
 ## Title:NewPowerBar
 ## Title-zhCN: [大脚]职业能量监测
 ## Title-zhTW: [大腳]職業能量監測

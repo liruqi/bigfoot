@@ -438,7 +438,7 @@ L:SetOptionLocalization({
 	specWarnActivatedVulnerable		= "特别警告：新出现的英杰对你有易伤",
 	specWarnCriteriaLinked			= "特别警告：你是$spell:144095连线的目标",
 	SetIconOnAim				= DBM_CORE_AUTO_ICONS_OPTION_TEXT:format(142948),
-	yellToxicCatalyst			= DBM_CORE_AUTO_YELL_OPTION_TEXT:format("ej8036"),
+	yellToxicCatalyst			= DBM_CORE_AUTO_YELL_OPTION_TEXT.yell:format("ej8036"),
 	RangeFrame				= DBM_CORE_AUTO_RANGE_OPTION_TEXT_SHORT:format("6/5")
 })
 

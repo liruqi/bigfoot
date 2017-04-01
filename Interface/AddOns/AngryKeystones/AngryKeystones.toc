@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: Angry Keystones
 ## Title-zhCN: [大脚][集]秘境增强
 ## Title-zhTW: [大腳][集]秘境增強
@@ -8,7 +8,7 @@
 ## Author: Ermad
 ## SavedVariables: AngryKeystones_Config, AngryKeystones_Data
 ## SavedVariablesPerCharacter: AngryKeystones_CharacterConfig
-## X-Packaged-Version: v0.10.1
+## X-Packaged-Version: v0.11.1
 ## Dependencies: BigFoot
 ## X-Revision: BigFoot
 ## LoadOnDemand: 1

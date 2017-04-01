@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: Grail
 ## Title-zhCN: [大脚][集]可接任务数据库
 ## Title-zhTW: [大腳][集]可接任務數據庫

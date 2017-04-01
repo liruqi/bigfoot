@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: Wholly
 ## Title-zhCN: [大脚][集]可接任务查询
 ## Title-zhTW: [大腳][集]可接任務查詢

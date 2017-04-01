@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: ButtonFacade
 ## Title-zhCN: [大脚][集]动作条皮肤包
 ## Title-zhTW: [大腳][集]動作條皮膚包

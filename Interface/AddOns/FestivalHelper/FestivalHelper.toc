@@ -1,4 +1,4 @@
-﻿## Interface: 70100
+﻿## Interface: 70200
 ## Title: [BF] FestivalHelper
 ## Title-zhCN: [大脚]节日助手
 ## Title-zhTW: [大腳]節日助手

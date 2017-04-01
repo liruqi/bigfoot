@@ -662,8 +662,10 @@ function HPetBattleAny:initforJournalFrame()
 		end
 	end)
 
- 	PetJournalPetCardModelFrame:SetPoint("TOPLEFT",PetJournalPetCard,70,-21)--65
- 	PetJournalPetCardShadows:SetPoint("TOPLEFT",PetJournalPetCard,50,-67)--45
+ 	PetJournalPetCard.modelScene:SetPoint("TOPLEFT",PetJournalPetCard,70,-21)--65
+	if (PetJournalPetCardShadows) then
+		PetJournalPetCardShadows:SetPoint("TOPLEFT",PetJournalPetCard,50,-67)--45
+	end
 
 	if self.initSwathButton then self.initSwathButton() end
 end

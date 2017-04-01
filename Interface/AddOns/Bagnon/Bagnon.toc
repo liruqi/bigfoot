@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: Bagnon
 ## Title-zhCN: [大脚][集]整合背包
 ## Title-zhTW: [大腳][集]整合背包

@@ -1,12 +1,12 @@
-﻿-- zhCN localization
+﻿-- Simplified Chinese localization
 
 local L = LibStub("AceLocale-3.0"):NewLocale("ErrorFilter", "zhCN")
 if not L then return end
 
 L["ErrorFilter"] = "红色信息屏蔽"
 L["Add a new string."] = "添加一个新的字符串."
-L["Allowed errors"] = "白名单信息"
 L["Allow only ..."] = "始终过滤..."
+L["Allowed errors"] = "白名单信息"
 L["Choose how do you want ErrorFilter to work."] = "选择你打算让 ErrorFilter 如何工作."
 L["Choose the errors you do not want to see:"] = "选择你不想看到的错误信息:"
 L["Choose the errors you want to see:"] = "选择你想看到的错误信息:"
@@ -14,9 +14,9 @@ L["Delete"] = "删除"
 L["Delete a string from the list"] = "删除一个字符串"
 L["Do nothing"] = "什么都不做"
 L["Filter all errors"] = "过滤所有错误"
-L["Filtered errors"] = "筛选错误"
 L["Filter only ..."] = "只过滤..."
-L["Filter only in combat."] = "仅在战斗中过滤" -- Needs review
+L["Filter only in combat."] = "仅在战斗中过滤"
+L["Filtered errors"] = "筛选错误"
 L["Filters"] = "过滤器"
 L["General Settings"] = "全局设置"
 L["Manage custom allows:"] = "管理自定义白名单:"
@@ -33,7 +33,7 @@ L["Throttle messages."] = "阀值消息."
 L["Toggle to allow each message only once every 5 seconds."] = "不在5秒内重复现实同样的提示."
 L["Toggle to allow this error."] = "选择不过滤该信息."
 L["Toggle to filter this error."] = "选择过滤该信息."
-L["Toggle to stop filtering while out of combat."] = "开启当脱离战斗后停止过滤." -- Needs review
+L["Toggle to stop filtering while out of combat."] = "开启当脱离战斗后停止过滤."
 L["Warning! This will prevent all error messages from appearing in the UI Error Frame."] = "警告! 这将过滤所有的错误信息."
 L["Warning! This will prevent any message from appearing in the UI Error Frame, including quest updates text."] = "警告! 这将过滤所有错误信息,包括任务信息."
 

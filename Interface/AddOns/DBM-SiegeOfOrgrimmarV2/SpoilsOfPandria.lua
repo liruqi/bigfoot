@@ -74,7 +74,7 @@ local specWarnTorment			= mod:NewSpecialWarningSpell(142934, mod:IsHealer())
 ----Mantid
 local specWarnMantidSwarm		= mod:NewSpecialWarningSpell(142539, mod:IsTank())
 local specWarnResidue			= mod:NewSpecialWarningSpell(145786, mod:IsMagicDispeller())
-local specWarnRageoftheEmpress	= mod:NewSpecialWarningSpell(145812, mod:IsMagicDispeller())it? might make this off by default since kiting it may be more desired than dispeling it
+local specWarnRageoftheEmpress	= mod:NewSpecialWarningSpell(145812, mod:IsMagicDispeller())--it? might make this off by default since kiting it may be more desired than dispeling it
 --Lightweight Crate of Goods
 ----Mogu
 local specWarnHardenFlesh		= mod:NewSpecialWarningInterrupt(144922, false)

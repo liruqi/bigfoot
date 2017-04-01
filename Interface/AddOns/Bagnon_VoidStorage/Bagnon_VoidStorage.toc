@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: Bagnon Void Storage
 ## Title-zhCN: [大脚][集]整合背包-虚空仓库
 ## Title-zhTW: [大腳][集]整合背包-虛空倉庫

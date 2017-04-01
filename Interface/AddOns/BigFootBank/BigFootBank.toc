@@ -1,4 +1,4 @@
-﻿## Interface: 70100
+﻿## Interface: 70200
 ## Title: [BF] BigFootBank
 ## Title-zhCN: [大脚]黒市助手
 ## Title-zhTW: [大腳]黒市助手

@@ -975,7 +975,7 @@ function barPrototype:Update(elapsed)
 	local enlargeHack = false
 	if barOptions.DynamicColor and not self.color then
 		local r, g, b
-		if colorCount and colorCount >= 1 then
+		if colorCount and type(colorCount)=="number" and colorCount >= 1 then
 			if colorCount == 1 then--Add
 				r = barOptions.StartColorAR  + (barOptions.EndColorAR - barOptions.StartColorAR) * (1 - timerValue/totaltimeValue)
 				g = barOptions.StartColorAG  + (barOptions.EndColorAG - barOptions.StartColorAG) * (1 - timerValue/totaltimeValue)

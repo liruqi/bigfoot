@@ -363,11 +363,12 @@ local function updateEnemyPower()
 	local threshold = value[1]
 	local powerType = value[2]
 	for i = 1, 5 do
-		if UnitExists("boss"..i) then
-			local currentPower, maxPower = UnitPower("boss"..i, powerType), UnitPowerMax("boss"..i, powerType)
+		local uId = "boss"..i
+		if UnitExists(uId) then
+			local currentPower, maxPower = UnitPower(uId, powerType), UnitPowerMax(uId, powerType)
 			if maxPower == 0 then return end--Prevent division by 0
 			if currentPower / maxPower * 100 >= threshold then
-				lines[UnitName("boss"..i)] = currentPower
+				lines[UnitName(uId)] = currentPower
 			end
 		end
 	end
@@ -379,10 +380,11 @@ local function updateEnemyAbsorb()
 	twipe(lines)
 	local spellName = value[1]
 	for i = 1, 5 do
-		if UnitExists("boss"..i) then
-			local absorbAmount = select(17, UnitBuff("boss"..i, spellName)) or select(17, UnitDebuff("boss"..i, spellName))
+		local uId = "boss"..i
+		if UnitExists(uId) then
+			local absorbAmount = select(17, UnitBuff(uId, spellName)) or select(17, UnitDebuff(uId, spellName))
 			if absorbAmount then
-				lines[UnitName("boss"..i)] = absorbAmount
+				lines[UnitName(uId)] = absorbAmount
 			end
 		end
 	end
@@ -394,10 +396,11 @@ local function updateAllAbsorb()
 	twipe(lines)
 	local spellName = value[1]
 	for i = 1, 5 do
-		if UnitExists("boss"..i) then
-			local absorbAmount = select(17, UnitBuff("boss"..i, spellName)) or select(17, UnitDebuff("boss"..i, spellName))
+		local uId = "boss"..i
+		if UnitExists(uId) then
+			local absorbAmount = select(17, UnitBuff(uId, spellName)) or select(17, UnitDebuff(uId, spellName))
 			if absorbAmount then
-				lines[UnitName("boss"..i)] = absorbAmount
+				lines[UnitName(uId)] = absorbAmount
 			end
 		end
 	end
@@ -680,8 +683,10 @@ function onUpdate(frame)
 	if events[currentEvent] then
 		events[currentEvent]()
 	else
-		frame:Hide()
-		--error("DBM-InfoFrame: Unsupported event", 2)
+		if frame then
+			frame:Hide()
+			--error("DBM-InfoFrame: Unsupported event", 2)
+		end
 	end
 	local color = NORMAL_FONT_COLOR
 	frame:ClearLines()
@@ -694,6 +699,15 @@ function onUpdate(frame)
 			break
 		end
 		local leftText = sortedLines[i]
+		if not leftText then
+			error("DBM InfoFrame: leftText cannot be nil, Notify DBM author. Infoframe force shutting down ", 2)
+			frame:Hide()--Force close infoframe so it doesn't keep throwing 100s of errors onupdate. If leftText is broken the frame needs to be shut down
+			return
+		elseif leftText and type(leftText) ~= "string" then
+			error("DBM InfoFrame: leftText must be string, Notify DBM author. Infoframe force shutting down ", 2)
+			frame:Hide()--Force close infoframe so it doesn't keep throwing 100s of errors onupdate. If leftText is broken the frame needs to be shut down
+			return
+		end
 		local rightText = lines[leftText]
 		local icon = icons[leftText] and icons[leftText]..leftText
 		if friendlyEvents[currentEvent] then
@@ -801,7 +815,8 @@ function infoFrame:RegisterCallback(cb)
 end
 
 function infoFrame:Update()
-	if frame then
+	frame = frame or createFrame()
+	if frame:IsShown() then
 		onUpdate(frame)
 	end
 end

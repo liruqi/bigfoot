@@ -1,6 +1,6 @@
 if GetLocale()~='zhCN' then return end
-local main= "7.1.0."
-local minor = "622"
+local main= "7.2.0."
+local minor = "624"
 BIGFOOT_VERSION = "zhCN"..main..minor;
 
 function GetMinorVersion()
@@ -8,6 +8,29 @@ function GetMinorVersion()
 end
 
 BigFootChangelog_ah();
+
+	BigFootChangelog_at("2017/03/31 (7.2.0.624)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70200.01)。")
+	BigFootChangelog_ar("宠物助手","升级至最新版本(2.2.11)。")
+	BigFootChangelog_ar("秘境增强","升级至最新版本(0.11.1)。")
+	BigFootChangelog_ar("竞技语音","升级至最新版本(1.14.3a)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.1.16106)。")
+
+
+	BigFootChangelog_at("2017/03/30 (7.2.0.623)")
+	BigFootChangelog_ar("大脚插件","兼容至7.2版本。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(123)。")
+	BigFootChangelog_ar("战斗统计","升级至最新版本(1.6.6)。")
+	BigFootChangelog_ar("地图专家","升级至最新版本(1.7.5)。")
+	BigFootChangelog_ar("界面调整","升级至最新版本(4.7.7)。")
+	BigFootChangelog_ar("竞技助手","升级至最新版本(5.1.3)。")
+	BigFootChangelog_ar("竞技语音","升级至最新版本(1.14.3)。")
+	BigFootChangelog_ar("秘境增强","升级至最新版本(0.11.0)。")
+	BigFootChangelog_ar("一键驱散","升级至最新版本(2.7.5.2)。")
+	BigFootChangelog_ar("小地图美化","升级至最新版本(7.2.0)。")
+	BigFootChangelog_ar("红色信息过滤","升级至最新版本(3.2)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.1.16101)。")
+
 
 	BigFootChangelog_at("2017/03/27 (7.1.0.622)")
 	BigFootChangelog_ar("集合石","升级至最新版本(70100.09)。")
@@ -385,4 +408,4 @@ BigFootChangelog_ah();
 BigFootChangelog_af();
 
 
-BF_VERSION_CHECKSUM = "49"
+BF_VERSION_CHECKSUM = "52"

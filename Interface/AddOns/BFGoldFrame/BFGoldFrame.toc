@@ -1,4 +1,4 @@
-﻿## Interface: 70100
+﻿## Interface: 70200
 ## Title: [BF] GoldFrame
 ## Title-zhCN: [大脚]金钱提示
 ## Title-zhTW: [大腳]金錢提示

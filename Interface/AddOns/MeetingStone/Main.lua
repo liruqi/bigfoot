@@ -90,6 +90,9 @@ function Addon:ShowNewVersion(url, changeLog)
 end
 
 function Addon:FindMount(id)
+    if not id then
+        return
+    end
     return self.mountCache[id]
 end
 

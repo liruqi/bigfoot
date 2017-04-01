@@ -6,7 +6,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("GladiatorlosSA")
 local LSM = LibStub("LibSharedMedia-3.0")
  local self, GSA, PlaySoundFile = GladiatorlosSA, GladiatorlosSA, PlaySoundFile
  local GSA_TEXT = "|cff69CCF0GladiatorlosSA|r (|cffFFF569/gsa|r)"
- local GSA_VERSION = "|cffFF7D0A v1.14.2 |r(|cFF00FF967.1.5 Legion|r)"
+ local GSA_VERSION = "|cffFF7D0A v1.14.3a |r(|cFF00FF967.2.0 Legion|r)"
  local GSA_AUTHOR = " "
  local gsadb
  local soundz,sourcetype,sourceuid,desttype,destuid = {},{},{},{},{}
@@ -372,11 +372,6 @@ function GladiatorlosSA:COMBAT_LOG_EVENT_UNFILTERED(event , ...)
 		self:PlaySpell("auraRemoved", spellID, sourceGUID, destGUID)
 	elseif (event == "SPELL_CAST_START" and sourcetype[COMBATLOG_FILTER_HOSTILE_PLAYERS] and (not gsadb.conlyTF or sourceuid.target or sourceuid.focus) and not gsadb.castStart) then
 		self:PlaySpell("castStart", spellID, sourceGUID, destGUID)
---	elseif (event == "SPELL_MISSED" and sourcetype[COMBATLOG_FILTER_HOSTILE_PLAYERS] and (not gsadb.conlyTF or sourceuid.target or sourceuid.focus) and not gsadb.auraApplied) then
---		if spellID == 122470 then
---			self:PlaySpell("auraApplied", spellID, sourceGUID,destGUID)
---		end
---	--	--	Dirty fix attempt for Touch of Karma logic. Reverted, for now.
 	elseif (event == "SPELL_CAST_SUCCESS" and sourcetype[COMBATLOG_FILTER_HOSTILE_PLAYERS] and (not gsadb.sonlyTF or sourceuid.target or sourceuid.focus) and not gsadb.castSuccess) then
 		if self:Throttle(tostring(spellID).."default", 0.05) then return end
 		if gsadb.class and currentZoneType == "arena" then
@@ -385,17 +380,6 @@ function GladiatorlosSA:COMBAT_LOG_EVENT_UNFILTERED(event , ...)
 					if c then
 					self:PlaySound(c);
 				end
-				-- Below code is a WIP. Struggling to get the Variable + Static extention.
-	--		elseif spellID == 59752 then -- Every Man Class Callout
-	--			local c = self:ArenaClass(SourceGUID)
-	--				if c then
-	--				self:PlaySound(tostring(c).."EveryMan"); -- NEW FIX, NOT TESTED YET
-	--			end
-	--		elseif spellID == 7744 then -- Will of the Forsaken Class Callout
-	--			local e = self:ArenaClass(SourceGUID).."WotF"
-	--				if e then
-	--				self:PlaySound(e);
-	--			end
 			else
 				self:PlaySpell("castSuccess", spellID, sourceGUID, destGUID)
 			end

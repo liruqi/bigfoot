@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: Master Plan
 ## Title-zhCN: [大脚][集]要塞助手
 ## Title-zhTW: [大腳][集]要塞助手

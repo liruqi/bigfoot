@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: NomiCakes
 ## Title-zhCN: [大脚][集]诺米大厨助手
 ## Title-zhTW: [大腳][集]諾米大廚助手
@@ -6,7 +6,7 @@
 ## Notes-zhCN: |cff00ff00NomiCakes|r|n|cffbc8f8f显示诺米烹饪订单中可学配方名称和可学次数以及配料库存。|r
 ## Notes-zhTW: |cff00ff00NomiCakes|r
 ## Author: Semlar
-## Version: 7.1.5.1
+## Version: 7.2.0.1
 ## SavedVariablesPerCharacter: NomiCakesDatas
 ## X-Revision: BigFoot
 

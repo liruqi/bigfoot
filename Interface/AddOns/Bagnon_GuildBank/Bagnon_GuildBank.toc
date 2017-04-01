@@ -1,4 +1,4 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: Bagnon Guild Bank
 ## Title-zhCN: [大脚][集]整合背包-公会银行
 ## Title-zhTW: [大腳][集]整合背包-公會銀行

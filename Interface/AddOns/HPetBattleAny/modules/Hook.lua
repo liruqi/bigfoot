@@ -239,20 +239,22 @@ hookPetJournal.init = function()
 			_G["PetJournalListScrollFrameButton"..i].dragButton:HookScript("OnEnter",hookPetJournal.PJSTooltip)
 			_G["PetJournalListScrollFrameButton"..i].dragButton:HookScript("OnLeave",GameTooltip_Hide)
 		end
-		--loadout
+		--loadout	
 		for i = 1, 3 do
 			_G["PetJournalLoadoutPet"..i].dragButton:HookScript("OnEnter",hookPetJournal.PJSTooltip)
 			_G["PetJournalLoadoutPet"..i].dragButton:HookScript("OnLeave",GameTooltip_Hide)
-			_G["PetJournalLoadoutPet"..i.."ModelFrameCardButton"]:HookScript("OnClick",function(self)
-				PetJournal_SelectPet(PetJournal,self:GetParent():GetParent().petID)
-
-			end)
+			-- 下面2016年10月31日16:00:50已经自带 --待删
+			-- _G["PetJournalLoadoutPet"..i.."ModelFrameCardButton"]:HookScript("OnClick",function(self)
+				-- if (not InCombatLockdown()) then
+					-- PetJournal_SelectPet(PetJournal,self:GetParent():GetParent().petID)
+				-- end
+			-- end)
 		end
 
 	--- "PetJournal_SelectPet"	--待删
 --~ 	hooksecurefunc("PetJournal_SelectPet",hookPetJournal.PetJournal_SelectPet)
 
-	PetJournal.listScroll.update = PetJournal_UpdatePetList;
+	-- PetJournal.listScroll.update = PetJournal_UpdatePetList;
 	---------------手动xxxxxxxxxx
 	for i = 1, 6 do
 		_G["PetJournalPetCardSpell"..i]:HookScript("OnClick",function(self)

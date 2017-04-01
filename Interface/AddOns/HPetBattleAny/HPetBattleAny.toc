@@ -1,4 +1,4 @@
-﻿## Interface: 70100
+﻿## Interface: 70200
 ## Title:|cFFBF00FF[H]|r Something About Pet Battle
 ## Title-zhCN: [大脚][集]宠物对战增强
 ## Title-zhTW: [大腳][集]寵物對戰增強
@@ -8,8 +8,8 @@
 ## Author: Qshine
 ## Author-zhCN: 上官晓雾
 ## Author-zhTW: 上官曉霧
-## X-Date: 2016-09-26
-## Version: 2.2.9
+## X-Date: 2017-03-30
+## Version: 2.2.11
 ## SavedVariables: HPetSaves
 ## Dependencies: BigFoot
 ## X-Revision: BigFoot
