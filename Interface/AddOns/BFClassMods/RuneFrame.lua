@@ -121,7 +121,7 @@ local function __AttachToHeader()
 	__KillXperl()
 
 	runeFrameParent:Show()
-	bottomBar:SetMinMaxValues(0, UnitManaMax("player"))
+	bottomBar:SetMinMaxValues(0, UnitPowerMax("player"))
 
 end
 
@@ -299,7 +299,7 @@ end
 
 function A:PLAYER_SPECIALIZATION_CHANGED()
 	BigFoot_DelayCall(function()
-		bottomBar:SetMinMaxValues(0, UnitManaMax("player"))
+		bottomBar:SetMinMaxValues(0, UnitPowerMax("player"))
 	end,2)
 end
 

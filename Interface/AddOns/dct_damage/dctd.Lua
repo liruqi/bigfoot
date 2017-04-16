@@ -15,8 +15,6 @@ local dctd_prefixes,dctd_suffixes
 --Blizzard APi calls
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
-local UnitMana = UnitMana
-local UnitManaMax = UnitManaMax
 local UnitName = UnitName
 local UnitGUID = UnitGUID
 local GetSpellInfo = GetSpellInfo

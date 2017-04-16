@@ -1,3 +1,4 @@
+
 <!--
 	MobHealth: A database of estimated creature health values, with display
 		copyright 2004 by Telo
@@ -48,6 +49,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 			</Layer>
 		</Layers>
 	</Frame>
+
 	<Frame name="MobHealthFrame" toplevel="true" enableMouse="false" parent="TargetFrame">
 		<Size>
 			<AbsDimension x="128" y="32"/>

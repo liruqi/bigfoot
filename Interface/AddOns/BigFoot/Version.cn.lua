@@ -1,6 +1,6 @@
 if GetLocale()~='zhCN' then return end
 local main= "7.2.0."
-local minor = "624"
+local minor = "627"
 BIGFOOT_VERSION = "zhCN"..main..minor;
 
 function GetMinorVersion()
@@ -8,6 +8,25 @@ function GetMinorVersion()
 end
 
 BigFootChangelog_ah();
+
+	BigFootChangelog_at("2017/04/13 (7.2.0.627)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70200.02)。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(127)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.4.16154)。")
+
+
+	BigFootChangelog_at("2017/04/10 (7.2.0.626)")
+	BigFootChangelog_ar("要塞助手","升级至最新版本(0.107)。")
+	BigFootChangelog_ar("一键施法","升级至最新版本(70200-1.1.0)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.4.16148)。")
+
+
+	BigFootChangelog_at("2017/04/06 (7.2.0.625)")
+	BigFootChangelog_ar("目标信息","修复版本更新引起的问题。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(125)。")
+	BigFootChangelog_ar("要塞助手","升级至最新版本(0.106)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.3.16137)。")
+
 
 	BigFootChangelog_at("2017/03/31 (7.2.0.624)")
 	BigFootChangelog_ar("集合石","升级至最新版本(70200.01)。")
@@ -408,4 +427,4 @@ BigFootChangelog_ah();
 BigFootChangelog_af();
 
 
-BF_VERSION_CHECKSUM = "52"
+BF_VERSION_CHECKSUM = "55"

@@ -164,7 +164,7 @@ function mod:OnCombatStart(delay)
 	end
 	timerCrushingDarknessCD:Start(5-delay)
 	timerTouchofDoomCD:Start(9-delay)
-	if not self:IsFaceroll() then
+	if not self:IsEasy() then
 		timerSharedFateCD:Start(19-delay, 1)
 	end
 	timerFeastofSouls:Start(-delay)
@@ -465,7 +465,7 @@ function mod:OnSync(msg)
 		end
 		timerCrushingDarknessCD:Start(5)
 		timerTouchofDoomCD:Start(9)
-		if not self:IsFaceroll() then
+		if not self:IsEasy() then
 			timerSharedFateCD:Start(19, 1)
 		end
 		timerFeastofSouls:Start()

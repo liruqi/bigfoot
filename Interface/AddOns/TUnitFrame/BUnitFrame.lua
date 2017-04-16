@@ -335,8 +335,8 @@ local function __BUnitFrame_Update(__frame, __part)
 	if (not __frame.casting) then
 		if (__part["power"] or __part["all"]) then
 			-- Update mana
-			local __maxMana = UnitManaMax(__frame.unit);
-			local __mana = UnitMana(__frame.unit);
+			local __maxMana = UnitPowerMax(__frame.unit);
+			local __mana = UnitPower(__frame.unit);
 			__frame.manaBar:SetMinMaxValues(0, __maxMana);
 			__frame.manaBar:SetValue(__mana);
 		end
@@ -692,8 +692,8 @@ function BUnitFrame_OnEvent(self, event, ...)
 			self.endTime = endTime;
 		end
 	elseif ((event == "UNIT_SPELLCAST_FAILED" or event == "UNIT_SPELLCAST_INTERRUPTED" or event == "UNIT_SPELLCAST_STOP" or event == "UNIT_SPELLCAST_CHANNEL_STOP") and UnitIsUnit(__unit, self.unit)) then
-		local __mana = UnitMana(self.unit);
-		local __manaMax = UnitManaMax(self.unit);
+		local __mana = UnitPower(self.unit);
+		local __manaMax = UnitPowerMax(self.unit);
 		self.manaBar:SetValue(__mana);
 		self.manaBar:SetMinMaxValues(0, __manaMax);
 		local __type,__powerToken = UnitPowerType(self.unit);
@@ -789,8 +789,8 @@ function BUnitFrame_OnUpdate(self, elapsed)
 		local __time = GetTime() * 1000;
 		local __percent = (__time - self.startTime)*100/(self.endTime - self.startTime);
 		if (__percent > 100) then
-			local __mana = UnitMana(self.unit);
-			local __manaMax = UnitManaMax(self.unit);
+			local __mana = UnitPower(self.unit);
+			local __manaMax = UnitPowerMax(self.unit);
 			self.manaBar:SetValue(__mana);
 			self.manaBar:SetMinMaxValues(0, __manaMax);
 			local __type,__powerToken = UnitPowerType(self.unit);

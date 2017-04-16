@@ -185,9 +185,9 @@ function Bartender4:HideBlizzard()
 	PetActionBarFrame:SetParent(UIHider)
 
 	if PlayerTalentFrame then
-		PlayerTalentFrame:UnregisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+		PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 	else
-		hooksecurefunc("TalentFrame_LoadUI", function() PlayerTalentFrame:UnregisterEvent("PLAYER_SPECIALIZATION_CHANGED") end)
+		hooksecurefunc("TalentFrame_LoadUI", function() PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED") end)
 	end
 
 	self:RegisterPetBattleDriver()

@@ -194,11 +194,11 @@ local BCC_Check_spellId;
 local BCC_Check_dstGUID;
 
 --3.2-4.0过渡
-local UnitMana = UnitMana;
-local UnitManaMax = UnitManaMax;
+local UnitPower = UnitPower;
+local UnitPowerMax = UnitPowerMax;
 if GameVER >= 40000 then
-	UnitMana = UnitPower;
-	UnitManaMax = UnitPowerMax;
+	UnitPower = UnitPower;
+	UnitPowerMax = UnitPowerMax;
 end
 
 --事件注册
@@ -1678,7 +1678,7 @@ function RaidAlerter_CheckPvP(check)
 				end
 				if RolesAssigned == "HEALER" then
 					RAL_checkHEALERlistPlayer = RAL_checkHEALERlistPlayer..UnitName(unit)..".";
-					-- .."(MP:"..UnitManaMax(unit)..").";
+					-- .."(MP:"..UnitPowerMax(unit)..").";
 					RAL_checkHEALERlistPlayerNum = RAL_checkHEALERlistPlayerNum + 1;
 				end
 				-- new add end
@@ -2099,19 +2099,19 @@ function RaidAlerter_CheckRaidBuff()
 
 
 				-- 低MP职业忽略法伤
-				if UnitManaMax(unit) < 250 then
+				if UnitPowerMax(unit) < 250 then
 					HasBuff_4 = true;
 				end
 
 				-- 高蓝类治疗或法系职业忽略强度检查
-				if UnitManaMax(unit) > 80000 then
+				if UnitPowerMax(unit) > 80000 then
 					HasBuff_3 = true;
 				end
 				if class == RAL_TEXT_PALADIN then
 				--检查FQ坦的正义之怒
 				--new add判断坦克采用新的方式
 					--if RaidAlerter_TestIsMtList(unit) then
-					if (UnitGroupRolesAssigned(unit) == "TANK" or RaidAlerter_CheckTank(UnitName(unit))) and UnitManaMax(unit) < 80000 then
+					if (UnitGroupRolesAssigned(unit) == "TANK" or RaidAlerter_CheckTank(UnitName(unit))) and UnitPowerMax(unit) < 80000 then
 						IsFQ = true;
 						if string.find(BuffTEXT, RAL_TEXT_BUFF_21) then
 							HasFQBuff = true;
@@ -3870,7 +3870,7 @@ function RaidAlerter_Check_T_health()
 						end
 					end
 
-					local health, healthmax, mana, manamax = UnitHealth(unit), UnitHealthMax(unit), UnitMana(unit), UnitManaMax(unit);
+					local health, healthmax, mana, manamax = UnitHealth(unit), UnitHealthMax(unit), UnitPower(unit), UnitPowerMax(unit);
 					local healthPercent = floor(health/healthmax*100+0.5)
 
 					if RaidAlerter_SET.TANK_DangerHealth then
@@ -3929,7 +3929,7 @@ function RaidAlerter_Check_Party_health()
 				RaidAlerter_MT_Dead[unit] = 0;
 			end
 
-			local health, healthmax, mana, manamax = UnitHealth(unit), UnitHealthMax(unit), UnitMana(unit), UnitManaMax(unit);
+			local health, healthmax, mana, manamax = UnitHealth(unit), UnitHealthMax(unit), UnitPower(unit), UnitPowerMax(unit);
 			local healthPercent = floor(health/healthmax*100+0.5);
 			local playerClass = UnitClass(unit);
 
@@ -5122,11 +5122,11 @@ function RaidAlerter_Get_RaidState()
 					if (UnitPowerType(unit) == 0) then
 						if (playerClass==RAL_TEXT_PRIEST) or (playerClass==RAL_TEXT_SHAMAN) or
 						(playerClass==RAL_TEXT_DRUID) or (playerClass==RAL_TEXT_PALADIN)then
-							totalcuremana = totalcuremana + UnitMana(unit);
-							totalcuremanamax = totalcuremanamax + UnitManaMax(unit);
+							totalcuremana = totalcuremana + UnitPower(unit);
+							totalcuremanamax = totalcuremanamax + UnitPowerMax(unit);
 						else
-							totalmana = totalmana + UnitMana(unit);
-							totalmanamax = totalmanamax + UnitManaMax(unit);
+							totalmana = totalmana + UnitPower(unit);
+							totalmanamax = totalmanamax + UnitPowerMax(unit);
 						end
 					end
 				end

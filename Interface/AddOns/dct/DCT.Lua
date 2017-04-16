@@ -102,8 +102,8 @@ local DCT_warriorName = {"a","a"}
 --Blizzard APi calls
 local UnitHealth = UnitHealth
 local UnitHealthMax = UnitHealthMax
-local UnitMana = UnitMana
-local UnitManaMax = UnitManaMax
+local UnitPower = UnitPower
+local UnitPowerMax = UnitPowerMax
 local UnitName = UnitName
 local UnitGUID = UnitGUID
 local GetSpellInfo = GetSpellInfo
@@ -711,7 +711,7 @@ end
 function DCT_ProcMana(self, event, larg1)
 	if larg1 == "player" then
 		if UnitPowerType("player") == 0 then
-			if UnitMana("player") / UnitManaMax("player") < DCT_Get("DCT_SHOWLOWMANA").per / 100.0 then
+			if UnitPower("player") / UnitPowerMax("player") < DCT_Get("DCT_SHOWLOWMANA").per / 100.0 then
 				if DCT_lowManaFlag then
 					DCT_SSC_Format_DisableAll()
 					DCT_AddText("DCT_SHOWLOWMANA",1,false,nil)
@@ -722,13 +722,13 @@ function DCT_ProcMana(self, event, larg1)
 			end
 		end
 		--[[
-		if DCT_lastMana ~= 0 and DCT_lastMana < UnitManaMax("player") then
+		if DCT_lastMana ~= 0 and DCT_lastMana < UnitPowerMax("player") then
 			DCT_SSC_Format_DisableAll()
 			dct_powerType = UnitPowerType("player")
 			DCT_AddText("DCT_SHOWPOWER",1,false,nil)
 			return
 		end
-		DCT_lastMana = UnitMana("player")]]
+		DCT_lastMana = UnitPower("player")]]
 	end
 end
 
@@ -1268,7 +1268,7 @@ function DCT_Format(str,colorEx)
 			elseif param == "hp" then
 				out = out..UnitHealth("player")
 			elseif param == "mp" then
-				out = out..UnitMana("player")
+				out = out..UnitPower("player")
 			elseif param == "di" then
 				if dct_patch_di then out = out..dct_patch_di;end
 			elseif param == "cs" then

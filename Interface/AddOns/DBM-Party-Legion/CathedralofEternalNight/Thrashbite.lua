@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1906, "DBM-Party-Legion", 12, 900)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16104 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16111 $"):sub(12, -3))
 mod:SetCreatureID(117194)
 mod:SetEncounterID(2057)
 mod:SetZone()
@@ -32,8 +32,6 @@ local voiceMindControl				= mod:NewVoice(238484)--findmc
 local voicePulvCrudgel				= mod:NewVoice(237276)--runout
 local voiceScornfulGaze				= mod:NewVoice(237726)--findshelter
 
-local book = GetSpellInfo(230940)
-
 function mod:OnCombatStart(delay)
 	timerPulvCrudgelCD:Start(6-delay)
 	timerHeaveCrudCD:Start(15.5-delay)
@@ -48,7 +46,7 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	local spellId = args.spellId
-	if spellId == 209906 then
+	if spellId == 238484 then
 		specWarnMindControl:Show(args.destName)
 		if args:IsPlayer() then
 			--Add a yell?
@@ -59,7 +57,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	elseif spellId == 237726 then
 		timerScornfulGazeCD:Start()
 		if args:IsPlayer() then
-			specWarnScornfulGaze:Show(book)
+			specWarnScornfulGaze:Show(L.bookCase)
 			yellScornfulGaze:Yell()
 			voiceScornfulGaze:Play("findshelter")
 		else

@@ -3012,7 +3012,7 @@ function EventAlert_GroupFrameCheck_OnEvent(self, event, ...)
 	if (not fShowResult) then
 		EAFun_FireEventCheckHide(self);
 	else
-		if (event == "PLAYER_SPECIALIZATION_CHANGED") then
+		if (event == "ACTIVE_TALENT_GROUP_CHANGED") then
 			-- If the Active-Talent should be checked
 			iActiveTalentGroup = GetSpecialization()
 			if (iActiveTalentGroup ~= self.GC.ActiveTalentGroup) then
@@ -3584,7 +3584,7 @@ EA_EventList = {
 		["PLAYER_TALENT_WIPE"]			=EventAlert_PLAYER_TALENT_UPDATE,
 
 		["PLAYER_TARGET_CHANGED"]		=EventAlert_TARGET_CHANGED,
-		["PLAYER_SPECIALIZATION_CHANGED"]=EventAlert_PLAYER_TALENT_UPDATE,
+		["ACTIVE_TALENT_GROUP_CHANGED"]=EventAlert_PLAYER_TALENT_UPDATE,
 		["COMBAT_LOG_EVENT_UNFILTERED"]	=EventAlert_COMBAT_LOG_EVENT_UNFILTERED ,
 
 		-- ["COMBAT_TEXT_UPDATE"]			=EventAlert_COMBAT_TEXT_UPDATE,

@@ -34,8 +34,8 @@ function MobHealth_Display()
 	local __health = UnitHealth("target");
 	local __healthMax = UnitHealthMax("target");
 
-	local __mana = UnitMana("target");
-	local __manaMax = UnitManaMax("target");
+	local __mana = UnitPower("target");
+	local __manaMax = UnitPowerMax("target");
 
 	local __healthText = "";
 	local __manaText = "";

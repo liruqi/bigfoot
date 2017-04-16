@@ -15,7 +15,7 @@ if not AceOO then return end
 local CastBarClass = AceOO.Class()
 
 local function __SetSpellbarAspect(self)
-	local frameText = _G[self:GetName().."Text"]
+	local frameText = self.Text
 	local fontFile
 	if (frameText) then
 		fontFile = frameText:GetFont()
@@ -23,7 +23,7 @@ local function __SetSpellbarAspect(self)
 		frameText:ClearAllPoints()
 		frameText:SetPoint("CENTER", self, "CENTER")
 	end
-	local frameBorder = _G[self:GetName().."Border"]
+	local frameBorder = self.Border
 	if (frameBorder) then
 		frameBorder:SetTexture([[Interface\CastingBar\UI-CastingBar-Border-Small]])
 		frameBorder:SetWidth(156)
@@ -32,7 +32,7 @@ local function __SetSpellbarAspect(self)
 		frameBorder:SetPoint("TOP", self, "TOP", 0, 20)
 	end
 
-	local frameFlash = _G[self:GetName().."Flash"]
+	local frameFlash = self.Flash
 	if (frameFlash) then
 		frameFlash:SetTexture([[Interface\CastingBar\UI-CastingBar-Flash-Small]])
 		frameFlash:SetWidth(156)
@@ -68,8 +68,8 @@ end
 
 --toggle show/hide of the border elements
 function CastBarClass.prototype:EnableBorder(flag)
-	local frameBorder = _G[self.castbar:GetName().."Border"]
-	local frameFlash = _G[self.castbar:GetName().."Flash"]
+	local frameBorder = self.castbar.Border
+	local frameFlash = self.castbar.Flash
 
 	frameFlash:ClearAllPoints()
 	if flag then
@@ -84,7 +84,7 @@ end
 function CastBarClass.prototype:SetSize(x,y)
 	self.castbar:SetWidth(x)
 	self.castbar:SetHeight(y)
-	local frameText = _G[self.castbar:GetName().."Text"]
+	local frameText = self.castbar.Text
 	if frameText then
 		frameText:SetWidth(x-5)
 	end
