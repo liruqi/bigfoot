@@ -45,7 +45,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 	<Button name="AutoEquipFrame" frameStrata="MEDIUM" enableMouse="true" parent="PlayerFrame" clampedToScreen="true">
 		<Layers>
 			<Layer level="ARTWORK">
-				<Texture name="$parentBackground" file="Interface\AddOns\AutoEquip\AutoEquip"/>
+				<Texture name="$parentBackground" file="Interface\AddOns\AutoEquip\AutoEquip" setAllPoints="true"/>
 			</Layer>
 		</Layers>
 		<Frames>
@@ -118,7 +118,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 			</OnEvent>
 		</Scripts>
 	</Button>
-	
+
 	<Frame name="bf_AeDropDownMenu" inherits="UIDropDownMenuTemplate" id="1">
 		<Scripts>
 		   <OnLoad>
@@ -126,5 +126,4 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 		   </OnLoad>
 		</Scripts>
 	</Frame>
-	
 </Ui>

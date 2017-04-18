@@ -93,7 +93,7 @@ local function MyAddUp(flockwave)
 end
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -116,7 +116,7 @@ function mod:OnCombatStart(delay)
 	timerDowndraftCD:Start(91-delay)
 	timerCawsCD:Start(15-delay)
 	sndWOP:Schedule(85, "ex_tt_xjzb")
-	sndWOP:Schedule(87, "countfour")	
+	sndWOP:Schedule(87, "countfour")
 	sndWOP:Schedule(88, "countthree")
 	sndWOP:Schedule(89, "counttwo")
 	sndWOP:Schedule(90, "countone")
@@ -158,7 +158,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		sndWOPWS:Cancel("countthree")
 		sndWOPWS:Cancel("counttwo")
 		sndWOPWS:Cancel("countone")
-		sndWOPWS:Play("ex_tt_wsyc") --餵食	
+		sndWOPWS:Play("ex_tt_wsyc") --餵食
 		if self:IsDifficulty("normal10", "heroic10", "lfr25") then
 			timerFeedYoungCD:Start(40)
 			sndWOPWS:Schedule(36, "ex_tt_zbws")
@@ -190,16 +190,6 @@ end
 
 function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 138923 then
-		if mod.Options.HudMAP then
-			for i = 1, DBM:GetNumGroupMembers() do
-				if UnitName("raid"..i) ~= UnitName("player") then
-					local _, class = UnitClass("raid"..i)
-					if (class == "DRUID" and UnitPowerMax("raid"..i) > 200000) or class == "HUNTER" or class == "PRIEST" or class == "MAGE" or class == "WARLOCK" or (class == "SHAMAN" and UnitPowerMax("raid"..i) > 200000) or (class == "PALADIN" and UnitPowerMax("raid"..i) > 200000) then
-						FireMarkers[UnitName("raid"..i)] = register(DBMHudMap:PlaceStaticMarkerOnPartyMember("highlight", UnitName("raid"..i), 10, 3, 1, 1 ,1 ,0.8):Appear():RegisterForAlerts())
-					end
-				end
-			end
-		end
 		if mod.Options.HudMAPMe then
 			if mod:IsRanged() then
 				FireMarkers[UnitName("player")] = register(DBMHudMap:PlaceStaticMarkerOnPartyMember("highlight", UnitName("player"), 10, 3, 1, 1 ,1 ,0.8):Appear():RegisterForAlerts())
@@ -227,14 +217,14 @@ function mod:SPELL_CAST_START(args)
 			else
 				sndWOP:Play("aesoon")
 			end
-		end		
+		end
 	elseif args.spellId == 134370 then
 		warnDowndraft:Show()
 		specWarnDowndraft:Show()
 		timerDowndraft:Start()
 		sndWOP:Cancel("ex_tt_xjzb")
 		sndWOP:Cancel("countfive")
-		sndWOP:Cancel("countfour")	
+		sndWOP:Cancel("countfour")
 		sndWOP:Cancel("countthree")
 		sndWOP:Cancel("counttwo")
 		sndWOP:Cancel("countone")
@@ -251,7 +241,7 @@ function mod:SPELL_CAST_START(args)
 				sndWOPWS:Cancel("countone")
 			end
 		end
-		sndWOP:Play("ex_tt_xjql") --下降氣流		
+		sndWOP:Play("ex_tt_xjql") --下降氣流
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerDowndraftCD:Start(93)
 			sndWOP:Schedule(87, "ex_tt_xjzb") --下降氣流準備
@@ -264,7 +254,7 @@ function mod:SPELL_CAST_START(args)
 			timerDowndraftCD:Start()--Todo, confirm they didn't just change normal to 90 as well. in my normal logs this had a 110 second cd on normal
 			sndWOP:Schedule(90, "ex_tt_xjzb")
 			sndWOP:Schedule(91, "countfive")
-			sndWOP:Schedule(92, "countfour")	
+			sndWOP:Schedule(92, "countfour")
 			sndWOP:Schedule(93, "countthree")
 			sndWOP:Schedule(94, "counttwo")
 			sndWOP:Schedule(95, "countone")

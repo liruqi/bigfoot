@@ -59,7 +59,6 @@ local specWarnLifeDrain				= mod:NewSpecialWarningTarget(133795, mod:IsTank())
 local yellLifeDrainFix				= mod:NewYell(133795)
 local specWarnHold					= mod:NewSpecialWarning("specWarnHold", nil, nil, nil, 2)
 
-local timerHardStareCD				= mod:NewCDTimer(12, 133765, mod:IsTank() or mod:IsHealer())
 local timerSeriousWound				= mod:NewTargetTimer(60, 133767, mod:IsTank() or mod:IsHealer())
 local timerLingeringGazeCD			= mod:NewCDTimer(46, 138467)
 local timerForceOfWillCD			= mod:NewCDTimer(20, 136413)--Actually has a 20 second cd but rarely cast more than once per phase because of how short the phases are (both beams phases cancel this ability)
@@ -122,7 +121,7 @@ mod:AddBoolOption("DXsound", false, "sound")
 mod:AddDropdownOption("optDD", {"nodd", "DD1", "DD2", "DD3", "HDD1", "HDD2", "HDD3"}, "nodd", "sound")
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -142,7 +141,7 @@ local function lightchoose()
 		sndWOP:Play("ex_tt_lsfd") --藍色分擔
 		if mod.Options.HudMAP then
 			lightmaker[lastBlue] = register(DBMHudMap:AddEdge(0, 0, 1, 1, 10, "player", lastBlue))
-		end	
+		end
 	end
 end
 
@@ -157,7 +156,7 @@ local function warnDarkParasiteTargets()
 	warnDarkParasite:Show(table.concat(darkParasiteTargets, "<, >"))
 	table.wipe(darkParasiteTargets)
 	if UnitDebuff("player", GetSpellInfo(133597)) then
-		sndWOP:Play("ex_tt_nbjs")--你被寄生		
+		sndWOP:Play("ex_tt_nbjs")--你被寄生
 	elseif mod:IsHealer() then
 		sndWOP:Play("ex_tt_hajs")--黑暗寄生
 	end
@@ -188,7 +187,7 @@ local function BeamEnded()
 			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_tenwj") --10秒後瓦解光束
 			sndWOP:Schedule(5, "countfive")
-			sndWOP:Schedule(6, "countfour")	
+			sndWOP:Schedule(6, "countfour")
 			sndWOP:Schedule(7, "countthree")
 			sndWOP:Schedule(8, "counttwo")
 			sndWOP:Schedule(9, "countone")
@@ -204,7 +203,7 @@ local function BeamEnded()
 			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_tenwj") --10秒後瓦解光束
 			sndWOP:Schedule(5, "countfive")
-			sndWOP:Schedule(6, "countfour")	
+			sndWOP:Schedule(6, "countfour")
 			sndWOP:Schedule(7, "countthree")
 			sndWOP:Schedule(8, "counttwo")
 			sndWOP:Schedule(9, "countone")
@@ -245,7 +244,6 @@ function mod:OnCombatStart(delay)
 	--BH ADD END
 	table.wipe(lingeringGazeTargets)
 	table.wipe(darkParasiteTargets)
-	timerHardStareCD:Start(5-delay)
 	timerLingeringGazeCD:Start(15.5-delay)
 	timerForceOfWillCD:Start(33.5-delay)
 	timerLightSpectrumCD:Start(40-delay)
@@ -265,7 +263,7 @@ function mod:OnCombatStart(delay)
 			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_tenwj") --10秒後瓦解光束
 			sndWOP:Schedule(5, "countfive")
-			sndWOP:Schedule(6, "countfour")	
+			sndWOP:Schedule(6, "countfour")
 			sndWOP:Schedule(7, "countthree")
 			sndWOP:Schedule(8, "counttwo")
 			sndWOP:Schedule(9, "countone")
@@ -277,7 +275,7 @@ function mod:OnCombatStart(delay)
 			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_tenwj") --10秒後瓦解光束
 			sndWOP:Schedule(5, "countfive")
-			sndWOP:Schedule(6, "countfour")	
+			sndWOP:Schedule(6, "countfour")
 			sndWOP:Schedule(7, "countthree")
 			sndWOP:Schedule(8, "counttwo")
 			sndWOP:Schedule(9, "countone")
@@ -331,7 +329,6 @@ end
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 133765 then
 		warnHardStare:Show()
-		timerHardStareCD:Start()
 	elseif args.spellId == 138467 then
 		timerLingeringGazeCD:Start(lingeringGazeCD)
 	elseif args.spellId == 136154 and self:IsDifficulty("lfr25") and not lfrCrimsonFogRevealed then--Only use in lfr.
@@ -417,7 +414,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 		if args:IsPlayer() then
 			specWarnYellowBeam:Show()
-			-- DBM.Flash:Shake(1, 1, 0)			
+			-- DBM.Flash:Shake(1, 1, 0)
 			sndWOP:Play("ex_tt_hgsd") --黃光
 		end
 		mod:Schedule(1.5, function()
@@ -437,7 +434,6 @@ end
 
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 133767 then
-		timerSeriousWound:Start(args.destName)
 		if (args.amount or 1) >= 5 then
 			if args:IsPlayer() then
 				specWarnSeriousWound:Show(args.amount)
@@ -476,7 +472,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnDarkParasite:Show()
 			yellDarkParasite:Yell()
 			local soundholdtime = tonumber(mod.Options.soundhold)
-			if soundholdtime > 0 then				
+			if soundholdtime > 0 then
 				self:Schedule(soundholdtime, function()
 					if UnitDebuff("player", GetSpellInfo(133597)) then
 						specWarnHold:Show(soundholdtime)
@@ -688,7 +684,7 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 			else
 				sndWOP:Play("ex_tt_smxq")
 			end
-		end		
+		end
 		if self.Options.SetIconLifeDrain then
 			self:SetIcon(target, 8)--Skull
 		end
@@ -718,7 +714,7 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 		--Best to start next phase bars when this one ends, so artifically create a "phase end" trigger
 		timerDisintegrationBeam:Start()
 		sndWOP:Schedule(51, "countfive")
-		sndWOP:Schedule(52, "countfour")	
+		sndWOP:Schedule(52, "countfour")
 		sndWOP:Schedule(53, "countthree")
 		sndWOP:Schedule(54, "counttwo")
 		sndWOP:Schedule(55, "countone")

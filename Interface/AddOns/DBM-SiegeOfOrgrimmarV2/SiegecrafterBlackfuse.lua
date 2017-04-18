@@ -265,9 +265,6 @@ function mod:SPELL_CAST_START(args)
 		timerDeathFromAboveCD:Start(args.sourceGUID)
 		self:ScheduleMethod(0.2, "DeathFromAboveTarget", args.sourceGUID)--Always targets tank, so 1 scan all needed
 		specWarnAutomatedShredderSwitch:Schedule(3)--Better here then when debuff goes up, give dps 2 seconds rampup time so spells in route when debuff goes up.
-		if mod:IsRangedDps() then
-			sndWOP:Schedule(3, "ex_so_fmjd") --伐木機快打
-		end
 	end
 end
 
@@ -360,9 +357,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self:AntiSpam(30, 3) then --BHFIX
 			warnCrawlerMine:Show()
 			specWarnCrawlerMine:Show()
-			if mod:IsRangedDps() then
-				sndWOP:Play("killmine") --地雷快打
-			end
 			DLneedshow = true
 		end
 		timerBreakinPeriod:Start(args.destName, args.destGUID)

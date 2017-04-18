@@ -687,9 +687,6 @@ function mod:OnSync(msg, guid, hp)
 		table.sort (sh,function(a,b) return a.V< b.V end)
 		if self.Options.InfoYB then
 			DBM.InfoFrame:SetHeader(GetSpellInfo(123184))
-			if #sh == 1 then
-				DBM.InfoFrame:Show(1, "other", "-", sh[1].V)
-			end
 		end
 		warnhp = tonumber(ybhp[guid])
 		if warnhp < 11 and not warnedLowHP[guid] then

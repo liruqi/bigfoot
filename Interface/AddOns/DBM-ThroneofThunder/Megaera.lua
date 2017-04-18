@@ -87,7 +87,7 @@ mod:AddBoolOption("HudMAP2", true, "sound")
 
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -130,7 +130,7 @@ local function showheadinfo()
 		local fireinfob = "|cFFFF6347"..EJ_GetSectionInfo(6998).."|r"
 		local iceinfob = "|cFF0080FF"..EJ_GetSectionInfo(7002).."|r"
 		local venominfob = "|cFF088A08"..EJ_GetSectionInfo(7004).."|r"
-		local arcaneinfob = "|cFFB91FC7"..EJ_GetSectionInfo(7005).."|r"		
+		local arcaneinfob = "|cFFB91FC7"..EJ_GetSectionInfo(7005).."|r"
 		local fireBehindcolor = "|cFFFF6347"..fireBehind.."|r"
 		local iceBehindcolor = "|cFF0080FF"..iceBehind.."|r"
 		local venomBehindcolor = "|cFF088A08"..venomBehind.."|r"
@@ -356,10 +356,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("firerun")  --快跑 火焰點你
 		end
-		if self.Options.HudMAP then
-			local spelltext = GetSpellInfo(139822)
-			FireMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("highlight", args.destName, 3, 10, 1, 0 ,0 ,0.8):SetLabel(spelltext))
-		end
 		if self.Options.SetIconOnCinders then
 			self:SetIcon(args.destName, cinderIcon)
 			if cinderIcon == 7 then--Alternate cinder icons because you can have two at once in later fight.
@@ -413,13 +409,13 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 		timerCinderCD:Cancel()
 		timerTorrentofIceCD:Cancel()
 		timerNetherTearCD:Cancel()
-		timerRampage:Start()	
+		timerRampage:Start()
 		if MyJS() then
 			SpecWarnJSA:Show()
 			sndWOP:Play("defensive") --注意減傷
 		else
 			DBM:PlayCountSound(Ramcount)
-		end		
+		end
 	elseif msg == L.rampageEnds or msg:find(L.rampageEnds) then
 		arcaneRecent = false
 		warnRampageFaded:Show()

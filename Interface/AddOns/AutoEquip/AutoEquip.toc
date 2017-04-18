@@ -5,7 +5,6 @@
 ## Notes: |cffbc8f8fConvenient implementation of equipment management settings.|r
 ## Notes-zhCN: |cff00ff00AutoEquip|r|n|cffbc8f8f方便快捷的实现装备管理设置。|r
 ## Notes-zhTW: |cff00ff00AutoEquip|r|n|cffbc8f8f方便快捷的實現裝備管理設置。|r
-## SavedVariablesPerCharacter: AutoEquip_EquipBindToTalent
 ## Dependencies: BigFoot
 ## X-Revision: BigFoot
 ## LoadOnDemand: 1
