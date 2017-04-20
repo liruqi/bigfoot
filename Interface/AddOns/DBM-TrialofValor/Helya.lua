@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1829, "DBM-TrialofValor", nil, 861)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16150 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16168 $"):sub(12, -3))
 mod:SetCreatureID(114537)
 mod:SetEncounterID(2008)
 mod:SetZone()
 mod:SetUsedIcons(1, 2, 3, 4, 5, 6, 7, 8)
-mod:SetHotfixNoticeRev(15566)
+mod:SetHotfixNoticeRev(16150)
 mod.respawnTime = 30
 
 mod:RegisterCombat("combat")

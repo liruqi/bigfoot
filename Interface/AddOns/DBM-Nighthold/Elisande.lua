@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1743, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16153 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16174 $"):sub(12, -3))
 mod:SetCreatureID(106643)
 mod:SetEncounterID(1872)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)--During soft enrage will go over 8 debuffs, can't mark beyond that
-mod:SetHotfixNoticeRev(16127)
+mod:SetHotfixNoticeRev(16158)
 mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
@@ -156,7 +156,7 @@ local mythicRingTimers = {30, 39, 14.7, 30, 19, 10, 25, 9, 10, 10}--Mythic Feb 5
 local lfrRingTimers = {21, 30, 37, 35}
 local heroicSingularityTimers = {10, 22, 36.0, 57, 65}--Heroic Jan 18
 local normalSingularityTimers = {10, 22, 36.0, 46}--Normal Feb 2
-local mythicSingularityTimers = {10, 54, 50, 45}--Mythic Feb 5th
+local mythicSingularityTimers = {10, 53.7, 49.8, 45}--Mythic April 20th
 local lfrSingularityTimers = {10, 15, 57, 30}--LFR April 2nd
 --Only exist in phase 2
 local heroicBeamTimers = {72, 57, 60}--Heroic Jan 18
@@ -213,8 +213,8 @@ function mod:OnCombatStart(delay)
 	--timerAblationCD:Start(8.5-delay)--Verify/tweak
 	if self:IsMythic() then
 		timerTimeElementalsCD:Start(8-delay, FAST)
-		timerSpanningSingularityCD:Start(54-delay, 2)
-		countdownSpanningSingularity:Start(54)
+		timerSpanningSingularityCD:Start(53.7-delay, 2)
+		countdownSpanningSingularity:Start(53.7)
 		timerArcaneticRing:Start(30-delay, 1)
 		countdownArcaneticRing:Start(30-delay)
 	elseif self:IsLFR() then
@@ -473,8 +473,8 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 			if self:IsMythic() then--TODO: Fine tune these as they may be hit or miss by some seconds Hard to measure precise phase changes from WCL
 				timerEpochericOrbCD:Start(24, 1)
 				countdownOrbs:Start(24)
-				timerArcaneticRing:Start(43, 1)--Verified Jan 18
-				countdownArcaneticRing:Start(43.7)
+				timerArcaneticRing:Start(41.9, 1)--Verified Jan 18
+				countdownArcaneticRing:Start(41.9)
 				timerDelphuricBeamCD:Start(67, 1)--Cast SUCCESS
 				countdownSpanningSingularity:Start(10)
 			elseif self:IsHeroic() then

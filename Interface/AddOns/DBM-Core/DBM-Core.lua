@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 16154 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 16174 $"):sub(12, -3)),
 	DisplayVersion = "7.2.4 bigfoot", -- the string that is shown as version			--bf@178.com
 	ReleaseRevision = 16140 -- the revision of the latest stable version that is available
 }
@@ -420,7 +420,7 @@ local UpdateChestTimer
 local breakTimerStart
 local AddMsg
 
-local fakeBWVersion, fakeBWHash = 51, "eacf411"
+local fakeBWVersion, fakeBWHash = 52, "8fcf8bb"
 local versionQueryString, versionResponseString = "Q^%d^%s", "V^%d^%s"
 
 local enableIcons = true -- set to false when a raid leader or a promoted player has a newer version of DBM
@@ -2434,9 +2434,9 @@ do
 		elseif arg1 == "update" then
 			DBM:ShowUpdateReminder(arg2, arg3) -- displayVersion, revision
 		elseif arg == "localizersneeded" then
-			DBM:ShowUpdateReminder(nil, nil, DBM_FORUMS_COPY_URL_DIALOG, "http://www.deadlybossmods.com/forum/viewtopic.php?f=3&t=5")
+			DBM:ShowUpdateReminder(nil, nil, DBM_FORUMS_COPY_URL_DIALOG, "https://www.deadlybossmods.com/forum/viewtopic.php?f=3&t=5")
 		elseif arg1 == "forumsnews" then
-			DBM:ShowUpdateReminder(nil, nil, DBM_FORUMS_COPY_URL_DIALOG_NEWS, "http://www.deadlybossmods.com/forum/viewtopic.php?f=3&p=171#p171")
+			DBM:ShowUpdateReminder(nil, nil, DBM_FORUMS_COPY_URL_DIALOG_NEWS, "https://www.deadlybossmods.com/forum/viewtopic.php?f=3&t=226&p=690#p690")
 		elseif arg1 == "forums" then
 			DBM:ShowUpdateReminder(nil, nil, DBM_FORUMS_COPY_URL_DIALOG)
 		elseif arg1 == "showRaidIdResults" then
@@ -3592,7 +3592,7 @@ do
 				AddMsg(self, DBM_CORE_MOD_AVAILABLE:format("DBM-Party-Cataclysm"))
 			end
 		else
-			if (LastInstanceMapID == 1148 or LastInstanceMapID == 1698) and not self.Options.PGMessageShown2 and not GetAddOnInfo("DBM-Challenges") then
+			if (LastInstanceMapID == 1148 or LastInstanceMapID == 1698 or LastInstanceMapID == 1710 or LastInstanceMapID == 1703 or LastInstanceMapID == 1702 or LastInstanceMapID == 1684 or LastInstanceMapID == 1673 or LastInstanceMapID == 1616) and not self.Options.PGMessageShown2 and not GetAddOnInfo("DBM-Challenges") then
 				self.Options.PGMessageShown2 = true
 				AddMsg(self, DBM_CORE_MOD_AVAILABLE:format("DBM-Challenges"))
 			elseif LastInstanceMapID == 409 and not self.Options.MCMessageShown and not GetAddOnInfo("DBM-MC") then
@@ -3632,6 +3632,13 @@ do
 		-- LoadMod
 		self:LoadModsOnDemand("mapId", mapID)
 		checkMods(self)
+		if DBM:HasMapRestrictions() then
+			DBM.Arrow:Hide()
+			DBMHudMap:Disable()
+			if DBM.RangeCheck:IsRadarShown() then
+				DBM.RangeCheck:Hide(true)
+			end
+		end
 	end
 	--Faster and more accurate loading for instances, but useless outside of them
 	function DBM:LOADING_SCREEN_DISABLED()
@@ -5120,6 +5127,7 @@ do
 	function DBM:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 		if timerRequestInProgress then return end--do not start ieeu combat if timer request is progressing. (not to break Timer Recovery stuff)
 		if dbmIsEnabled and combatInfo[LastInstanceMapID] then
+			self:Debug("INSTANCE_ENCOUNTER_ENGAGE_UNIT event fired for zoneId"..LastInstanceMapID, 3)
 			for i, v in ipairs(combatInfo[LastInstanceMapID]) do
 				if v.type:find("combat") and isBossEngaged(v.multiMobPullDetection or v.mob) then
 					self:StartCombat(v.mod, 0, "IEEU")
@@ -6086,7 +6094,8 @@ function DBM:GetCurrentInstanceDifficulty()
 	elseif difficulty == 7 then--Fixed LFR (ie pre WoD zones)
 		return "lfr25", difficultyName.." - ", difficulty, instanceGroupSize
 	elseif difficulty == 8 then
-		return "challenge5", PLAYER_DIFFICULTY6.."+ - ", difficulty, instanceGroupSize
+		local currentMPRank = C_ChallengeMode.GetActiveKeystoneInfo() or 0
+		return "challenge5", PLAYER_DIFFICULTY6.."+ ("..currentMPRank..") - ", difficulty, instanceGroupSize
 	elseif difficulty == 9 then--40 man raids have their own difficulty now, no longer returned as normal 10man raids
 		return "normal10", difficultyName.." - ",difficulty, instanceGroupSize--Just use normal10 anyways, since that's where we been saving 40 man stuff for so long anyways, no reason to change it now, not like any 40 mans can be toggled between 10 and 40 where we NEED to tell the difference.
 	elseif difficulty == 11 then
@@ -6427,12 +6436,12 @@ do
 			if not difficultyText then -- prevent error when timer recovery function worked and etc (StartCombat not called)
 				difficultyText = select(2, DBM:GetCurrentInstanceDifficulty())
 			end
-			if IsInScenarioGroup() then return end--status not really useful on scenario mods since there is no way to report progress as a percent. We just ignore it.
 			local mod
 			for i, v in ipairs(inCombat) do
 				mod = not v.isCustomMod and v
 			end
 			mod = mod or inCombat[1]
+			if IsInScenarioGroup() and not mod.soloChallenge then return end--status not really useful on scenario mods since there is no way to report progress as a percent. We just ignore it.
 			local hp = mod.highesthealth and mod:GetHighestBossHealth() or mod:GetLowestBossHealth()
 			local hpText = mod.CustomHealthUpdate and mod:CustomHealthUpdate() or hp and ("%d%%"):format(hp) or DBM_CORE_UNKNOWN
 			if mod.vb.phase then
@@ -6462,7 +6471,7 @@ do
 				hpText = hpText.." ("..BOSSES_KILLED:format(bossesKilled, mod.numBoss)..")"
 			end
 			if not autoRespondSpam[sender] then
-				if IsInScenarioGroup() then
+				if IsInScenarioGroup() and not mod.soloChallenge then
 					sendWhisper(sender, chatPrefix..DBM_CORE_AUTO_RESPOND_WHISPER_SCENARIO:format(playerName, difficultyText..(mod.combatInfo.name or ""), getNumAlivePlayers(), DBM:GetNumGroupMembers()))
 				else
 					sendWhisper(sender, chatPrefix..DBM_CORE_AUTO_RESPOND_WHISPER:format(playerName, difficultyText..(mod.combatInfo.name or ""), hpText, IsInInstance() and getNumRealAlivePlayers() or getNumAlivePlayers(), DBM:GetNumRealGroupMembers()))
