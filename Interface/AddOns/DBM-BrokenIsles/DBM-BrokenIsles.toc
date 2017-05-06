@@ -1,5 +1,5 @@
 ﻿## Interface: 70200
-## X-Min-Interface: 70000
+## X-Min-Interface: 70200
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Broken Isles
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 野外首领-军团再临
 ## Title-zhTW:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 野外首領-軍臨天下

@@ -1,5 +1,5 @@
 ﻿## Interface: 70200
-## X-Min-Interface: 60000
+## X-Min-Interface: 70100
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Options GUI|r
 ## Title-zhCN: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0设置界面|r
 ## Title-zhTW: |cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0使用者界面設定|r

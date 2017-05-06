@@ -1326,7 +1326,7 @@ if (symbol_1K) then
 		if (numero > 99999999) then
 			return format ("%.2f", numero/100000000) .. symbol_1B
 		elseif (numero > 999999) then
-			return format ("%.2f", numero/10000) .. symbol_10K
+			return format ("%d", numero/10000) .. symbol_10K
 		elseif (numero > 99999) then
 			return floor (numero/10000) .. symbol_10K
 		elseif (numero > 9999) then
@@ -1339,7 +1339,7 @@ if (symbol_1K) then
 else
 	function WorldQuestTracker.ToK (numero)
 		if (numero > 999999) then
-			return format ("%.2f", numero/1000000) .. "M"
+			return format ("%.1f", numero/1000000) .. "M"
 		elseif (numero > 99999) then
 			return floor (numero/1000) .. "K"
 		elseif (numero > 999) then
@@ -1624,7 +1624,98 @@ function WorldQuestTracker.RewardRealItemLevel (questID)
 end
 
 -- �rtifact ~artifact
+
+function WorldQuestTracker.RewardIsArtifactPowerGerman (itemLink) -- thanks @Superanuki on curseforge
+
+	local w1, w2, w3, w4 = "Millionen", "Million", "%d,%d", "([^,]+),([^,]+)" --works for German
+
+	if (WorldQuestTracker.GameLocale == "ptBR") then
+		w1, w2, w3, w4 = "milh", "milh", "%d.%d", "([^,]+).([^,]+)"
+	elseif (WorldQuestTracker.GameLocale == "frFR") then
+		w1, w2, w3, w4 = "million", "million", "%d,%d", "([^,]+),([^,]+)"
+	end
+
+	GameTooltipFrame:SetOwner (WorldFrame, "ANCHOR_NONE")
+	GameTooltipFrame:SetHyperlink (itemLink)
+	local text = GameTooltipFrameTextLeft1:GetText()
+	
+	if (text and text:match ("|cFFE6CC80")) then
+		local power = GameTooltipFrameTextLeft3:GetText()
+		if (power) then
+			if (power:find (w1) or power:find (w2)) then
+
+				local n=power:match(w3)
+				if n then 
+					local one,two=n:match(w4) n=one.."."..two 
+				end
+				n = tonumber (n)
+				if (not n) then
+					n = power:match (" %d ")
+					n = tonumber (n)
+					n=n..".0"
+					n = tonumber (n)
+				end
+				
+				if (n) then
+					n = n * 1000000
+					return true, n or 0
+				end
+			end
+			
+			if (WorldQuestTracker.GameLocale == "frFR") then
+				power = power:gsub ("%s", ""):gsub ("%p", ""):match ("%d+")
+			else
+				power = power:gsub ("%p", ""):match ("%d+")
+			end
+			
+			power = tonumber (power)
+			return true, power or 0
+		end
+	end
+	
+	local text2 = GameTooltipFrameTextLeft2:GetText()
+	if (text2 and text2:match ("|cFFE6CC80")) then
+		local power = GameTooltipFrameTextLeft4:GetText()
+		if (power) then
+		
+			if (power:find (w1) or power:find (w2)) then
+				local n=power:match(w3)
+				
+				if n then 
+					local one,two=n:match(w4) n=one.."."..two 
+				end
+				n = tonumber (n)
+				if (not n) then
+					n = power:match (" %d ")
+					n = tonumber (n)
+					n=n..".0"
+					n = tonumber (n)
+				end
+				
+				if (n) then
+					n = n * 1000000
+					return true, n or 0
+				end
+			end
+			
+			if (WorldQuestTracker.GameLocale == "frFR") then
+				power = power:gsub ("%s", ""):gsub ("%p", ""):match ("%d+")
+			else
+				power = power:gsub ("%p", ""):match ("%d+")
+			end
+			
+			power = tonumber (power)
+			return true, power or 0
+		end
+	end
+end
+
 function WorldQuestTracker.RewardIsArtifactPower (itemLink)
+
+	if (WorldQuestTracker.GameLocale == "deDE" or WorldQuestTracker.GameLocale == "ptBR" or WorldQuestTracker.GameLocale == "frFR") then
+		return WorldQuestTracker.RewardIsArtifactPowerGerman (itemLink)
+	end
+
 	GameTooltipFrame:SetOwner (WorldFrame, "ANCHOR_NONE")
 	GameTooltipFrame:SetHyperlink (itemLink)
 
@@ -2706,7 +2797,8 @@ function WorldQuestTracker.SetupWorldQuestButton (self, worldQuestType, rarity, 
 		elseif (worldQuestType == LE_QUEST_TAG_TYPE_PET_BATTLE) then
 			self.questTypeBlip:Show()
 			self.questTypeBlip:SetTexture ([[Interface\MINIMAP\ObjectIconsAtlas]])
-			self.questTypeBlip:SetTexCoord (172/512, 201/512, 273/512, 301/512)
+			--self.questTypeBlip:SetTexCoord (172/512, 201/512, 273/512, 301/512)
+			self.questTypeBlip:SetTexCoord (376/512, 403/512, 239/512, 265/512) -- left right    top botton
 			self.questTypeBlip:SetAlpha (1)
 
 		elseif (worldQuestType == LE_QUEST_TAG_TYPE_PROFESSION) then
@@ -2805,8 +2897,13 @@ function WorldQuestTracker.SetupWorldQuestButton (self, worldQuestType, rarity, 
 					end
 
 					if (artifactPower >= 1000) then
-						self.flagText:SetText (format ("%.1fK", artifactPower/1000))
-						--self.flagText:SetText (comma_value (artifactPower))
+						if (artifactPower > 999999) then -- 1M
+							self.flagText:SetText (WorldQuestTracker.ToK (artifactPower))
+						elseif (artifactPower > 9999) then
+							self.flagText:SetText (WorldQuestTracker.ToK (artifactPower))
+						else
+							self.flagText:SetText (format ("%.1fK", artifactPower/1000))
+						end
 					else
 						self.flagText:SetText (artifactPower)
 					end
@@ -6399,7 +6496,7 @@ end
 
 hooksecurefunc ("QuestSuperTracking_ChooseClosestQuest", function()
 	if (WorldQuestTracker.SuperTracked) then
-		C_Timer.After (.02, UpdateSuperQuestTracker)
+		C_Timer.After (.2, UpdateSuperQuestTracker)
 	end
 end)
 
@@ -7408,7 +7505,7 @@ function WorldQuestTracker:TAXIMAP_OPENED()
 			local title, questType, texture, factionID, tagID, tagName, worldQuestType, rarity, isElite, tradeskillLineIndex, selected, isSpellTarget, timeLeft, isCriteria, gold, goldFormated, rewardName, rewardTexture, numRewardItems, itemName, itemTexture, itemLevel, quantity, quality, isUsable, itemID, isArtifact, artifactPower, isStackable = WorldQuestTracker:GetQuestFullInfo (pin.questID)
 
 			--n�o mostrar quests que foram filtradas
-			local filter = WorldQuestTracker.GetQuestFilterTypeAndOrder (worldQuestType, gold, rewardName, itemName, isArtifact, quantity)
+			local filter = WorldQuestTracker.GetQuestFilterTypeAndOrder (worldQuestType, gold, rewardName, itemName, isArtifact, quantity, numRewardItems, rewardTexture)
 			if (not filters [filter] and rarity ~= LE_WORLD_QUEST_QUALITY_EPIC) then
 				pin._WQT_Twin:Hide()
 				WorldQuestTracker.Taxy_CurrentShownBlips [pin._WQT_Twin] = nil
@@ -8178,7 +8275,7 @@ function WorldQuestTracker.GetQuestFilterTypeAndOrder (worldQuestType, gold, rew
 		filter = FILTER_TYPE_GOLD
 	end	
 	
-	if (rewardName and (rewardTexture and rewardTexture:find ("inv_orderhall_orderresources"))) then
+	if (rewardName and (type (rewardTexture) == "string" and rewardTexture:find ("inv_orderhall_orderresources"))) then
 		--if (numRewardItems and numRewardItems > 1) then
 			--can be an invasion quest
 		--	if (rewardTexture and rewardTexture:find ("inv_misc_summonable_boss_token")) then
@@ -8619,7 +8716,8 @@ function WorldQuestTracker.UpdateWorldQuestsOnWorldMap (noCache, showFade, isQue
 									elseif (worldQuestType == LE_QUEST_TAG_TYPE_PET_BATTLE) then
 										widget.questTypeBlip:Show()
 										widget.questTypeBlip:SetTexture ([[Interface\MINIMAP\ObjectIconsAtlas]])
-										widget.questTypeBlip:SetTexCoord (172/512, 201/512, 273/512, 301/512)
+										--widget.questTypeBlip:SetTexCoord (172/512, 201/512, 273/512, 301/512)
+										widget.questTypeBlip:SetTexCoord (376/512, 403/512, 239/512, 265/512) -- left right    top botton
 										widget.questTypeBlip:SetAlpha (.85)
 
 									elseif (worldQuestType == LE_QUEST_TAG_TYPE_DUNGEON) then
