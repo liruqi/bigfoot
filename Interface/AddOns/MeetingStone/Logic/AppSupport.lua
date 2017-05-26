@@ -148,15 +148,17 @@ function AppSupport:DataInit()
     end
 
     local function GetLegendaryItem(_, msg)
-        local item = tonumber(msg:match('item:(%d+)'))
+        local item = msg:match('(|cff%x%x%x%x%x%x|Hitem:.+|r)')
+        
         if not item then
             return
         end
-        local name, _, quality, _, reqLevel = GetItemInfo(item)
+        local name, _, quality, itemLevel, reqLevel = GetItemInfo(item)
         if not name then
             return
         end
-        return quality == LE_ITEM_QUALITY_LEGENDARY and reqLevel >= 110 and IsEquippableItem(item) and item
+        
+        return quality == LE_ITEM_QUALITY_LEGENDARY and itemLevel >= 940 and IsEquippableItem(item) and item
     end
 
     RegisterData('Zone', {'ZONE_CHANGED_NEW_AREA', 'ZONE_CHANGED_INDOORS', 'ZONE_CHANGED'}, GetZoneText, COMMIT_INTERVAL)

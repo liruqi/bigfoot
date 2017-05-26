@@ -142,6 +142,7 @@ local default_config = {
 			equipment = true,
 			trade_skill = true,
 		},
+		disable_world_map_widgets = false,
 		worldmap_widgets = {
 			textsize = 9,
 			scale = 1,
@@ -1397,7 +1398,7 @@ function WorldQuestTracker.UpdateBorder (self, rarity, worldQuestType, mapID)
 		self.rareBorder:Hide()
 		self.epicBorder:Hide()
 		self.invasionBorder:Hide()
-		
+
 		if (WorldQuestTracker.IsQuestBeingTracked (self.questID)) then
 			self.borderAnimation:Show()
 			--AutoCastShine_AutoCastStart (self.borderAnimation, 1, .7, 0)
@@ -1456,10 +1457,10 @@ function WorldQuestTracker.UpdateBorder (self, rarity, worldQuestType, mapID)
 			--self.borderAnimation:Show()
 			--AutoCastShine_AutoCastStart (self.borderAnimation, .3, .3, 1)
 			AnimatedShine_Start (self, 1, 1, 1);
-			
+
 		elseif (worldQuestType == LE_QUEST_TAG_TYPE_INVASION) then
 			self.invasionBorder:Show()
-			
+
 		end
 
 	else
@@ -1625,6 +1626,44 @@ end
 
 -- �rtifact ~artifact
 
+function WorldQuestTracker.RewardIsArtifactPowerKorean (itemLink) -- thanks @yuk6196 on curseforge
+
+	GameTooltipFrame:SetOwner (WorldFrame, "ANCHOR_NONE")
+	GameTooltipFrame:SetHyperlink (itemLink)
+	local text = GameTooltipFrameTextLeft1:GetText()
+
+	if (text and text:match ("|cFFE6CC80")) then
+		local power = GameTooltipFrameTextLeft3:GetText()
+		if (power) then
+			local n = tonumber (power:gsub ("%p", ""):match ("%d+"))
+			if (power:find (SECOND_NUMBER)) then
+			        n = n * 10000
+                        elseif (power:find (THIRD_NUMBER)) then
+				n = n * 100000000
+			elseif (power:find (FOURTH_NUMBER)) then
+				n = n * 1000000000000
+			end
+			return true, n or 0
+		end
+	end
+
+	local text2 = GameTooltipFrameTextLeft2:GetText()
+	if (text2 and text2:match ("|cFFE6CC80")) then
+		local power = GameTooltipFrameTextLeft4:GetText()
+		if (power) then
+			local n = tonumber (power:gsub ("%p", ""):match ("%d+"))
+			if (power:find (SECOND_NUMBER)) then
+			        n = n * 10000
+                        elseif (power:find (THIRD_NUMBER)) then
+				n = n * 100000000
+			elseif (power:find (FOURTH_NUMBER)) then
+				n = n * 1000000000000
+			end
+			return true, n or 0
+		end
+	end
+end
+
 function WorldQuestTracker.RewardIsArtifactPowerGerman (itemLink) -- thanks @Superanuki on curseforge
 
 	local w1, w2, w3, w4 = "Millionen", "Million", "%d,%d", "([^,]+),([^,]+)" --works for German
@@ -1638,15 +1677,15 @@ function WorldQuestTracker.RewardIsArtifactPowerGerman (itemLink) -- thanks @Sup
 	GameTooltipFrame:SetOwner (WorldFrame, "ANCHOR_NONE")
 	GameTooltipFrame:SetHyperlink (itemLink)
 	local text = GameTooltipFrameTextLeft1:GetText()
-	
+
 	if (text and text:match ("|cFFE6CC80")) then
 		local power = GameTooltipFrameTextLeft3:GetText()
 		if (power) then
 			if (power:find (w1) or power:find (w2)) then
 
 				local n=power:match(w3)
-				if n then 
-					local one,two=n:match(w4) n=one.."."..two 
+				if n then
+					local one,two=n:match(w4) n=one.."."..two
 				end
 				n = tonumber (n)
 				if (not n) then
@@ -1655,34 +1694,34 @@ function WorldQuestTracker.RewardIsArtifactPowerGerman (itemLink) -- thanks @Sup
 					n=n..".0"
 					n = tonumber (n)
 				end
-				
+
 				if (n) then
 					n = n * 1000000
 					return true, n or 0
 				end
 			end
-			
+
 			if (WorldQuestTracker.GameLocale == "frFR") then
 				power = power:gsub ("%s", ""):gsub ("%p", ""):match ("%d+")
 			else
 				power = power:gsub ("%p", ""):match ("%d+")
 			end
-			
+
 			power = tonumber (power)
 			return true, power or 0
 		end
 	end
-	
+
 	local text2 = GameTooltipFrameTextLeft2:GetText()
 	if (text2 and text2:match ("|cFFE6CC80")) then
 		local power = GameTooltipFrameTextLeft4:GetText()
 		if (power) then
-		
+
 			if (power:find (w1) or power:find (w2)) then
 				local n=power:match(w3)
-				
-				if n then 
-					local one,two=n:match(w4) n=one.."."..two 
+
+				if n then
+					local one,two=n:match(w4) n=one.."."..two
 				end
 				n = tonumber (n)
 				if (not n) then
@@ -1691,19 +1730,19 @@ function WorldQuestTracker.RewardIsArtifactPowerGerman (itemLink) -- thanks @Sup
 					n=n..".0"
 					n = tonumber (n)
 				end
-				
+
 				if (n) then
 					n = n * 1000000
 					return true, n or 0
 				end
 			end
-			
+
 			if (WorldQuestTracker.GameLocale == "frFR") then
 				power = power:gsub ("%s", ""):gsub ("%p", ""):match ("%d+")
 			else
 				power = power:gsub ("%p", ""):match ("%d+")
 			end
-			
+
 			power = tonumber (power)
 			return true, power or 0
 		end
@@ -1712,7 +1751,9 @@ end
 
 function WorldQuestTracker.RewardIsArtifactPower (itemLink)
 
-	if (WorldQuestTracker.GameLocale == "deDE" or WorldQuestTracker.GameLocale == "ptBR" or WorldQuestTracker.GameLocale == "frFR") then
+	if (WorldQuestTracker.GameLocale == "koKR") then
+		return WorldQuestTracker.RewardIsArtifactPowerKorean (itemLink)
+	elseif (WorldQuestTracker.GameLocale == "deDE" or WorldQuestTracker.GameLocale == "ptBR" or WorldQuestTracker.GameLocale == "frFR") then
 		return WorldQuestTracker.RewardIsArtifactPowerGerman (itemLink)
 	end
 
@@ -1723,7 +1764,7 @@ function WorldQuestTracker.RewardIsArtifactPower (itemLink)
 	if (text and text:match ("|cFFE6CC80")) then
 		local power = GameTooltipFrameTextLeft3:GetText()
 		if (power) then
-		
+
 			if (power:find (SECOND_NUMBER)) then
 				local n = power:match (" %d%.%d ")
 				n = tonumber (n)
@@ -1751,7 +1792,7 @@ function WorldQuestTracker.RewardIsArtifactPower (itemLink)
 	if (text2 and text2:match ("|cFFE6CC80")) then
 		local power = GameTooltipFrameTextLeft4:GetText()
 		if (power) then
-		
+
 			if (power:find (SECOND_NUMBER)) then
 				local n = power:match (" %d%.%d ")
 				n = tonumber (n)
@@ -1764,7 +1805,7 @@ function WorldQuestTracker.RewardIsArtifactPower (itemLink)
 					return true, n or 0
 				end
 			end
-		
+
 			if (WorldQuestTracker.GameLocale == "frFR") then
 				power = power:gsub ("%s", ""):gsub ("%p", ""):match ("%d+")
 			else
@@ -2557,7 +2598,7 @@ function WorldQuestTracker.UpdateZoneWidgets()
 
 	local filters = WorldQuestTracker.db.profile.filters
 	local forceShowBrokenShore = WorldQuestTracker.db.profile.filter_force_show_brokenshore
-	
+
 	wipe (WorldQuestTracker.Cache_ShownQuestOnZoneMap)
 	wipe (WorldQuestTracker.Cache_ShownWidgetsOnZoneMap)
 	local total_Gold, total_Resources, total_APower = 0, 0, 0
@@ -3251,6 +3292,12 @@ hooksecurefunc ("ToggleWorldMap", function (self)
 					elseif (value == "scale") then
 						if (WorldQuestTrackerAddon.GetCurrentZoneType() == "world") then
 							WorldQuestTracker.UpdateWorldQuestsOnWorldMap()
+						end
+					elseif (value == "disable_world_map_widgets") then
+						WorldQuestTracker.db.profile.disable_world_map_widgets = value2
+						if (WorldQuestTrackerAddon.GetCurrentZoneType() == "world") then
+							WorldQuestTracker.UpdateWorldQuestsOnWorldMap()
+							GameCooltip:Close()
 						end
 					end
 					return
@@ -4218,15 +4265,15 @@ hooksecurefunc ("ToggleWorldMap", function (self)
 			local toggle_faction_objectives = function()
 				WorldQuestTracker.db.profile.filter_always_show_faction_objectives = not WorldQuestTracker.db.profile.filter_always_show_faction_objectives
 				GameCooltip:ExecFunc (filterButton)
-				
+
 				--atualiza as quests
 				if (WorldQuestTrackerAddon.GetCurrentZoneType() == "world") then
 					WorldQuestTracker.UpdateWorldQuestsOnWorldMap (true)
 				elseif (WorldQuestTrackerAddon.GetCurrentZoneType() == "zone") then
 					WorldQuestTracker.UpdateZoneWidgets()
-				end	
+				end
 			end
-			
+
 			local toggle_brokenshore_bypass = function()
 				WorldQuestTracker.db.profile.filter_force_show_brokenshore = not WorldQuestTracker.db.profile.filter_force_show_brokenshore
 				GameCooltip:ExecFunc (filterButton)
@@ -4285,7 +4332,7 @@ hooksecurefunc ("ToggleWorldMap", function (self)
 				end
 				GameCooltip:AddMenu (1, toggle_faction_objectives)
 				GameCooltip:AddLine ("$div")
-				
+
 				if (WorldQuestTracker.db.profile.filter_force_show_brokenshore) then
 					GameCooltip:AddLine ("Ignore Broken Shore")
 					GameCooltip:AddLine ("World quets on Broken Shore map will always be shown.", "", 2)
@@ -4597,6 +4644,8 @@ hooksecurefunc ("ToggleWorldMap", function (self)
 				GameCooltip:AddMenu (2, options_on_click, "tracker_scale", 1.2)
 				GameCooltip:AddLine (format (L["S_MAPBAR_OPTIONSMENU_TRACKER_SCALE"], "1.3"), "", 2)
 				GameCooltip:AddMenu (2, options_on_click, "tracker_scale", 1.3)
+				GameCooltip:AddLine (format (L["S_MAPBAR_OPTIONSMENU_TRACKER_SCALE"], "1.5"), "", 2)
+				GameCooltip:AddMenu (2, options_on_click, "tracker_scale", 1.5)
 
 				--
 				GameCooltip:AddLine ("$div", nil, 2, nil, -5, -11)
@@ -4667,6 +4716,15 @@ hooksecurefunc ("ToggleWorldMap", function (self)
 				--World Map Config
 				GameCooltip:AddLine (L["S_MAPBAR_OPTIONSMENU_WORLDMAPCONFIG"])
 				GameCooltip:AddIcon ([[Interface\Worldmap\UI-World-Icon]], 1, 1, IconSize, IconSize)
+
+				GameCooltip:AddLine ("Disable Icons on World Map", "", 2)
+				if (WorldQuestTracker.db.profile.disable_world_map_widgets) then
+					GameCooltip:AddIcon ([[Interface\BUTTONS\UI-CheckBox-Check]], 2, 1, 16, 16)
+				else
+					GameCooltip:AddIcon ([[Interface\BUTTONS\UI-AutoCastableOverlay]], 2, 1, 16, 16, .4, .6, .4, .6)
+				end
+				GameCooltip:AddMenu (2, options_on_click, "world_map_config", "disable_world_map_widgets", not WorldQuestTracker.db.profile.disable_world_map_widgets)
+				GameCooltip:AddLine ("$div", nil, 2, nil, -7, -14)
 
 				GameCooltip:AddLine (L["Small Text Size"], "", 2)
 				GameCooltip:AddMenu (2, options_on_click, "world_map_config", "textsize", 9)
@@ -5207,7 +5265,7 @@ hooksecurefunc ("ToggleWorldMap", function (self)
 
 				local itemID, altItemID, name, icon, totalXP, pointsSpent, quality, artifactAppearanceID, appearanceModID, itemAppearanceID, altItemAppearanceID, altOnTop = C_ArtifactUI.GetEquippedArtifactInfo()
 				if (itemID and WorldQuestTracker.WorldMap_APowerIndicator.Amount) then
-				
+
 					--7.2 need to get the artifact tier
 					local artifactItemID, _, _, _, artifactTotalXP, artifactPointsSpent, _, _, _, _, _, _, artifactTier = C_ArtifactUI.GetEquippedArtifactInfo()
 					--then request the xp details
@@ -7835,12 +7893,12 @@ local create_worldmap_square = function (mapName, index)
 	epicBorder:SetPoint ("topleft", button, "topleft")
 	epicBorder:SetTexture ([[Interface\AddOns\WorldQuestTracker\media\border_pinkT]])
 	epicBorder:SetSize (WORLDMAP_SQUARE_SIZE, WORLDMAP_SQUARE_SIZE)
-	
+
 	local invasionBorder = button:CreateTexture (nil, "artwork", 1)
 	invasionBorder:SetPoint ("topleft", button, "topleft")
 	invasionBorder:SetTexture ([[Interface\AddOns\WorldQuestTracker\media\border_legionT]])
 	invasionBorder:SetSize (WORLDMAP_SQUARE_SIZE, WORLDMAP_SQUARE_SIZE)
-	
+
 	local trackingBorder = button:CreateTexture (nil, "artwork", 1)
 	trackingBorder:SetPoint ("topleft", button, "topleft")
 	trackingBorder:SetTexture ([[Interface\Artifacts\Artifacts]])
@@ -8174,7 +8232,7 @@ function WorldQuestTracker.GetWorldMapWidget (configTable, showTimeLeftText)
 
 	configTable.LastWidget = widget
 	configTable.WidgetNumber = configTable.WidgetNumber + 1
-	
+
 	WorldQuestTracker.NextWorldMapWidget = WorldQuestTracker.NextWorldMapWidget + 1
 
 	widget:SetScale (WorldQuestTracker.db.profile.worldmap_widgets.scale)
@@ -8273,21 +8331,21 @@ function WorldQuestTracker.GetQuestFilterTypeAndOrder (worldQuestType, gold, rew
 	if (gold and gold > 0) then
 		order = WorldQuestTracker.db.profile.sort_order [WQT_QUESTTYPE_GOLD]
 		filter = FILTER_TYPE_GOLD
-	end	
-	
+	end
+
 	if (rewardName and (type (rewardTexture) == "string" and rewardTexture:find ("inv_orderhall_orderresources"))) then
 		--if (numRewardItems and numRewardItems > 1) then
 			--can be an invasion quest
 		--	if (rewardTexture and rewardTexture:find ("inv_misc_summonable_boss_token")) then
 				--> is an invasion quest, need to see which are the real reward
-				
+
 		--	end
 			--
 		--end
 		order = WorldQuestTracker.db.profile.sort_order [WQT_QUESTTYPE_RESOURCE]
 		filter = FILTER_TYPE_GARRISON_RESOURCE
-	end	
-	
+	end
+
 	if (isArtifact) then
 		order = WorldQuestTracker.db.profile.sort_order [WQT_QUESTTYPE_APOWER]
 		filter = FILTER_TYPE_ARTIFACT_POWER
@@ -8335,8 +8393,9 @@ function WorldQuestTracker.UpdateWorldQuestsOnWorldMap (noCache, showFade, isQue
 		end
 		return
 
-	--elseif () then
-	--	return
+	elseif (WorldQuestTracker.db.profile.disable_world_map_widgets) then
+		WorldQuestTracker.HideWorldQuestsOnWorldMap()
+		return
 	end
 
 	WorldQuestTracker.RefreshStatusBar()
@@ -8753,7 +8812,7 @@ function WorldQuestTracker.UpdateWorldQuestsOnWorldMap (noCache, showFade, isQue
 										tinsert (WorldQuestTracker.Cache_ShownQuestOnWorldMap [WQT_QUESTTYPE_GOLD], questID)
 										okey = true
 									end
-									
+
 									if (rewardName and not okey) then
 										widget.texture:SetTexture (rewardTexture)
 										--WorldQuestTracker.SetIconTexture (widget.texture, rewardTexture, false, false)
@@ -8774,7 +8833,7 @@ function WorldQuestTracker.UpdateWorldQuestsOnWorldMap (noCache, showFade, isQue
 										tinsert (WorldQuestTracker.Cache_ShownQuestOnWorldMap [WQT_QUESTTYPE_RESOURCE], questID)
 										okey = true
 									end
-									
+
 									if (itemName) then
 										if (isArtifact) then
 											local artifactIcon = WorldQuestTracker.GetArtifactPowerIcon (artifactPower)
@@ -8792,7 +8851,7 @@ function WorldQuestTracker.UpdateWorldQuestsOnWorldMap (noCache, showFade, isQue
 												if (artifactPower > 999999) then
 													--widget.amountText:SetText (format ("%.1fM", artifactPower/1000000))
 													widget.amountText:SetText (WorldQuestTracker.ToK (artifactPower))
-													
+
 												elseif (artifactPower > 9999) then
 													--widget.amountText:SetText (format ("%.0fK", artifactPower/1000))
 													widget.amountText:SetText (WorldQuestTracker.ToK (artifactPower))

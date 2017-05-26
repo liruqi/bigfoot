@@ -6,7 +6,7 @@
 ## Notes-zhCN: |cff00ff00NomiCakes|r|n|cffbc8f8f显示诺米烹饪订单中可学配方名称和可学次数以及配料库存。|r
 ## Notes-zhTW: |cff00ff00NomiCakes|r
 ## Author: Semlar
-## Version: 7.2.0.1
+## Version: 7.2.0.2
 ## SavedVariablesPerCharacter: NomiCakesDatas
 ## X-Revision: BigFoot
 

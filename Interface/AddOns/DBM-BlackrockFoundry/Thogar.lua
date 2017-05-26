@@ -368,6 +368,7 @@ local function lanePos()
 	local posX = UnitPosition("player")--room is perfrect square, y coord not needed.
 	local playerLane
 	-- map coord from http://mysticalos.com/images/DBM/ThogarData/1.jpeg http://mysticalos.com/images/DBM/ThogarData/2.jpeg http://mysticalos.com/images/DBM/ThogarData/3.jpeg http://mysticalos.com/images/DBM/ThogarData/4.jpeg
+	if not posX then return end
 	if posX > 577.8 then
 		playerLane = 1
 	elseif posX > 553.8 then

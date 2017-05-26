@@ -6,7 +6,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("GladiatorlosSA")
 local LSM = LibStub("LibSharedMedia-3.0")
  local self, GSA, PlaySoundFile = GladiatorlosSA, GladiatorlosSA, PlaySoundFile
  local GSA_TEXT = "|cff69CCF0GladiatorlosSA|r (|cffFFF569/gsa|r)"
- local GSA_VERSION = "|cffFF7D0A v1.14.3a |r(|cFF00FF967.2.0 Legion|r)"
+ local GSA_VERSION = "|cffFF7D0A v1.15 |r(|cFF00FF967.2.0 Legion|r)"
  local GSA_AUTHOR = " "
  local gsadb
  local soundz,sourcetype,sourceuid,desttype,destuid = {},{},{},{},{}
@@ -68,6 +68,7 @@ local dbDefaults = {
 		all = false,
 		arena = true,
 		battleground = true,
+		disablelargebg = false,
 		field = true,
 		path = GSA_LOCALEPATH[GetLocale()] or "GladiatorlosSA\\Voice_enUS",
 		path_male = GSA_LOCALEPATH[GetLocale()] or "GladiatorlosSA\\Voice_enUS",
@@ -142,6 +143,19 @@ local dbDefaults = {
 		forbearanceDown = false,
 		mageShield = false,
 		strikeOfTheWindlord = false,
+		
+		_PHgreaterFade = false,
+		_PHgreaterFadeDown = false,
+		_PHfaerieSwarm = false,
+		_PHringOfPeace = false,
+		_PHcallObserver = false,
+		_PHdarkglare = false,
+		_PHinnerFocus = false,
+		_PHinnerFocusDown = false,
+		_PHmarkOfAluneth = false,
+		_PHebonbolt = false,
+		_PHthalkiel = false,
+		_PHashamanesFrenzy = false,
 
 		genderVoice = false,
 		custom = {},
