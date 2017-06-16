@@ -32,6 +32,7 @@ function RaidToolkitConfigFunc()
 		RaString.Name = "团队报警 ";
 		MeetingStone_ENABLE_TEXT = "开启组队系统";
 		AngryKeystones_ENABLE_TEXT = "开启秘境增强";
+		skadaFormatNumber = "数值显示方式改为中式";
 
 		DBM_DISABLE_DELAY_TEXT = "|cff00c0c0<大脚插件>|r 你已经关闭首领报警(DBM)模块，该设置将在下次插件载入时生效。";
 		GRID_DISABLE_DELAY_TEXT = "|cff00c0c0<大脚插件>|r 你已经关闭团队框架(Grid)模块，该设置将在下次插件载入时生效。";
@@ -56,6 +57,7 @@ function RaidToolkitConfigFunc()
 		RaString.Name = "團隊報警 ";
 		MeetingStone_ENABLE_TEXT = "開啟組隊系統";
 		AngryKeystones_ENABLE_TEXT = "開啟秘境增強";
+		skadaFormatNumber = "數值顯示方式改為中式";
 
 		DBM_DISABLE_DELAY_TEXT = "|cff00c0c0<首領報警>|r 你已經關閉首領報警(DBM)模組，該設置將在下次外掛程式載入時生效。";
 		GRID_DISABLE_DELAY_TEXT = "|cff00c0c0<團隊框架>|r 你已經關閉團隊框架(Grid)模組，該設置將在下次外掛程式載入時生效。";
@@ -112,6 +114,27 @@ function RaidToolkitConfigFunc()
 	local function loadSkada()
 		if (not BigFoot_IsAddOnLoaded("Skada")) then
 			BigFoot_LoadAddOn("Skada");
+			Skada.originFormatNumber = Skada.FormatNumber;
+		end
+	end
+
+	local function bf_SkadaFormatNumber()
+		Skada.FormatNumber = function(self, number)
+			if number then
+				if Skada.db.profile.numberformat == 1 then
+					if number >= 100000000 then
+						return ("%02.2f亿"):format(number / 100000000)
+					elseif number >= 10000 then
+						return ("%02.2f万"):format(number / 10000)
+					elseif number >= 1000 then
+						return ("%02.1fK"):format(number / 1000)
+					else
+						return math.floor(number)
+					end
+				else
+					return math.floor(number)
+				end
+			end
 		end
 	end
 
@@ -130,7 +153,6 @@ function RaidToolkitConfigFunc()
 	end
 
 	if (IsConfigurableAddOn("Recount")) then
-
 		ModManagement_RegisterCheckBox(
 			"RaidToolkit",
 			RECOUNT_ENABLE_TEXT,
@@ -168,7 +190,6 @@ function RaidToolkitConfigFunc()
 	end
 
 	if (IsConfigurableAddOn("Skada")) then
-
 		ModManagement_RegisterCheckBox(
 			"RaidToolkit",
 			Skada_ENABLE_TEXT,
@@ -201,6 +222,22 @@ function RaidToolkitConfigFunc()
 				end
 			end,
 			SkadaString.Name or SkadaString.colorText
+		);
+
+		ModManagement_RegisterCheckBox(
+			"RaidToolkit",
+			skadaFormatNumber,
+			nil,
+			"skadaFormatNumber",
+			1,
+			function (arg)
+				if (arg == 1) then
+					bf_SkadaFormatNumber();
+				else
+					Skada.FormatNumber = Skada.originFormatNumber;
+				end
+			end,
+			1
 		);
 
 	end

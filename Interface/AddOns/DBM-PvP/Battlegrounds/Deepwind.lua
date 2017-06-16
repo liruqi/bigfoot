@@ -4,7 +4,7 @@
 local mod		= DBM:NewMod("z1105", "DBM-PvP", 2)
 local L			= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 48 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 63 $"):sub(12, -3))
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(
@@ -15,7 +15,7 @@ local capTimer	= mod:NewTimer(60, "TimerCap", "Interface\\Icons\\Spell_Misc_Hell
 local winTimer	= mod:NewTimer(30, "TimerWin", "Interface\\Icons\\INV_Misc_PocketWatch_01")
 
 local bgzone = false
-local GetMapLandmarkInfo, GetNumMapLandmarks = GetMapLandmarkInfo, GetNumMapLandmarks
+local GetMapLandmarkInfo, GetNumMapLandmarks = C_WorldMap.GetMapLandmarkInfo, GetNumMapLandmarks
 
 mod:RemoveOption("HealthFrame")
 
@@ -56,7 +56,7 @@ end
 local function get_objectives()
 	local result = {}
 	for i=1, GetNumMapLandmarks(), 1 do
-		local _,name, _, texture = GetMapLandmarkInfo(i)
+		local _, name, _, texture = GetMapLandmarkInfo(i)
 		if name and texture then
 			result[name] = get_state_from_texture(texture)
 		end

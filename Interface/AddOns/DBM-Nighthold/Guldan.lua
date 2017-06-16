@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1737, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16256 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16275 $"):sub(12, -3))
 mod:SetCreatureID(104154)--The Demon Within (111022)
 mod:SetEncounterID(1866)
 mod:SetZone()
@@ -75,7 +75,7 @@ local specWarnFelEfflux				= mod:NewSpecialWarningDodge(206514, nil, nil, nil, 1
 local specWarnShatterEssence		= mod:NewSpecialWarningDefensive(206675, nil, nil, nil, 3, 2)
 local specWarnFelObelisk			= mod:NewSpecialWarningDodge(229945, nil, nil, nil, 1, 2)
 ----D'zorykx the Trapper
-local specWarnSoulVortex			= mod:NewSpecialWarningMoveAway(206883, nil, nil, nil, 1, 2)
+local specWarnSoulVortex			= mod:NewSpecialWarningSpell(206883, nil, nil, nil, 2, 2)
 local yellSoulVortex				= mod:NewYell(206883)
 --Stage Two: The Ritual of Aman'thul
 local specWarnBondsofFel			= mod:NewSpecialWarningYou(206222, nil, nil, nil, 1, 2)
@@ -282,8 +282,8 @@ function mod:OnCombatStart(delay)
 		countdownBondsOfFel:Start(self:IsTank() and 6.4 or 8.4)
 		timerDzorykxCD:Start(17-delay)
 		countdownHandofGuldan:Start(17)
-		timerEyeofGuldanCD:Start(26.4-delay, 1)
-		countdownEyeofGuldan:Start(26.4)
+		timerEyeofGuldanCD:Start(26.1-delay, 1)
+		countdownEyeofGuldan:Start(26.1)
 		timerLiquidHellfireCD:Start(36-delay, 1)
 		countdownLiquidHellfire:Start(36)
 	else
@@ -301,6 +301,9 @@ end
 function mod:OnCombatEnd()
 	if self.Options.RangeFrame then
 		DBM.RangeCheck:Hide()
+	end
+	if self.Options.InfoFrame then
+		DBM.InfoFrame:Hide()
 	end
 end
 

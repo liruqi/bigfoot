@@ -18,5 +18,6 @@
 
 <Script file="modules\SkadaWindowButtons.lua"/>
 <Script file="modules\FriendlyFire.lua"/>
+<Script file="modules\ExplosiveOrbs.lua"/>
 </Ui>
 

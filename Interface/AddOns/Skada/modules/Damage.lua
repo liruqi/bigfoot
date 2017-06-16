@@ -270,7 +270,7 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
 
 				d.valuetext = Skada:FormatValueText(
 					Skada:FormatNumber(player.damage), self.metadata.columns.Damage,
-					string.format("%02.1f", dps), self.metadata.columns.DPS,		-- bf@178.com
+					Skada:FormatNumber(dps), self.metadata.columns.DPS,
 					string.format("%02.1f%%", player.damage / set.damage * 100), self.metadata.columns.Percent
 				)
 
@@ -556,7 +556,7 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
 				d.value = dps
 				d.class = player.class
 				d.role = player.role
-				d.valuetext = ("%02.1f"):format(dps)		-- bf@178.com
+				d.valuetext = Skada:FormatNumber(dps)
 				if dps > max then
 					max = dps
 				end
@@ -594,13 +594,13 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
 			if Skada.current then
 				local player = Skada:find_player(Skada.current, UnitGUID("player"))
 				if player then
-					return ("%02.1f"):format(getDPS(Skada.current, player)).." "..L["DPS"]		-- bf@178.com
+					return Skada:FormatNumber(getDPS(Skada.current, player)).." "..L["DPS"]
 				end
 			end
 		end)
 		Skada:AddFeed(L["Damage: Raid DPS"], function()
 			if Skada.current then
-				return ("%02.1f"):format(getRaidDPS(Skada.current)).." "..L["RDPS"]		-- bf@178.com
+				return Skada:FormatNumber(getRaidDPS(Skada.current)).." "..L["RDPS"]
 			end
 		end)
 		Skada:AddMode(self, L["Damage"])
@@ -622,13 +622,13 @@ Skada:AddLoadableModule("Damage", nil, function(Skada, L)
 	end
 
 	function mod:AddToTooltip(set, tooltip)
-		GameTooltip:AddDoubleLine(L["DPS"], ("%02.1f"):format(getRaidDPS(set)), 1,1,1)		-- bf@178.com
+		GameTooltip:AddDoubleLine(L["DPS"], Skada:FormatNumber(getRaidDPS(set)), 1,1,1)
 	end
 
 	function mod:GetSetSummary(set)
 		return Skada:FormatValueText(
 			Skada:FormatNumber(set.damage), self.metadata.columns.Damage,
-			("%02.1f"):format(getRaidDPS(set)), self.metadata.columns.DPS		-- bf@178.com
+			Skada:FormatNumber(getRaidDPS(set)), self.metadata.columns.DPS
 		)
 	end
 

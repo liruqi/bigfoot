@@ -1,6 +1,6 @@
 if GetLocale()~='zhCN' then return end
 local main= "7.2.0."
-local minor = "634"
+local minor = "637"
 BIGFOOT_VERSION = "zhCN"..main..minor;
 
 function GetMinorVersion()
@@ -8,6 +8,25 @@ function GetMinorVersion()
 end
 
 BigFootChangelog_ah();
+
+	BigFootChangelog_at("2017/06/16 (7.2.0.637)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70200.04)。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(143)。")
+	BigFootChangelog_ar("诺米大厨","升级至最新版本(7.2.5.0)。")
+
+
+	BigFootChangelog_at("2017/06/15 (7.2.0.636)")
+	BigFootChangelog_ar("集合石","修复一个导致无法正常使用的问题。")
+	BigFootChangelog_ar("团队记录","添加新团队本首领支持。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(141)。")
+	BigFootChangelog_ar("竞技助手","升级至最新版本(5.1.6)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.8.16275)。")
+
+
+	BigFootChangelog_at("2017/06/08 (7.2.0.635)")
+	BigFootChangelog_ar("战斗统计","添加数值修改选项。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.8.16266)。")
+
 
 	BigFootChangelog_at("2017/05/31 (7.2.0.634)")
 	BigFootChangelog_ar("世界任务","升级至最新版本(138)。")
@@ -471,4 +490,4 @@ BigFootChangelog_ah();
 BigFootChangelog_af();
 
 
-BF_VERSION_CHECKSUM = "53"
+BF_VERSION_CHECKSUM = "54"

@@ -1162,6 +1162,49 @@ local questButton_OnClick = function (self, button)
 	if (WorldQuestGroupFinderAddon and button == "MiddleButton") then
 		WorldQuestGroupFinder.HandleBlockClick (self.questID)
 		return
+		
+	elseif (button == "MiddleButton") then
+	
+		--PVEFrame_ShowFrame("GroupFinderFrame", LFGListPVEStub);
+		
+		--local activityID, categoryID, filters, questName = LFGListUtil_GetQuestCategoryData (self.questID)
+		--LFGListCategorySelection_SelectCategory (LFGListFrame.CategorySelection, categoryID, filters)
+		
+		--LFGListFrame.CategorySelection.FindGroupButton:Click()
+		
+		--LFGListCategorySelection_StartFindGroup (LFGListFrame.CategorySelection, questName, self.questID)
+		
+		--[[
+		local f = CreateFrame ("button", "testebutton", UIParent, "UIPanelButtonTemplate")
+		f:SetSize (100, 100)
+		f:SetPoint ("center", 0, 0)
+		f:Show()
+		f:SetScript ("OnClick", function()
+			PVEFrame_ShowFrame ("GroupFinderFrame", LFGListPVEStub);
+			local activityID, categoryID, filters, questName = LFGListUtil_GetQuestCategoryData (self.questID)
+			--LFGListCategorySelection_SelectCategory (LFGListFrame.CategorySelection, categoryID, filters)
+			--LFGListFrame.CategorySelection.FindGroupButton:Click()
+			
+			--local baseFilters = LFGListFrame.CategorySelection:GetParent().baseFilters;
+			--local searchPanel = LFGListFrame.CategorySelection:GetParent().SearchPanel;
+			
+			--print (baseFilters, searchPanel)
+
+			--LFGListSearchPanel_SetCategory (searchPanel, 1, LFGListFrame.selectedFilters, baseFilters);
+			
+			C_LFGList.Search (1, questName, 0, 4, {})
+			
+			--LFGListSearchPanel_UpdateResultList (LFGListFrame);
+			--LFGListSearchPanel_UpdateResults (LFGListFrame);
+			
+		end)
+		--]]
+		
+		--print (activityID, categoryID, filters, questName)
+		
+		--LFGListFrame_BeginFindQuestGroup (LFGListFrame, self.questID);
+		--LFGListUtil_FindQuestGroup (self.questID)
+	
 	end
 
 --isn't using the tracker
@@ -1838,7 +1881,12 @@ function WorldQuestTracker.GetQuestReward_Resource (questID)
 		for i = 1, numQuestCurrencies do
 			local name, texture, numItems = GetQuestLogRewardCurrencyInfo (i, questID)
 			--legion invasion quest
-			if (texture and (texture:find ("inv_datacrystal01") or texture:find ("inv_misc_summonable_boss_token"))) then -- [[Interface\Icons\inv_datacrystal01]]
+			if (texture and 
+				(
+					(type (texture) == "number" and texture == 132775) or
+					(type (texture) == "string" and (texture:find ("inv_datacrystal01") or texture:find ("inv_misc_summonable_boss_token")))
+				)   
+			) then -- [[Interface\Icons\inv_datacrystal01]]
 			else
 				return name, texture, numItems
 			end
@@ -8142,22 +8190,6 @@ local create_worldmap_square = function (mapName, index)
 	return button
 end
 
---cria os widgets do world map
---esta criando logo na leitura do addon
-
-local schedule_blip_creation = function (timerObject)
-	local configTable, line, mapName = timerObject.configTable, timerObject.line, timerObject.mapName
-
-	local x = 2
-	for i = 1, 20 do
-		local button = create_worldmap_square (mapName, i)
-		button:SetPoint (configTable.squarePoints.mySide, line, configTable.squarePoints.anchorSide, x*configTable.squarePoints.xDirection, configTable.squarePoints.y)
-		button:Hide()
-		x = x + WORLDMAP_SQUARE_SIZE + 1
-		tinsert (configTable.widgets, button)
-	end
-end
-
 WorldQuestTracker.QUEST_POI_FRAME_WIDTH = 1
 WorldQuestTracker.QUEST_POI_FRAME_HEIGHT = 1
 WorldQuestTracker.NextWorldMapWidget = 1
@@ -8333,7 +8365,9 @@ function WorldQuestTracker.GetQuestFilterTypeAndOrder (worldQuestType, gold, rew
 		filter = FILTER_TYPE_GOLD
 	end
 
-	if (rewardName and (type (rewardTexture) == "string" and rewardTexture:find ("inv_orderhall_orderresources"))) then
+	--if (rewardName and (type (rewardTexture) == "string" and rewardTexture:find ("inv_orderhall_orderresources"))) then
+	--1397630 = order hall resource icon - since 7.2.5 is a number
+	if (rewardName and ((type(rewardTexture) == "string" and rewardTexture:find("inv_orderhall_orderresources")) or (type(rewardTexture) == "number" and rewardTexture == 1397630))) then --thanks @TOM_RUS on curseforge
 		--if (numRewardItems and numRewardItems > 1) then
 			--can be an invasion quest
 		--	if (rewardTexture and rewardTexture:find ("inv_misc_summonable_boss_token")) then
@@ -8478,14 +8512,18 @@ function WorldQuestTracker.UpdateWorldQuestsOnWorldMap (noCache, showFade, isQue
 							if (filters [filter] or rarity == LE_WORLD_QUEST_QUALITY_EPIC or (forceShowBrokenShore and mapId == 1021)) then --force show broken shore quests
 								tinsert (questsAvailable [mapId], {questID, order, info.numObjectives})
 								shownQuests = shownQuests + 1
-							else
-								if (WorldQuestTracker.db.profile.filter_always_show_faction_objectives) then
+								
+							elseif (WorldQuestTracker.db.profile.filter_always_show_faction_objectives) then
 									local isCriteria = WorldMapFrame.UIElementsFrame.BountyBoard:IsWorldQuestCriteriaForSelectedBounty (questID)
 									if (isCriteria) then
 										tinsert (questsAvailable [mapId], {questID, order, info.numObjectives})
 										shownQuests = shownQuests + 1
 									end
-								end
+								--end
+							else
+								--if (mapId == 1033) then
+								--	print ("DENIED:", i, title, filter)
+								--end
 							end
 						end
 					end

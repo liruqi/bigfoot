@@ -1,7 +1,7 @@
 local mod		= DBM:NewMod("z761", "DBM-PvP", 2)
 local L			= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 48 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 63 $"):sub(12, -3))
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
 
 mod:RegisterEvents(
@@ -12,7 +12,7 @@ local winTimer 		= mod:NewTimer(30, "TimerWin", "Interface\\Icons\\INV_Misc_Pock
 local capTimer 		= mod:NewTimer(60, "TimerCap", "Interface\\Icons\\Spell_Misc_HellifrePVPHonorHoldFavor")
 
 local bgzone = false
-local GetMapLandmarkInfo, GetNumMapLandmarks = GetMapLandmarkInfo, GetNumMapLandmarks
+local GetMapLandmarkInfo, GetNumMapLandmarks = C_WorldMap.GetMapLandmarkInfo, GetNumMapLandmarks
 mod:AddBoolOption("ShowGilneasEstimatedPoints", true, nil, function()
 	if mod.Options.ShowGilneasEstimatedPoints and bgzone then
 		mod:ShowEstimatedPoints()
@@ -141,7 +141,7 @@ local function Gilneas_Initialize()
 		)
 		update_gametime()
 		for i=1, GetNumMapLandmarks(), 1 do
-			local _,name, _, textureIndex = GetMapLandmarkInfo(i)
+			local _, name, _, textureIndex = GetMapLandmarkInfo(i)
 			if name and textureIndex then
 				local type = getObjectiveType(textureIndex)
 				if type then
@@ -177,7 +177,7 @@ do
 	local function check_for_updates()
 		if not bgzone then return end
 		for i=1, GetNumMapLandmarks(), 1 do
-			local _,name, _, textureIndex = GetMapLandmarkInfo(i)
+			local _, name, _, textureIndex = GetMapLandmarkInfo(i)
 			if name and textureIndex then
 				local type = getObjectiveType(textureIndex)		-- name of the objective without spaces
 				local state = getObjectiveState(textureIndex)	-- state of the objective

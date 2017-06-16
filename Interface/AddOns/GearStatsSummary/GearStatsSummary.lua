@@ -10,7 +10,7 @@ local toogle
 local tip
 if not tip then
 	-- Create a custom tooltip for scanning
-	tip = CreateFrame("GameTooltip", "GearStatsSummaryTooltip", nil, "GameTooltipTemplate")
+	tip = CreateFrame("GameTooltip", "GearStatsSummaryTooltip", nil, "ShoppingTooltipTemplate")
 	tip:SetOwner(UIParent, "ANCHOR_NONE")
 	for i = 1, 40 do
 		tip[i] = _G["GearStatsSummaryTooltipTextLeft"..i]
@@ -41,6 +41,7 @@ local function PraseItemSet(text)
 end
 
 local function ScanItemTooltip(itemLink)
+    if not itemLink then return end
 	tip:SetOwner(UIParent, "ANCHOR_NONE")
 	for i = 1,4 do
 		if _G[ tip:GetName() .."Texture"..i] then

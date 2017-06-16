@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1743, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16255 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16266 $"):sub(12, -3))
 mod:SetCreatureID(106643)
 mod:SetEncounterID(1872)
 mod:SetZone()
 mod:SetUsedIcons(8, 7, 6, 5, 4, 3, 2, 1)--During soft enrage will go over 8 debuffs, can't mark beyond that
-mod:SetHotfixNoticeRev(16196)
+mod:SetHotfixNoticeRev(16265)
 mod.respawnTime = 30
 
 mod:RegisterCombat("combat")
@@ -194,7 +194,7 @@ mod.vb.transitionActive = false
 --Saved Information for echos
 mod.vb.totalRingCasts = 0
 mod.vb.totalbeamCasts = 0
-mod.vb.totalsingularityCasts = 0
+mod.vb.totalsingularityCasts = 1
 
 function mod:OnCombatStart(delay)
 	self.vb.slowElementalCount = 0
@@ -209,7 +209,7 @@ function mod:OnCombatStart(delay)
 	self.vb.transitionActive = false
 	self.vb.totalRingCasts = 0
 	self.vb.totalbeamCasts = 0
-	self.vb.totalsingularityCasts = 0
+	self.vb.totalsingularityCasts = 1
 	timerLeaveNightwell:Start(4-delay)
 	timerTimeElementalsCD:Start(5-delay, SLOW)
 	--timerAblationCD:Start(8.5-delay)--Verify/tweak
@@ -586,7 +586,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		--specWarnTimeElementals:Show(STATUS_TEXT_BOTH)
 		--voiceElemental:Play("bigmob")
 		DBM:Debug("Both elementals summoned, this event still exists, probably need custom code for certain difficulties")
-	elseif (spellId == 209168 or spellId == 233012 or spellId == 233011 or spellId == 233009) and self:AntiSpam(4, 3) and not self.vb.transitionActive then
+	elseif (spellId == 209168 or spellId == 233013 or spellId == 233012 or spellId == 233011 or spellId == 233009 or spellId == 233010) and self:AntiSpam(4, 3) and not self.vb.transitionActive then
 		self.vb.singularityCount = self.vb.singularityCount + 1
 		specWarnSpanningSingularity:Show()
 		voiceSpanningSingularity:Play("watchstep")
