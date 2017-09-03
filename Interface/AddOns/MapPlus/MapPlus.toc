@@ -1,4 +1,4 @@
-﻿## Interface: 70200
+﻿## Interface: 70300
 ## Title: [BF] MapPlus
 ## Title-zhCN: [大脚]地图标记
 ## Title-zhTW: [大腳]地圖標記

@@ -426,3 +426,10 @@ L["Windows"] = "窗口"
 L["Wipe mode"] = "灭团模式"
 L["Yes"] = "是"
 L["Multistrike"] = "Multistrike"
+
+L["Friendly Fire"] = "队友误伤"
+L["List of players damaged"] = "伤害玩家列表"
+L["List of damaging spells"] = "伤害技能列表"
+L["spells"] = "技能"
+L["targets"] = "目标"
+L["Shows damage done on players by friendly players."] = true

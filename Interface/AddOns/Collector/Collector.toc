@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: Collector
 ## Title-zhCN: |cffff565e[网易]|r 魔兽达人
 ## Title-zhTW: |cffff565e[網易]|r 魔獸達人

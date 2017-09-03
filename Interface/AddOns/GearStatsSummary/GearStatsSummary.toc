@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: |cff00ff00GearStatsSummary|r
 ## Title-zhCN: [大脚][集]装备属性统计
 ## Title-zhTW: [大腳][集]裝備屬性統計

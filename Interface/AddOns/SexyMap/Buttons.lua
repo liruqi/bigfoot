@@ -35,7 +35,6 @@ local dynamicButtons = {
 local addonButtons = {
 	DBMMinimapButton = "DBM (Deadly Boss Mods)",
 	WIM3MinimapButton = "WIM (WoW Instant Messenger)",
-	VuhDoMinimapButton = "VuhDo",
 	DominosMinimapButton = "Dominos",
 	Gatherer_MinimapOptionsButton = "Gatherer",
 	HealiumMiniMap = "Healium",
@@ -45,9 +44,7 @@ local addonButtons = {
 	ZygorGuidesViewerMapIcon = "Zygor",
 	BankItems_MinimapButton = "BankItems",
 	ItemRackMinimapFrame = "ItemRack",
-	MageNug_MinimapFrame = "Mage Nuggets",
 	wlMinimapButton = "Wowhead Looter",
-	AtlasLoot_MiniMapButton = "AtlasLoot",
 }
 
 local options = {
@@ -216,15 +213,9 @@ function mod:OnInitialize(profile)
 	end
 
 	self.db = profile.buttons
-	-- XXX temp
-	if not self.db.TEMP then
-		self.db.visibilitySettings.QueueStatusMinimapButton = "always"
-		self.db.TEMP = true
-	end
-	if not self.db.TEMP2 then
-		self.db.visibilitySettings.GarrisonLandingPageMinimapButton = "always"
-		self.db.TEMP2 = true
-	end
+	-- XXX temp [7.2.5]
+	self.db.TEMP = nil
+	self.db.TEMP2 = nil
 end
 
 function mod:OnEnable()

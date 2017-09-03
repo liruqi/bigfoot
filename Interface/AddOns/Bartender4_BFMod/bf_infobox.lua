@@ -215,7 +215,7 @@ function InfoBox_MainUpdate(self, elapsed)
 		local xPos, yPos = GetCursorPosition();
 
 		if ( yPos > 764) and (MouseIsOver(InfoBoxToolBar, 0, 0, 0, 0) and not InfoBoxToolBar:IsVisible() and not InCombatLockdown() ) then
-			PlaySound("igCharacterInfoOpen");
+			PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN);
 			InfoBoxToolBar:Show();
 		elseif ( yPos < 600 and InfoBoxToolBar:IsVisible() ) then
 			InfoBoxToolBar:Hide();
@@ -262,7 +262,7 @@ function InfoBoxButton_OnLeave(self)
 end
 
 function InfoBoxButton_OnClick(self, button)
-	PlaySound("UChatScrollButton");
+	PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 
 	if ( button == "LeftButton" ) then
 		if ( self:GetName() == "InfoBoxButtonUnlockWindow" ) then

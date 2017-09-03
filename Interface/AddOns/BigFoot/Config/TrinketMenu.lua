@@ -63,7 +63,6 @@ function TrinketMenuConfigFunc()
 			TRINKET_MENU_SETTINGS_TEXT,
 			function ()
 				if (BigFoot_IsAddOnLoaded("TrinketMenu")) then
-					PlaySound("GAMEGENERICBUTTONPRESS");
 					HideUIPanel(ModManagementFrame);
 					TrinketMenu.ToggleFrame(TrinketMenu_OptFrame);
 				end

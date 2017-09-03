@@ -92,14 +92,10 @@ HPetBattleAny.AutoHideShowfrmae={
 --------这里可以修改声音文件
 function HPetBattleAny:PlaySoundFile(t)
 	if t=="pvp" then
-		PlaySound("igPlayerInvite", "Master");	----PVP提示声
-		return
+		PlaySound(SOUNDKIT.IG_PLAYER_INVITE);	----PVP提示声
 	end
-		PlaySound("scourge_horn", "Master");
---~ 	PlaySoundFile([[Sound\Events\scourge_horn.wav]], "Master" );
---~ 	PlaySoundFile( [[Sound\Event Sounds\Event_wardrum_ogre.wav]], "Master" );
 end
---------------------		data
+
 HPetSaves={}
 HPetBattleAny.Default={
 	ShowMsg = true,				--在聊天窗口显示信息
@@ -475,8 +471,7 @@ function HPetBattleAny:PET_BATTLE_OPENING_START(...)
 			end
 		end
 
-		if HPetSaves.Sound and self.EnemyPetInfo.FindBlue then --C_PetBattles.IsPlayerNPC(2) and select(2,C_PetBattles.IsTrapAvailable())~=7 then
---- 		PlaySoundFile( [[Sound\Event Sounds\Event_wardrum_ogre.wav]], "Master" );
+		if HPetSaves.Sound and self.EnemyPetInfo.FindBlue then
 			self:PlaySoundFile()
 		end
 	return true

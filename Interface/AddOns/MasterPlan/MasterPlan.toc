@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: Master Plan
 ## Title-zhCN: [大脚][集]要塞助手
 ## Title-zhTW: [大腳][集]要塞助手
@@ -9,8 +9,8 @@
 ## X-Website: https://www.townlong-yak.com/master-plan/
 ## SavedVariables: MasterPlanAG,SV_GarrisonMissionManager
 ## SavedVariablesPerCharacter: MasterPlanPC,SVPC_GarrisonMissionManager
-## Version: 0.107
-## X-Version-Key: offset
+## Version: 0.109
+## X-Version-Key: pack
 ## Dependencies: BigFoot
 ## X-Revision: BigFoot
 ## LoadOnDemand: 1

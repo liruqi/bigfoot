@@ -1,4 +1,4 @@
-﻿## Interface: 70200
+﻿## Interface: 70300
 ## Title: [BF] SellHelper
 ## Title-zhCN: [大脚]售卖助手
 ## Title-zhTW: [大腳]售賣助手

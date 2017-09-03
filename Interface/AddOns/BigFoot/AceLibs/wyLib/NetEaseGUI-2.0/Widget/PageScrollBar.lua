@@ -20,14 +20,14 @@ local function ScrollUpButtonOnClick(self)
     local parent = self:GetParent()
     local scrollStep = self:GetParent().scrollStep or (parent:GetHeight() / 2)
     parent:SetValue(parent:GetValue() - scrollStep)
-    PlaySound('UChatScrollButton')
+    PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON)
 end
 
 local function ScrollDownButtonOnClick(self)
     local parent = self:GetParent()
     local scrollStep = self:GetParent().scrollStep or (parent:GetHeight() / 2)
     parent:SetValue(parent:GetValue() + scrollStep)
-    PlaySound('UChatScrollButton')
+    PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON)
 end
 
 function PageScrollBar:Constructor(parent)

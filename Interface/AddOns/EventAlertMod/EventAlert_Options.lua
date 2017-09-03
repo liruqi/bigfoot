@@ -235,7 +235,7 @@ function EAFun_GroupEvent_GetValueFromFrameItem(FrameItemName, fIsDropdown)
 	if (fIsDropdown == nil) then fIsDropdown = false end;
 	if (aFrameItem ~= nil) then
 		if (fIsDropdown) then
-			sReturnValue = UIDropDownMenu_GetSelectedValue(aFrameItem);
+			sReturnValue = Lib_UIDropDownMenu_GetSelectedValue(aFrameItem);
 		else
 			sReturnValue = aFrameItem:GetText();
 		end
@@ -887,7 +887,7 @@ function EAFun_GroupEvent_DropDown_OnLoad(DropDown, ItemValues, DefaultValue, Ex
 		EAFun_GroupEvent_DropDown_OnClick(self, DropDown, DefaultValue, ExtraInfo);
 	end
 	local function MyDropDownInit()
-		local selectedValue = UIDropDownMenu_GetSelectedValue(DropDown);
+		local selectedValue = Lib_UIDropDownMenu_GetSelectedValue(DropDown);
 		if selectedValue == nil then selectedValue = 0 end;
 		local function AddItem(text, value)
 			local info = {};
@@ -898,7 +898,7 @@ function EAFun_GroupEvent_DropDown_OnLoad(DropDown, ItemValues, DefaultValue, Ex
 			if (info.value == selectedValue) then
 				info.checked = true;
 			end
-			UIDropDownMenu_AddButton(info)
+			Lib_UIDropDownMenu_AddButton(info)
 		end
 		if (ItemValues == EA_XGRPALERT_UNITTYPES) then
 			for iItemIndex, aItemValue in ipairs(ItemValues) do
@@ -910,8 +910,8 @@ function EAFun_GroupEvent_DropDown_OnLoad(DropDown, ItemValues, DefaultValue, Ex
 			end
 		end
 	end
-	UIDropDownMenu_Initialize(DropDown, MyDropDownInit);
-	UIDropDownMenu_SetSelectedValue(DropDown, DefaultValue);
+	Lib_UIDropDownMenu_Initialize(DropDown, MyDropDownInit);
+	Lib_UIDropDownMenu_SetSelectedValue(DropDown, DefaultValue);
 	if (ExtraInfo ~= nil) then
 		if (ExtraInfo.EventIndex == nil) then
 			EAFun_GroupEvent_ChangeEventType_Click(DefaultValue, ExtraInfo);
@@ -924,7 +924,7 @@ end
 function EAFun_GroupEvent_DropDown_OnClick(self, DropDown, DefaultValue, ExtraInfo)
 	local SelValue = self.value;
 	if SelValue == nil then SelValue = DefaultValue end;
-	UIDropDownMenu_SetSelectedValue(DropDown, SelValue);
+	Lib_UIDropDownMenu_SetSelectedValue(DropDown, SelValue);
 	if (ExtraInfo ~= nil) then
 		if (ExtraInfo.EventIndex == nil) then
 			EAFun_GroupEvent_ChangeEventType_Click(SelValue, ExtraInfo);
@@ -1155,14 +1155,14 @@ function EAFun_GroupEvent_AddNewCheckBtn_Click(self)
 	--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_CheckOpDropdown"
 	local CheckOpDropdown = _G[sCheckFramePrefix.."_CheckOpDropdown"];
 	if (CheckOpDropdown == nil) then
-		CheckOpDropdown = CreateFrame("CheckButton", sCheckFramePrefix.."_CheckOpDropdown", CheckFrame, "UIDropDownMenuTemplate");
+		CheckOpDropdown = CreateFrame("CheckButton", sCheckFramePrefix.."_CheckOpDropdown", CheckFrame, "Lib_UIDropDownMenuTemplate");
 	end	-- Get GroupItem Value
 		sDefaultValue = 1;
 		fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("CheckAndOp", iSpellIndex, iCheckIndex);
 		if (fGetValue) then
 			if (sReturnValue) then sDefaultValue = 1 else sDefaultValue = 0 end;
 		end
-	UIDropDownMenu_SetWidth(CheckOpDropdown, 60);
+	Lib_UIDropDownMenu_SetWidth(CheckOpDropdown, 60);
 	EAFun_GroupEvent_DropDown_OnLoad(CheckOpDropdown, EA_XGRPALERT_LOGICS, sDefaultValue);
 	CheckOpDropdown:SetPoint("TOPLEFT", CheckTitle, "TOPRIGHT", -15, 5);
 	CheckOpDropdown:Show();
@@ -1255,14 +1255,14 @@ function EAFun_GroupEvent_AddNewSubCheckBtn_Click(self)
 	--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckOpDropdown"
 	local SubCheckOpDropdown = _G[sSubCheckFramePrefix.."_SubCheckOpDropdown"];
 	if (SubCheckOpDropdown == nil) then
-		SubCheckOpDropdown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckOpDropdown", SubCheckFrame, "UIDropDownMenuTemplate");
+		SubCheckOpDropdown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckOpDropdown", SubCheckFrame, "Lib_UIDropDownMenuTemplate");
 	end	-- Get GroupItem Value
 		sDefaultValue = 1;
 		fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("SubCheckAndOp", iSpellIndex, iCheckIndex, iSubCheckIndex);
 		if (fGetValue) then
 			if (sReturnValue) then sDefaultValue = 1 else sDefaultValue = 0 end;
 		end
-	UIDropDownMenu_SetWidth(SubCheckOpDropdown, 60);
+	Lib_UIDropDownMenu_SetWidth(SubCheckOpDropdown, 60);
 	EAFun_GroupEvent_DropDown_OnLoad(SubCheckOpDropdown, EA_XGRPALERT_LOGICS, sDefaultValue);
 	SubCheckOpDropdown:SetPoint("TOPLEFT", SubCheckTitle, "TOPRIGHT", -15, 5);
 	SubCheckOpDropdown:Show();
@@ -1278,14 +1278,14 @@ function EAFun_GroupEvent_AddNewSubCheckBtn_Click(self)
 	--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckEventTypeDowndown"
 	local SubCheckEventTypeDowndown = _G[sSubCheckFramePrefix.."_SubCheckEventTypeDowndown"];
 	if (SubCheckEventTypeDowndown == nil) then
-		SubCheckEventTypeDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckEventTypeDowndown", SubCheckFrame, "UIDropDownMenuTemplate");
+		SubCheckEventTypeDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckEventTypeDowndown", SubCheckFrame, "Lib_UIDropDownMenuTemplate");
 	end	-- Get GroupItem Value
 		sDefaultValue = "UNIT_POWER";
 		fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("EventType", iSpellIndex, iCheckIndex, iSubCheckIndex);
 		if (fGetValue) then
 			sDefaultValue = sReturnValue;
 		end
-	UIDropDownMenu_SetWidth(SubCheckEventTypeDowndown, 210);
+	Lib_UIDropDownMenu_SetWidth(SubCheckEventTypeDowndown, 210);
 	EAFun_GroupEvent_DropDown_OnLoad(SubCheckEventTypeDowndown, EA_XGRPALERT_EVENTTYPES, sDefaultValue, ExtraInfo);
 	SubCheckEventTypeDowndown:SetPoint("TOPLEFT", SubCheckText1, "TOPRIGHT", -15, 5);
 	SubCheckEventTypeDowndown:Show();
@@ -1301,14 +1301,14 @@ function EAFun_GroupEvent_AddNewSubCheckBtn_Click(self)
 	--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckUnitTypeDowndown"
 	local SubCheckUnitTypeDowndown = _G[sSubCheckFramePrefix.."_SubCheckUnitTypeDowndown"];
 	if (SubCheckUnitTypeDowndown == nil) then
-		SubCheckUnitTypeDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckUnitTypeDowndown", SubCheckFrame, "UIDropDownMenuTemplate");
+		SubCheckUnitTypeDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckUnitTypeDowndown", SubCheckFrame, "Lib_UIDropDownMenuTemplate");
 	end	-- Get GroupItem Value
 		sDefaultValue = "player";
 		fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("UnitType", iSpellIndex, iCheckIndex, iSubCheckIndex);
 		if (fGetValue) then
 			sDefaultValue = sReturnValue;
 		end
-	UIDropDownMenu_SetWidth(SubCheckUnitTypeDowndown, 170);
+	Lib_UIDropDownMenu_SetWidth(SubCheckUnitTypeDowndown, 170);
 	EAFun_GroupEvent_DropDown_OnLoad(SubCheckUnitTypeDowndown, EA_XGRPALERT_UNITTYPES, sDefaultValue);
 	SubCheckUnitTypeDowndown:SetPoint("TOPLEFT", SubCheckText2, "TOPRIGHT", -15, 5);
 	SubCheckUnitTypeDowndown:Show();
@@ -1388,14 +1388,14 @@ function EAFun_GroupEvent_ChangeEventType_Click(EventType, ExtraInfo)
 				--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckPowerTypeDowndown"
 				local SubCheckPowerTypeDowndown = _G[sSubCheckFramePrefix.."_SubCheckPowerTypeDowndown"];
 				if (SubCheckPowerTypeDowndown == nil) then
-					SubCheckPowerTypeDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckPowerTypeDowndown", SubEventFrame, "UIDropDownMenuTemplate");
+					SubCheckPowerTypeDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckPowerTypeDowndown", SubEventFrame, "Lib_UIDropDownMenuTemplate");
 				end	-- Get GroupItem Value
 					sDefaultValue = 0;
 					fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("PowerTypeNum", iSpellIndex, iCheckIndex, iSubCheckIndex);
 					if (fGetValue) then
 						sDefaultValue = sReturnValue;
 					end
-				UIDropDownMenu_SetWidth(SubCheckPowerTypeDowndown, 90);
+				Lib_UIDropDownMenu_SetWidth(SubCheckPowerTypeDowndown, 90);
 				EAFun_GroupEvent_DropDown_OnLoad(SubCheckPowerTypeDowndown, EA_XGRPALERT_POWERTYPES, sDefaultValue);
 				SubCheckPowerTypeDowndown:SetPoint("TOPLEFT", SubEventPowerText1, "TOPRIGHT", -15, 5);
 				SubCheckPowerTypeDowndown:Show();
@@ -1404,7 +1404,7 @@ function EAFun_GroupEvent_ChangeEventType_Click(EventType, ExtraInfo)
 				--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckPowerCompDowndown"
 				local SubCheckPowerCompDowndown = _G[sSubCheckFramePrefix.."_SubCheckPowerCompDowndown"];
 				if (SubCheckPowerCompDowndown == nil) then
-					SubCheckPowerCompDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckPowerCompDowndown", SubEventFrame, "UIDropDownMenuTemplate");
+					SubCheckPowerCompDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckPowerCompDowndown", SubEventFrame, "Lib_UIDropDownMenuTemplate");
 				end	-- Get GroupItem Value
 					sDefaultValue = 1;
 					fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("PowerCompType", iSpellIndex, iCheckIndex, iSubCheckIndex);
@@ -1412,7 +1412,7 @@ function EAFun_GroupEvent_ChangeEventType_Click(EventType, ExtraInfo)
 						-- if (sReturnValue) then sDefaultValue = 1 else sDefaultValue = 0 end;
 						sDefaultValue = sReturnValue;
 					end
-				UIDropDownMenu_SetWidth(SubCheckPowerCompDowndown, 60);
+				Lib_UIDropDownMenu_SetWidth(SubCheckPowerCompDowndown, 60);
 				EAFun_GroupEvent_DropDown_OnLoad(SubCheckPowerCompDowndown, EA_XGRPALERT_COMPARES, sDefaultValue);
 				SubCheckPowerCompDowndown:SetPoint("TOPLEFT", SubCheckPowerTypeDowndown, "TOPRIGHT", -30, 0);
 				SubCheckPowerCompDowndown:Show();
@@ -1421,14 +1421,14 @@ function EAFun_GroupEvent_ChangeEventType_Click(EventType, ExtraInfo)
 				--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckPowerCompTypeDowndown"
 				local SubCheckPowerCompTypeDowndown = _G[sSubCheckFramePrefix.."_SubCheckPowerCompTypeDowndown"];
 				if (SubCheckPowerCompTypeDowndown == nil) then
-					SubCheckPowerCompTypeDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckPowerCompTypeDowndown", SubEventFrame, "UIDropDownMenuTemplate");
+					SubCheckPowerCompTypeDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckPowerCompTypeDowndown", SubEventFrame, "Lib_UIDropDownMenuTemplate");
 				end	-- Get GroupItem Value
 					sDefaultValue = 1;
 					fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("PowerLessThanPercent", iSpellIndex, iCheckIndex, iSubCheckIndex);
 					if (fGetValue) then
 						if (sReturnValue ~= nil) then sDefaultValue = 2 end;
 					end
-				UIDropDownMenu_SetWidth(SubCheckPowerCompTypeDowndown, 75);
+				Lib_UIDropDownMenu_SetWidth(SubCheckPowerCompTypeDowndown, 75);
 				EAFun_GroupEvent_DropDown_OnLoad(SubCheckPowerCompTypeDowndown, EA_XGRPALERT_COMPARETYPES, sDefaultValue);
 				SubCheckPowerCompTypeDowndown:SetPoint("TOPLEFT", SubCheckPowerCompDowndown, "TOPRIGHT", -30, 0);
 				SubCheckPowerCompTypeDowndown:Show();
@@ -1468,7 +1468,7 @@ function EAFun_GroupEvent_ChangeEventType_Click(EventType, ExtraInfo)
 				--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckHealthCompDowndown"
 				local SubCheckHealthCompDowndown = _G[sSubCheckFramePrefix.."_SubCheckHealthCompDowndown"];
 				if (SubCheckHealthCompDowndown == nil) then
-					SubCheckHealthCompDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckHealthCompDowndown", SubEventFrame, "UIDropDownMenuTemplate");
+					SubCheckHealthCompDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckHealthCompDowndown", SubEventFrame, "Lib_UIDropDownMenuTemplate");
 				end	-- Get GroupItem Value
 					sDefaultValue = 1;
 					fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("HealthCompType", iSpellIndex, iCheckIndex, iSubCheckIndex);
@@ -1476,7 +1476,7 @@ function EAFun_GroupEvent_ChangeEventType_Click(EventType, ExtraInfo)
 						-- if (sReturnValue) then sDefaultValue = 1 else sDefaultValue = 0 end;
 						sDefaultValue = sReturnValue;
 					end
-				UIDropDownMenu_SetWidth(SubCheckHealthCompDowndown, 60);
+				Lib_UIDropDownMenu_SetWidth(SubCheckHealthCompDowndown, 60);
 				EAFun_GroupEvent_DropDown_OnLoad(SubCheckHealthCompDowndown, EA_XGRPALERT_COMPARES, sDefaultValue);
 				SubCheckHealthCompDowndown:SetPoint("TOPLEFT", SubEventHealthText1, "TOPRIGHT", -15, 5);
 				SubCheckHealthCompDowndown:Show();
@@ -1485,14 +1485,14 @@ function EAFun_GroupEvent_ChangeEventType_Click(EventType, ExtraInfo)
 				--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckHealthCompTypeDowndown"
 				local SubCheckHealthCompTypeDowndown = _G[sSubCheckFramePrefix.."_SubCheckHealthCompTypeDowndown"];
 				if (SubCheckHealthCompTypeDowndown == nil) then
-					SubCheckHealthCompTypeDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckHealthCompTypeDowndown", SubEventFrame, "UIDropDownMenuTemplate");
+					SubCheckHealthCompTypeDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckHealthCompTypeDowndown", SubEventFrame, "Lib_UIDropDownMenuTemplate");
 				end	-- Get GroupItem Value
 					sDefaultValue = 1;
 					fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("HealthLessThanPercent", iSpellIndex, iCheckIndex, iSubCheckIndex);
 					if (fGetValue) then
 						if (sReturnValue ~= nil) then sDefaultValue = 2 end;
 					end
-				UIDropDownMenu_SetWidth(SubCheckHealthCompTypeDowndown, 75);
+				Lib_UIDropDownMenu_SetWidth(SubCheckHealthCompTypeDowndown, 75);
 				EAFun_GroupEvent_DropDown_OnLoad(SubCheckHealthCompTypeDowndown, EA_XGRPALERT_COMPARETYPES, sDefaultValue);
 				SubCheckHealthCompTypeDowndown:SetPoint("TOPLEFT", SubCheckHealthCompDowndown, "TOPRIGHT", -30, 0);
 				SubCheckHealthCompTypeDowndown:Show();
@@ -1532,14 +1532,14 @@ function EAFun_GroupEvent_ChangeEventType_Click(EventType, ExtraInfo)
 				--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckAuraExistDowndown"
 				local SubCheckAuraExistDowndown = _G[sSubCheckFramePrefix.."_SubCheckAuraExistDowndown"];
 				if (SubCheckAuraExistDowndown == nil) then
-					SubCheckAuraExistDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckAuraExistDowndown", SubEventFrame, "UIDropDownMenuTemplate");
+					SubCheckAuraExistDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckAuraExistDowndown", SubEventFrame, "Lib_UIDropDownMenuTemplate");
 				end	-- Get GroupItem Value
 					sDefaultValue = 1;
 					fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("CheckAuraNotExist", iSpellIndex, iCheckIndex, iSubCheckIndex);
 					if (fGetValue) then
 						if (sReturnValue ~= nil) then sDefaultValue = 2 end;
 					end
-				UIDropDownMenu_SetWidth(SubCheckAuraExistDowndown, 75);
+				Lib_UIDropDownMenu_SetWidth(SubCheckAuraExistDowndown, 75);
 				EAFun_GroupEvent_DropDown_OnLoad(SubCheckAuraExistDowndown, EA_XGRPALERT_CHECKAURAS, sDefaultValue, ExtraInfo);
 				SubCheckAuraExistDowndown:SetPoint("TOPLEFT", SubEventAuraText1, "TOPRIGHT", -15, 5);
 				SubCheckAuraExistDowndown:Show();
@@ -1594,7 +1594,7 @@ function EAFun_GroupEvent_ChangeEventType_Click(EventType, ExtraInfo)
 				--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckComboCompDowndown"
 				local SubCheckComboCompDowndown = _G[sSubCheckFramePrefix.."_SubCheckComboCompDowndown"];
 				if (SubCheckComboCompDowndown == nil) then
-					SubCheckComboCompDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckComboCompDowndown", SubEventFrame, "UIDropDownMenuTemplate");
+					SubCheckComboCompDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckComboCompDowndown", SubEventFrame, "Lib_UIDropDownMenuTemplate");
 				end	-- Get GroupItem Value
 					sDefaultValue = 1;
 					fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("ComboCompType", iSpellIndex, iCheckIndex, iSubCheckIndex);
@@ -1602,7 +1602,7 @@ function EAFun_GroupEvent_ChangeEventType_Click(EventType, ExtraInfo)
 						-- if (sReturnValue) then sDefaultValue = 1 else sDefaultValue = 0 end;
 						sDefaultValue = sReturnValue;
 					end
-				UIDropDownMenu_SetWidth(SubCheckComboCompDowndown, 60);
+				Lib_UIDropDownMenu_SetWidth(SubCheckComboCompDowndown, 60);
 				EAFun_GroupEvent_DropDown_OnLoad(SubCheckComboCompDowndown, EA_XGRPALERT_COMPARES, sDefaultValue);
 				SubCheckComboCompDowndown:SetPoint("TOPLEFT", SubEventComboText1, "TOPRIGHT", -15, 5);
 				SubCheckComboCompDowndown:Show();
@@ -1677,7 +1677,7 @@ function EAFun_GroupEvent_ChangeAuraCheck_Click(AuraCheck, ExtraInfo)
 		--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckTimeCompDowndown"
 		local SubCheckTimeCompDowndown = _G[sSubCheckFramePrefix.."_SubCheckTimeCompDowndown"];
 		if (SubCheckTimeCompDowndown == nil) then
-			SubCheckTimeCompDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckTimeCompDowndown", SubAuraCheckFrame, "UIDropDownMenuTemplate");
+			SubCheckTimeCompDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckTimeCompDowndown", SubAuraCheckFrame, "Lib_UIDropDownMenuTemplate");
 		end	-- Get GroupItem Value
 			sDefaultValue = 1;
 			fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("TimeCompType", iSpellIndex, iCheckIndex, iSubCheckIndex);
@@ -1685,7 +1685,7 @@ function EAFun_GroupEvent_ChangeAuraCheck_Click(AuraCheck, ExtraInfo)
 				-- if (sReturnValue) then sDefaultValue = 1 else sDefaultValue = 0 end;
 				sDefaultValue = sReturnValue;
 			end
-		UIDropDownMenu_SetWidth(SubCheckTimeCompDowndown, 50);
+		Lib_UIDropDownMenu_SetWidth(SubCheckTimeCompDowndown, 50);
 		EAFun_GroupEvent_DropDown_OnLoad(SubCheckTimeCompDowndown, EA_XGRPALERT_COMPARES, sDefaultValue);
 		SubCheckTimeCompDowndown:SetPoint("TOPLEFT", SubEventAuraText2, "TOPRIGHT", -15, 5);
 		SubCheckTimeCompDowndown:Show();
@@ -1718,7 +1718,7 @@ function EAFun_GroupEvent_ChangeAuraCheck_Click(AuraCheck, ExtraInfo)
 		--// G_Group_CfgFramePrefix..iSpellIndex.."_"..iCheckIndex.."_"..iSubCheckIndex.."_SubCheckStackCompDowndown"
 		local SubCheckStackCompDowndown = _G[sSubCheckFramePrefix.."_SubCheckStackCompDowndown"];
 		if (SubCheckStackCompDowndown == nil) then
-			SubCheckStackCompDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckStackCompDowndown", SubAuraCheckFrame, "UIDropDownMenuTemplate");
+			SubCheckStackCompDowndown = CreateFrame("CheckButton", sSubCheckFramePrefix.."_SubCheckStackCompDowndown", SubAuraCheckFrame, "Lib_UIDropDownMenuTemplate");
 		end	-- Get GroupItem Value
 			sDefaultValue = 1;
 			fGetValue, sReturnValue = EAFun_GroupEvent_GetValueFromGroupItem("StackCompType", iSpellIndex, iCheckIndex, iSubCheckIndex);
@@ -1726,7 +1726,7 @@ function EAFun_GroupEvent_ChangeAuraCheck_Click(AuraCheck, ExtraInfo)
 				-- if (sReturnValue) then sDefaultValue = 1 else sDefaultValue = 0 end;
 				sDefaultValue = sReturnValue;
 			end
-		UIDropDownMenu_SetWidth(SubCheckStackCompDowndown, 50);
+		Lib_UIDropDownMenu_SetWidth(SubCheckStackCompDowndown, 50);
 		EAFun_GroupEvent_DropDown_OnLoad(SubCheckStackCompDowndown, EA_XGRPALERT_COMPARES, sDefaultValue);
 		SubCheckStackCompDowndown:SetPoint("TOPLEFT", SubEventAuraText3, "TOPRIGHT", -15, 5);
 		SubCheckStackCompDowndown:Show();
@@ -1757,7 +1757,7 @@ function EAFun_GroupEvent_ChangeAuraCheck_Click(AuraCheck, ExtraInfo)
 end
 
 local function EventAlert_Options_AlertSoundSelect_Initialize()
-	local selectedValue = UIDropDownMenu_GetSelectedValue(EA_Options_Frame_AlertSoundSelect);
+	local selectedValue = Lib_UIDropDownMenu_GetSelectedValue(EA_Options_Frame_AlertSoundSelect);
 	if selectedValue == nil then selectedValue = 0 end;
 
 	local info = {};
@@ -1769,7 +1769,7 @@ local function EventAlert_Options_AlertSoundSelect_Initialize()
 			info.checked = 1;
 		end
 		info.checked = checked
-		UIDropDownMenu_AddButton(info)
+		Lib_UIDropDownMenu_AddButton(info)
 	end
 
 	AddItem("ShaysBell", 1);
@@ -1788,9 +1788,9 @@ end
 local isload
 function EventAlert_Options_AlertSoundSelect_OnLoad()
 	if not isload then
-		UIDropDownMenu_Initialize(EA_Options_Frame_AlertSoundSelect, EventAlert_Options_AlertSoundSelect_Initialize);
-		UIDropDownMenu_SetSelectedID(EA_Options_Frame_AlertSoundSelect, EA_Config.AlertSoundValue);
-		UIDropDownMenu_SetWidth(EA_Options_Frame_AlertSoundSelect, 130);
+		Lib_UIDropDownMenu_Initialize(EA_Options_Frame_AlertSoundSelect, EventAlert_Options_AlertSoundSelect_Initialize);
+		Lib_UIDropDownMenu_SetSelectedID(EA_Options_Frame_AlertSoundSelect, EA_Config.AlertSoundValue);
+		Lib_UIDropDownMenu_SetWidth(EA_Options_Frame_AlertSoundSelect, 130);
 		isload = true;
 	end
 end
@@ -1798,7 +1798,7 @@ end
 function EventAlert_Options_AlertSoundSelect_OnClick(self)
 	local SelValue = self.value;
 	if SelValue == nil then SelValue = 0 end;
-	UIDropDownMenu_SetSelectedValue(EA_Options_Frame_AlertSoundSelect, SelValue);
+	Lib_UIDropDownMenu_SetSelectedValue(EA_Options_Frame_AlertSoundSelect, SelValue);
 
 	if (SelValue == 1) then
 		EA_Config.AlertSound = "Sound\\Spells\\ShaysBell.ogg";

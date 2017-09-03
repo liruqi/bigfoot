@@ -6,7 +6,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("GladiatorlosSA")
 local LSM = LibStub("LibSharedMedia-3.0")
 local options_created = false -- ***** @
 
-local GSA_OUTPUT = {["MASTER"] = L["Master"],["SFX"] = L["SFX"],["AMBIENCE"] = L["Ambience"],["MUSIC"] = L["Music"]}
+local GSA_OUTPUT = {["MASTER"] = L["Master"],["SFX"] = L["SFX"],["AMBIENCE"] = L["Ambience"],["MUSIC"] = L["Music"],["DIALOG"] = L["Dialog"]}
 
 function GSA:ShowConfig()
 	InterfaceOptionsFrame_OpenToCategory("GladiatorlosSA")		--bf@178.com
@@ -619,7 +619,7 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["|cffFFFFFFPriest|r"],
 								order = 11,
-								args = listOption({33206,47585,109964,197268,193223,194249,218413,15286,213610,215769,196762},"auraRemoved"),
+								args = listOption({33206,47585,109964,197268,193223,194249,218413,15286,213610,215769,196762,213602},"auraRemoved"),
 							},
 							rogue = { -- AuraRemoved
 								type = 'group',
@@ -819,7 +819,7 @@ function GSA:OnOptionCreate()
 								inline = true,
 								name = L["EnemyInterrupts"],
 								order = 35,
-								args = listOption({47528,183752,78675,106839,147362,187707,2139,116705,96231,1766,57994,19647,171140,171138,212619,119910,6552},"castSuccess"),
+								args = listOption({47528,183752,78675,106839,147362,187707,2139,116705,96231,1766,57994,19647,171140,171138,115781,212619,119910,6552},"castSuccess"),
 							},
 							dk	= { -- CastSuccess
 								type = 'group',

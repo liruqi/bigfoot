@@ -161,7 +161,7 @@ function InventoryFrame:New(titleText, settings, isBank, key)
 	self.nname = name;
 	f.bagButtons = {}
 	f.filter = {}
-	
+
 	--bagIdOffset用于获取背包的顺序ID，如CombuctorBag1、2等
 	if key == "inventory" then
 		f.bagIdOffset = 0;
@@ -175,7 +175,7 @@ function InventoryFrame:New(titleText, settings, isBank, key)
 	f.title = _G[f:GetName() .. 'Title']
 
 	f.sideFilter = Combuctor.SideFilter:New(f, f:IsSideFilterOnLeft())
-	
+
 	f.bottomFilter = Combuctor.BottomFilter:New(f)
 
 	f.nameFilter = _G[f:GetName() .. 'Search']
@@ -472,7 +472,7 @@ function InventoryFrame:UpdateSubSetsForShow(subCategory)
 	self:DoSometingUseable()
 end
 
-function InventoryFrame:GetSubCategoryForShow()	
+function InventoryFrame:GetSubCategoryForShow()
 	return self:GetDefaultSubCategory()
 end
 
@@ -776,7 +776,7 @@ end
 end
 
 function InventoryFrame:OnShow()
-	PlaySound('igBackPackOpen')
+	PlaySound(SOUNDKIT.IG_BACKPACK_OPEN)
 	self.myitemcount=max(self.itemFrame.count, self.myitemcount or 0)
 
 	FrameEvents:Register(self)
@@ -790,7 +790,7 @@ end
 function InventoryFrame:OnHide()
 	_G[self:GetName().."Search"]:SetText("")
 	self:SetFilter('name', nil, true)
-	PlaySound('igBackPackClose')
+	PlaySound(SOUNDKIT.IG_BACKPACK_CLOSE)
 	FrameEvents:Unregister(self)
 
 	--it may look stupid, but yes

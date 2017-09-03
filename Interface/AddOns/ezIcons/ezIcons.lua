@@ -92,7 +92,7 @@ function ezIcons:buildMenu()
 						this:Hide();
 						return;
 					end
-					PlaySound("igMainMenuOptionCheckBoxOn");
+					PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 					SetPortraitTexture( menu.p, "target" );
 				end
 
@@ -113,7 +113,7 @@ function ezIcons:buildMenu()
 						this.l = nil;
 						this.h = curtime;
 						this.s = nil;
-						PlaySound("igMainMenuOptionCheckBoxOff");
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 					elseif ( not this.l ) then
 						this.l = curtime;
 					end
@@ -232,7 +232,7 @@ function ezIcons:buildMenu()
 					this.l = nil
 					this.s = nil
 					this.i = nil;
-					PlaySound("igMainMenuOptionCheckBoxOff");
+					PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 				end
 			end
 		end
@@ -243,13 +243,13 @@ function ezIcons:buildMenu()
 				local index = GetRaidTargetIndex("target");
 				if ( ( arg1 == "RightButton" and index and index > 0 ) or ( this.i and this.i == index ) ) then
 					this.i = index;
-					PlaySound("igMiniMapZoomOut");
+					PlaySound(SOUNDKIT.IG_MINIMAP_ZOOM_OUT);
 					SetRaidTarget("target", 0);
 				elseif ( this.i ) then
-					PlaySound("igMiniMapZoomIn");
+					PlaySound(SOUNDKIT.IG_MINIMAP_ZOOM_IN);
 					SetRaidTarget("target", this.i);
 				else
-					PlaySound("igMainMenuOptionCheckBoxOff");
+					PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 				end
 				this.s = nil;
 				this.h = GetTime();
@@ -262,7 +262,7 @@ function ezIcons:buildMenu()
 				this.i = nil;
 				this.s = nil;
 				this.h = GetTime();
-				PlaySound("igMainMenuOptionCheckBoxOff");
+				PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 			end
 			this.e = nil;
 		end

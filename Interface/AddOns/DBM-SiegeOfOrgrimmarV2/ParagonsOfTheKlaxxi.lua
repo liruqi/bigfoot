@@ -214,7 +214,7 @@ end
 
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -328,10 +328,10 @@ local function testinfo()
 		if showxiezi[3] then
 			DBM.InfoFrame:Show(3, "other", xiezi[showxiezi[1]], showxiezi[1], xiezi[showxiezi[2]], showxiezi[2], xiezi[showxiezi[3]], showxiezi[3])
 		end
-		if (not dissectorlive) and (chongnum == 0) then			
+		if (not dissectorlive) and (chongnum == 0) then
 			DBM.InfoFrame:Hide()
 		end
-	end	
+	end
 	twipe(showxiezi)
 	xiezinum = 0
 end
@@ -351,8 +351,8 @@ local function warnActivatedTargets(vulnerable)
 	twipe(activatedTargets)
 end
 
-local function warnMutatedTargets()	
-	warnMutate:Show(table.concat(mutateTargets, "<, >"))	
+local function warnMutatedTargets()
+	warnMutate:Show(table.concat(mutateTargets, "<, >"))
 	twipe(mutateTargets)
 	if mod:AntiSpam(5, 1) then
 		mutatecount = mutatecount + 1
@@ -405,7 +405,7 @@ local function DFAScan()
 						sndWOP:Play("runaway") --快躲開
 					end
 				end
-				if mod.Options.HudMAPMZ then					
+				if mod.Options.HudMAPMZ then
 					DFMarker[targetname] = register(DBMHudMap:PlaceStaticMarkerOnPartyMember("highlight", targetname, 8, 3, 0, 1, 0, 0.8):Appear():RegisterForAlerts())
 				end
 			else
@@ -503,7 +503,7 @@ local function CheckBosses()
 				timerMutateCD:Start(34, 1)
 				if UnitDebuff("player", GetSpellInfo(143275)) then vulnerable = true end
 				if activetime >= 15 then
-					sndWOP:Play("ex_so_qgz") --切割者參戰					
+					sndWOP:Play("ex_so_qgz") --切割者參戰
 				end
 			elseif cid == 71153 then--Hisek the Swarmkeeper
 				timerAimCD:Start(37)--Might be 32 now with the UnitBuff filter, so pay attention to that and adjust as needed
@@ -532,16 +532,16 @@ function mod:OnCombatStart(delay)
 	twipe(MZMarkers)
 	twipe(CMMarkers)
 	twipe(DFMarker)
-	
+
 	twipe(xiezi)
 	twipe(ResultXFTargets)
-	
+
 	twipe(ResultTargets)
 	twipe(ResultMeleeTargets)
 	twipe(ResultRangedTargets)
 	twipe(ResultRangedDPSTargets)
 	twipe(ResultGroupTargets)
-	
+
 	calculatedShape = nil
 	calculatedNumber = nil
 	calculatedColor = nil
@@ -642,7 +642,7 @@ function mod:SPELL_CAST_START(args)
 					end
 				end
 			end
-		end		
+		end
 	elseif args.spellId == 142728 then
 		timerToxicCatalystCD:Start()
 		if self.Options.warnToxicCatalyst then
@@ -688,7 +688,7 @@ function mod:SPELL_CAST_START(args)
 				DBM:ShowLTSpecialWarning(142729, 1, 0, 0, 1, 142729, 3)
 			end
 			PlaySoundFile("Sound\\Creature\\HoodWolf\\HoodWolfTransformPlayer01.ogg", "Master")
-		else			
+		else
 			if havecolor then
 				if self.Options.LTIP then
 					DBM:ShowLTSpecialWarning(_G["NO"], 1, 1, 1, nil, 142729, 2)
@@ -740,7 +740,7 @@ function mod:SPELL_CAST_START(args)
 			sndWOP:Play("linesoon") --準備連線
 			caled = false
 		else
-			sndWOP:Play("Interface\\AddOns\\"..DBM.Options.CountdownVoice.."\\ex_so_yllx") --遠離連線
+			sndWOP:Play("ex_so_yllx") --遠離連線
 		end
 	elseif args.spellId == 143709 then
 		warnFlash:Show()
@@ -797,7 +797,7 @@ function mod:SPELL_CAST_START(args)
 				else
 					DBM:ShowLTSpecialWarning("NEXT:"..(injcount + 1), 0, 1, 0, nil, 143339, nil, 8.5)
 				end
-			end)			
+			end)
 		end
 	elseif args.spellId == 148676 then
 		warnReave:Show()
@@ -805,7 +805,7 @@ function mod:SPELL_CAST_START(args)
 		sndWOP:Play("ex_so_xft") --旋風準備
 		timerReaveCD:Start()
 		self:Unschedule(HeroicDFAScan)
-		self:Schedule(15, HeroicDFAScan)		
+		self:Schedule(15, HeroicDFAScan)
 	end
 end
 
@@ -1033,7 +1033,7 @@ function mod:UNIT_DIED(args)
 			self:Unschedule(HeroicDFAScan)
 		else
 			self:Unschedule(DFAScan)
-		end		
+		end
 		timerReaveCD:Cancel()
 		timerGougeCD:Cancel()
 	elseif cid == 71157 then--Xaril the Poisoned-Mind
@@ -1063,7 +1063,7 @@ function mod:UNIT_DIED(args)
 	elseif cid == 71153 then--Hisek the Swarmkeeper
 		timerAimCD:Cancel()
 		timerRapidFireCD:Cancel()
-	elseif cid == 71578 then--chong		
+	elseif cid == 71578 then--chong
 		chongnum = chongnum - 1
 		testinfo()
 	end
@@ -1179,7 +1179,7 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 						caled = false
 					end
 				end
-			end			
+			end
 			twipe(ResultTargets)
 			twipe(ResultGroupTargets)
 			twipe(ResultMeleeTargets)
@@ -1227,7 +1227,7 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 					DBM.InfoFrame:Show(1, "other", "No one", "0")
 				end
 				twipe(ResultGroupTargets)
-				
+
 			end
 			warnResult:Show(table.concat(ResultMeleeTargets, "<, >"))
 			warnResult:Show(table.concat(ResultRangedTargets, "<, >"))
@@ -1240,7 +1240,7 @@ function mod:CHAT_MSG_MONSTER_EMOTE(msg, npc, _, _, target)
 					end
 				end
 			end]]
-		end		
+		end
 	end
 end
 

@@ -167,6 +167,8 @@ L["Heals"] = "治療"
 L["Health"] = "生命"
 L["Hide"] = "隱藏"
 L["Hide When Not Collecting"] = "不統計時隱藏"
+--Translation missing 
+-- L["Hide While In Pet Battle"] = "Hide While In Pet Battle"
 L["Hides the main window"] = "隱藏主視窗"
 L["Hit"] = "命中"
 L["Holy"] = "神聖"
@@ -442,4 +444,5 @@ L["Window Options"] = "視窗設定"
 L["Window Scaling"] = "視窗縮放"
 L["X Gridlines Represent"] = "X 軸每格代表"
 L["Yes"] = "是"
+
 

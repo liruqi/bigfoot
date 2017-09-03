@@ -1,4 +1,4 @@
-﻿## Interface: 70200
+﻿## Interface: 70300
 ## Title: [BF] MailMod
 ## Title-zhCN: [大脚]邮件助手
 ## Title-zhTW: [大腳]郵件助手

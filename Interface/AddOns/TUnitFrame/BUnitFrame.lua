@@ -844,7 +844,7 @@ function BUnitFrame_OnUpdate(self, elapsed)
 end
 
 function BUnitFrame_OnContextMenu(self)
-	PlaySound("UChatScrollButton");
+	PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 	BUnitFrameDropDown.relative_frame = self;
 	BToggleDropDownMenu(1, nil, BUnitFrameDropDown, self:GetName(), 0, 0);
 end

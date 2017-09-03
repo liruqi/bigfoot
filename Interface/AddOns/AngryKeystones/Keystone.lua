@@ -25,7 +25,7 @@ local events = {
 }
 
 local function filter(self, event, msg, ...)
-	local msg2 = msg:gsub("(|Hkeystone:([0-9:]+)|h(%b[])|h)", function(msg, itemString, itemName)
+	local msg2 = msg:gsub("(|c"..epicColor.."|Hkeystone:([0-9:]+)|h(%b[])|h|r)", function(msg, itemString, itemName)	--bf@178.com
 		local info = { strsplit(":", itemString) }
 		local mapID = tonumber(info[1])
 		local mapLevel = tonumber(info[2])

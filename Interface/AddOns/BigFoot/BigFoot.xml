@@ -24,7 +24,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 				self:SetText(BF_NAME);
 			</OnShow>
 			<OnClick>
-				PlaySound("igMainMenuOption");
+				PlaySound(SOUNDKIT.IG_MAINMENU_OPTION);
 				if BFNew_GetNewFrameState and BFNew_GetNewFrameState()  then
 					if not BigfootNewMainFrame:IsShown() then
 						ShowUIPanel(BigfootNewMainFrame);

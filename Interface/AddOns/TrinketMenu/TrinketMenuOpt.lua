@@ -128,7 +128,6 @@ function TrinketMenu.DragMinimapButton()
 end
 
 function TrinketMenu.MinimapButton_OnClick(button)
-	PlaySound("GAMEGENERICBUTTONPRESS")
 	if IsShiftKeyDown() then
 		TrinketMenuOptions.Locked = TrinketMenuOptions.Locked=="ON" and "OFF" or "ON"
 		TrinketMenu.ReflectLock()
@@ -218,7 +217,7 @@ function TrinketMenu.CheckButton_OnClick(self)
 	local _,_,var = string.find(self:GetName(),"TrinketMenu_Opt(.+)")
 	if TrinketMenuOptions[var] then
 		TrinketMenuOptions[var] = self:GetChecked() and "ON" or "OFF"
-		PlaySound(self:GetChecked() and "igMainMenuOptionCheckBoxOn" or "igMainMenuOptionCheckBoxOff")
+		PlaySound(self:GetChecked() and SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON or SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
 		TrinketMenu.ValidateChecks()
 	end
 
@@ -296,7 +295,7 @@ end
 --[[ Titlebar buttons ]]
 
 function TrinketMenu.SmallButton_OnClick(self)
-	PlaySound("igMainMenuOptionCheckBoxOn")
+	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	if self==TrinketMenu_CloseButton then
 		TrinketMenu_OptFrame:Hide()
 	elseif self==TrinketMenu_LockButton then
@@ -309,7 +308,6 @@ end
 --[[ Tabs ]]
 
 function TrinketMenu.Tab_OnClick(id)
-	PlaySound("GAMEGENERICBUTTONPRESS")
 	local tab
 	if TrinketMenu_ProfilesFrame then
 		TrinketMenu_ProfilesFrame:Hide()

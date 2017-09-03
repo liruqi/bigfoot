@@ -15,4 +15,3 @@ di
 findgather
 mobout
 otherin
-stunsoon

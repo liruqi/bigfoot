@@ -116,7 +116,7 @@ function Drop:Toggle(...)
 		CloseDropDownMenus()
 	end
 
-	PlaySound('igMainMenuOptionCheckBoxOn')
+	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 end
 
 function Drop:Display(...)

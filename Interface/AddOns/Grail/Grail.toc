@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: Grail
 ## Title-zhCN: [大脚][集]可接任务数据库
 ## Title-zhTW: [大腳][集]可接任務數據庫
@@ -6,7 +6,7 @@
 ## Notes-zhCN: |cff00ff00Grail|r
 ## Notes-zhTW: |cff00ff00Grail|r
 ## Author: Scott M Harrison
-## Version: 087
+## Version: 091
 ## SavedVariables: GrailDatabase
 ## SavedVariablesPerCharacter: GrailDatabasePlayer,GrailWhenPlayer
 ## Dependencies: BigFoot

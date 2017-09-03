@@ -1,3 +1,4 @@
+
 local _
 if(Skinner and 	Skinner.initialized) then Skinner.initialized.TradeFrame = true; end;
 
@@ -403,7 +404,7 @@ function TBTFrame_OnPlayerEnter()
 end
 
 function TBTFrame_OnEvent(self, event, ...)
-	if(GetNumLootItems()==1) then
+	if(GetNumLootItems() == 1) then
 		local iconPath, _, _, _ = GetLootSlotInfo(1);
 		if(string.find(iconPath, "Interface\\Icons\\INV_Enchant_") == 1) then
 			LootSlot(1);

@@ -57,7 +57,7 @@ function SearchBox:OnEditFocusGained()
 end
 
 function SearchBox:Clear()
-    PlaySound('igMainMenuOptionCheckBoxOn')
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
     self:SetText('')
     self:ClearFocus()
     self:OnEditFocusLost()

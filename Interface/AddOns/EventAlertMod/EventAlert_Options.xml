@@ -125,7 +125,7 @@
 						_G[self:GetName().."Text"]:SetText(EA_XOPT_ICONPOSOPT);
 					</OnLoad>
 					<OnClick>
-						PlaySound("gsTitleOptionOK");
+						PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK);
 						EventAlert_Options_ToggleIconOptionsFrame();
 					</OnClick>
 				</Scripts>
@@ -302,7 +302,7 @@
 					</OnLeave>
 				</Scripts>
 			</CheckButton>
-			<CheckButton name="$parent_AlertSoundSelect" inherits="UIDropDownMenuTemplate">
+			<CheckButton name="$parent_AlertSoundSelect" inherits="Lib_UIDropDownMenuTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent_DoAlertSound" relativePoint="BOTTOMLEFT">
 						<Offset>
@@ -399,7 +399,7 @@
 						_G[self:GetName().."Text"]:SetText(EA_XOPT_SHOW_CLASSALERT);
 					</OnLoad>
 					<OnClick>
-						PlaySound("gsTitleOptionOK");
+						PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK);
 						EventAlert_Options_ToggleClassEventsFrame();
 					</OnClick>
 				</Scripts>
@@ -420,7 +420,7 @@
 						_G[self:GetName().."Text"]:SetText(EA_XOPT_SHOW_OTHERALERT);
 					</OnLoad>
 					<OnClick>
-						PlaySound("gsTitleOptionOK");
+						PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK);
 						EventAlert_Options_ToggleOtherEventsFrame();
 					</OnClick>
 				</Scripts>
@@ -441,7 +441,7 @@
 						_G[self:GetName().."Text"]:SetText(EA_XOPT_SHOW_TARGETALERT);
 					</OnLoad>
 					<OnClick>
-						PlaySound("gsTitleOptionOK");
+						PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK);
 						EventAlert_Options_ToggleTargetEventsFrame();
 					</OnClick>
 				</Scripts>
@@ -462,7 +462,7 @@
 						_G[self:GetName().."Text"]:SetText(EA_XOPT_SHOW_SCDALERT);
 					</OnLoad>
 					<OnClick>
-						PlaySound("gsTitleOptionOK");
+						PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK);
 						EventAlert_Options_ToggleSCDEventsFrame();
 					</OnClick>
 				</Scripts>
@@ -483,7 +483,7 @@
 						_G[self:GetName().."Text"]:SetText(EA_XOPT_SHOW_GROUPALERT);
 					</OnLoad>
 					<OnClick>
-						PlaySound("gsTitleOptionOK");
+						PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK);
 						EventAlert_Options_ToggleGroupEventsFrame();
 					</OnClick>
 				</Scripts>
@@ -504,7 +504,7 @@
 						_G[self:GetName().."Text"]:SetText(EA_XOPT_OKAY);
 					</OnLoad>
 					<OnClick>
-						PlaySound("gsTitleOptionOK");
+						PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK);
 						HideUIPanel(EA_Options_Frame);
 						EventAlert_Options_CloseAnchorFrames();
 					</OnClick>
@@ -1204,7 +1204,7 @@
 					</OnShow>
 					<OnClick>						
 						
-						if (GetNumSpecializations() == 3) then 
+						if (GetNumSpecializations() >= 3) then 
 							if (EA_GroupEventSetting_Frame_Talent3:GetChecked() == true) then
 								EA_GroupEventSetting_Frame_Talent3:SetChecked(true)
 							else

@@ -18,7 +18,7 @@ function BottomTab:OnClick()
 	local frame = self:GetParent():GetParent()
 
 	if frame.selectedTab ~= self:GetID() then
-		PlaySound('igCharacterInfoTab')
+		PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
 	end
 
 	frame.selTab = self:GetID()

@@ -10,8 +10,8 @@ Frame.ItemFrame = Addon.ItemFrame
 Frame.BagFrame = Addon.BagFrame
 Frame.MoneyFrame = Addon.MoneyFrame
 
-Frame.OpenSound = 'igBackPackOpen'
-Frame.CloseSound = 'igBackPackClose'
+Frame.OpenSound = SOUNDKIT.IG_BACKPACK_OPEN
+Frame.CloseSound = SOUNDKIT.IG_BACKPACK_CLOSE
 Frame.BrokerSpacing = 2
 
 

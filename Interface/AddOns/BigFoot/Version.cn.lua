@@ -1,6 +1,6 @@
 if GetLocale()~='zhCN' then return end
-local main= "7.2.0."
-local minor = "637"
+local main= "7.3.0."
+local minor = "656"
 BIGFOOT_VERSION = "zhCN"..main..minor;
 
 function GetMinorVersion()
@@ -8,6 +8,127 @@ function GetMinorVersion()
 end
 
 BigFootChangelog_ah();
+
+	BigFootChangelog_at("2017/09/01 (7.3.0.656)")
+	BigFootChangelog_ar("可接任务","升级至最新版本(091)。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(204)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.2.16688)。")
+
+
+	BigFootChangelog_at("2017/08/31 (7.3.0.655)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70300.01)。")
+	BigFootChangelog_ar("地图专家","修复阿古斯地图无法使用传送的问题。")
+
+
+	BigFootChangelog_at("2017/08/31 (7.3.0.654)")
+	BigFootChangelog_ar("大脚插件","修复版本更新引起的问题。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(200)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.1.16683)。")
+
+
+	BigFootChangelog_at("2017/08/31 (7.3.0.653)")
+	BigFootChangelog_ar("大脚插件","兼容至7.3版本。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(198)。")
+	BigFootChangelog_ar("地图专家","升级至最新版本(1.7.6)。")
+	BigFootChangelog_ar("要塞助手","升级至最新版本(0.109)。")
+	BigFootChangelog_ar("界面调整","升级至最新版本(4.7.10)。")
+	BigFootChangelog_ar("竞技语音","升级至最新版本(1.16.2)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.1.16679)。")
+	BigFootChangelog_ar("小地图美化","升级至最新版本(7.3.0)。")
+
+
+	BigFootChangelog_at("2017/08/24 (7.2.0.652)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(188)。")
+	BigFootChangelog_ar("伤害统计","升级至最新版本(7.2.5f)。")
+	BigFootChangelog_ar("诺米大厨","升级至最新版本(7.2.5.5)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.19.16643)。")
+
+
+	BigFootChangelog_at("2017/08/17 (7.2.0.651)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(184)。")
+	BigFootChangelog_ar("竞技助手","升级至最新版本(5.1.8)。")
+	BigFootChangelog_ar("秘境增强","升级至最新版本(0.12.6)。")
+	BigFootChangelog_ar("伤害统计","升级至最新版本(7.2.5e)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.18.16594)。")
+
+
+	BigFootChangelog_at("2017/08/10 (7.2.0.650)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(178)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.17.16570)。")
+
+
+	BigFootChangelog_at("2017/08/03 (7.2.0.649)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(174)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.17.16534)。")
+
+
+	BigFootChangelog_at("2017/07/27 (7.2.0.648)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(164)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.16.16506)。")
+
+
+	BigFootChangelog_at("2017/07/24 (7.2.0.647)")
+	BigFootChangelog_ar("技能触发","修复某些配置无法正常保存的问题。")
+	BigFootChangelog_ar("秘境增强","升级至最新版本(0.12.5)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.16.16494)。")
+
+
+	BigFootChangelog_at("2017/07/21 (7.2.0.646)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(160)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.15.16478)。")
+	BigFootChangelog_ar("技能触发","升级至最新版本(7.2.5.20170718)。")
+
+
+	BigFootChangelog_at("2017/07/14 (7.2.0.645)")
+	BigFootChangelog_ar("界面调整","升级至最新版本(4.7.9)。")
+	BigFootChangelog_ar("战斗统计","升级至最新版本(1.7.1)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.15.16454)。")
+
+
+	BigFootChangelog_at("2017/07/11 (7.2.0.644)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70200.05)。")
+	BigFootChangelog_ar("伤害统计","升级至最新版本(7.2.5b)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.14.16441)。")
+
+
+	BigFootChangelog_at("2017/07/06 (7.2.0.643)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(151)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.14.16418)。")
+
+
+	BigFootChangelog_at("2017/07/04 (7.2.0.642)")
+	BigFootChangelog_ar("要塞助手","升级至最新版本(0.108)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.13.16400)。")
+
+
+	BigFootChangelog_at("2017/06/30 (7.2.0.641)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(149)。")
+	BigFootChangelog_ar("小地图美化","升级至最新版本(7.2.1)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.12.16375)。")
+
+
+	BigFootChangelog_at("2017/06/28 (7.2.0.640)")
+	BigFootChangelog_ar("技能触发","修复职业资源无法显示的问题。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.12.16358)。")
+
+
+	BigFootChangelog_at("2017/06/27 (7.2.0.639)")
+	BigFootChangelog_ar("可接任务","升级至最新版本(089)。")
+	BigFootChangelog_ar("竞技语音","升级至最新版本(1.16)。")
+	BigFootChangelog_ar("战斗统计","升级至最新版本(1.6.8)。")
+	BigFootChangelog_ar("伤害统计","升级至最新版本(7.2.5a)。")
+	BigFootChangelog_ar("秘境增强","升级至最新版本(0.12.4)。")
+	BigFootChangelog_ar("一键驱散","升级至最新版本(2.7.5.3)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.11.16349)。")
+	BigFootChangelog_ar("技能触发","升级至最新版本(7.2.5.20170626)。")
+
+
+	BigFootChangelog_at("2017/06/22 (7.2.0.638)")
+	BigFootChangelog_ar("可接任务","升级至最新版本(088)。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(147)。")
+	BigFootChangelog_ar("诺米大厨","升级至最新版本(7.2.5.4)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.2.9.16297)。")
+
 
 	BigFootChangelog_at("2017/06/16 (7.2.0.637)")
 	BigFootChangelog_ar("集合石","升级至最新版本(70200.04)。")
@@ -490,4 +611,4 @@ BigFootChangelog_ah();
 BigFootChangelog_af();
 
 
-BF_VERSION_CHECKSUM = "54"
+BF_VERSION_CHECKSUM = "48"

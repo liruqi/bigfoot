@@ -151,6 +151,7 @@ L["Master"] = true
 L["SFX"] = true
 L["Ambience"] = true
 L["Music"] = true
+L["Dialog"] = true
 
 L["DPSDispel"] = true
 L["DPSDispel_Desc"] = true

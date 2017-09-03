@@ -10,7 +10,7 @@
 
                         parent.WrappedModelFrame:SetAnimation(148)
                         parent.UnwrapAnim:Play()
-                        PlaySound(&quot;UI_Store_Unwrap&quot;)
+                        PlaySound(SOUNDKIT.UI_STORE_UNWRAP)
 
                         C_Timer.After(0.8, function()
                             parent.ModelFrame:ApplySpellVisualKit(73393, true)

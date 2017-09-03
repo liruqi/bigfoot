@@ -15,9 +15,9 @@
 <Script file="modules\CC.lua"/>
 <Script file="modules\Tweaks.lua"/>
 <Script file="modules\Themes.lua"/>
-
-<Script file="modules\SkadaWindowButtons.lua"/>
 <Script file="modules\FriendlyFire.lua"/>
+
 <Script file="modules\ExplosiveOrbs.lua"/>
+<Script file="modules\SkadaWindowButtons.lua"/>
 </Ui>
 

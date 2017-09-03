@@ -253,7 +253,7 @@ function ChatEnhanceConfigFunc()
 			function()
 				if BigFoot_IsAddOnLoaded("BigFootChat")  then
 					BigFootChat:ShowOptions()
-					PlaySound("igMainMenuOption");
+					PlaySound(SOUNDKIT.IG_MAINMENU_OPTION);
 					HideUIPanel(ModManagementFrame);
 				end
 			end,

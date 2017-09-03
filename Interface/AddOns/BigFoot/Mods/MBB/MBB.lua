@@ -328,7 +328,7 @@ local function createIcon()
 		OnClick = function(frame,button)
 			if button =="RightButton" then
 				BToggleDropDownMenu(1, nil, BigFootMiniButtonDropDown, frame:GetName(), 10, 3);
-				PlaySound("UChatScrollButton");
+				PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 			elseif button=="LeftButton" then
 				toggleButtons()
 			end

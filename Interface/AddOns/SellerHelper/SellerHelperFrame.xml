@@ -287,7 +287,7 @@
 			</OnClick>
 		</Scripts>
 	</Button>
-	
+
 	<Button name="SellerHelperNotSellItemTemplate" virtual="true" hidden="true">
 		<Size>
 			<AbsDimension x="280" y="35"/>
@@ -823,7 +823,7 @@
 				</Frames>
 				<Scripts>
 					<OnShow>
-						PlaySound("igBackPackOpen");
+						PlaySound(SOUNDKIT.IG_BACKPACK_OPEN);
 						SetPortraitTexture(SellerHelperParentFramePortrait, "player");
 						AR_UpdatePanel()
 					</OnShow>
@@ -927,7 +927,7 @@
 					<Anchors>
 						<Anchor point="TOPLEFT">
 							<Offset>
-								<AbsDimension x="9" y="-6"/>			 
+								<AbsDimension x="9" y="-6"/>
 							</Offset>
 						</Anchor>
 					</Anchors>
@@ -1017,7 +1017,7 @@
 						</Anchors>
 						<Scripts>
 							<OnVerticalScroll>
-								NotSellerHelper_OnScroll(self, offset);			
+								NotSellerHelper_OnScroll(self, offset);
 							</OnVerticalScroll>
 						</Scripts>
 					</ScrollFrame>
@@ -1049,7 +1049,7 @@
 	      	<OnMouseUp>
 	        	SellerHelperSetFrame_OnMouseUp(self,button);
 	      	</OnMouseUp>
-			
+
 			<!--<OnKeyDown>
 				if key =="ESCAPE" then
 					self:Hide()

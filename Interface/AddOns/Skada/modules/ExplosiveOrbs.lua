@@ -1,5 +1,5 @@
 
-L = {};
+local L = {};
 
 L["Explosive Orbs"] = "Fel Explosive"
 L["Number of player spells"] = "Number of player spells"

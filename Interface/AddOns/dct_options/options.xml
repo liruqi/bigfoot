@@ -583,7 +583,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						PlaySound("gsTitleOptionOK");
+						PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK);
 						if ( ColorPickerFrame:IsVisible() ) then
 							ColorPickerFrame:Hide();
 						end						
@@ -603,7 +603,7 @@
 				</Anchors>
 				<Scripts>
 					<OnClick>
-						PlaySound("igMainMenuOptionCheckBoxOn");						
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);						
 						DCT_Reset();
 						DCT_Opani_CurFrameID = 1;
 						DCT_OptionsResetFuncRun();

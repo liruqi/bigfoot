@@ -17,12 +17,12 @@ function Panel:Constructor()
 end
 
 function Panel:OnShow()
-    PlaySound('igCharacterInfoOpen')
+    PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN)
     self:UpdateTab()
 end
 
 function Panel:OnHide()
-    PlaySound('igCharacterInfoClose')
+    PlaySound(SOUNDKIT.IG_CHARACTER_INFO_CLOSE)
 end
 
 function Panel:HidePortrait()

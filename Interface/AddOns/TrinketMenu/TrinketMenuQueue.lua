@@ -213,11 +213,11 @@ function TrinketMenu.SortValidate()
 		if selected <= idx then
 			offset = (selected==1) and 0 or (parent:GetValue() - (parent:GetHeight() / 2))
 			parent:SetValue(offset)
-			PlaySound("UChatScrollButton")
+			PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON)
 		elseif selected >= (idx+10) then
 			offset = (selected==#(list)) and TrinketMenu_SortScroll:GetVerticalScrollRange() or (parent:GetValue() + (parent:GetHeight() / 2))
 			parent:SetValue(offset)
-			PlaySound("UChatScrollButton");
+			PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 		end
 	end
 end
@@ -492,7 +492,6 @@ function TrinketMenu.ShowProfiles(show)
 end
 
 function TrinketMenu.ProfilesFrame_OnHide()
-	PlaySound("GAMEGENERICBUTTONPRESS")
 	TrinketMenu.ResetProfileSelected()
 	TrinketMenu.ShowProfiles(nil)
 end

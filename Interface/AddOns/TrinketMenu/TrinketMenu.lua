@@ -1032,9 +1032,7 @@ function TrinketMenu.UpdateCombatQueue()
 end
 
 --[[ Notify ]]
-
 function TrinketMenu.Notify(msg)
-	PlaySound("GnomeExploration")
 	if SCT_Display then -- send via SCT if it exists
 		SCT_Display(msg,{r=.2,g=.7,b=.9})
 	elseif SHOW_COMBAT_TEXT=="1" then

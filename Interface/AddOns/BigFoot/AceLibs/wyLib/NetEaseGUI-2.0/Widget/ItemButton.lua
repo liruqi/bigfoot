@@ -30,7 +30,7 @@ function ItemButton:FireHandler(name, ...)
 end
 
 function ItemButton:OnClick(button)
-    PlaySound('igMainMenuOptionCheckBoxOn')
+    PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
     if not self:GetOwner() then
         return
     end

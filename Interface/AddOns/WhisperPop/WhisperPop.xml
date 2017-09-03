@@ -20,7 +20,7 @@
 				WP_UpdateButtonSide(DEFAULT_CHAT_FRAME);
 			</OnLoad>
 			<OnClick>
-				PlaySound("igChatEmoteButton");
+				PlaySound(SOUNDKIT.IG_CHAT_EMOTE_BUTTON);
 				if (WhisperPopFrame:IsShown()) then
 					WhisperPopFrame:Hide();
 				else

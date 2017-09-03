@@ -368,14 +368,6 @@ function mod:ADDON_LOADED(addon)
 
 		mod.frame:UnregisterEvent("PLAYER_LOGIN")
 		mod.PLAYER_LOGIN = nil
-
-		-- XXX temp, kill the tracker fix addon
-		local _, exists = GetAddOnInfo("SexyMapTrackerButtonFix")
-		if exists then
-			C_Timer.After(5, function()
-				message("SexyMapTrackerButtonFix: I'm no longer needed, please remove this addon.")
-			end)
-		end
 	end
 end
 

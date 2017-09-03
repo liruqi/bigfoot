@@ -1,4 +1,4 @@
-﻿## Interface: 70200
+﻿## Interface: 70300
 ## Title: [BF] AutoEquip
 ## Title-zhCN: [大脚]装备管理
 ## Title-zhTW: [大腳]裝備管理

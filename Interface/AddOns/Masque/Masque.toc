@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: Masque
 ## Title-zhCN: [大脚][集]动作条美化
 ## Title-zhTW: [大腳][集]動作條美化

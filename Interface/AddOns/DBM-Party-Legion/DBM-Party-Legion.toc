@@ -1,4 +1,4 @@
-﻿## Interface: 70200
+﻿## Interface: 70300
 ## X-Min-Interface: 70200
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r Party-Legion
 ## Title-zhCN:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r 五人副本-军团再临
@@ -14,12 +14,12 @@
 ## X-DBM-Mod-Category: LEG
 ## X-DBM-Mod-Has-Challenge: 1
 ## X-DBM-Mod-Has-Mythic : 1
-## X-DBM-Mod-SubCategoriesID: 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677
+## X-DBM-Mod-SubCategoriesID: 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
 ## X-DBM-Mod-Name: Party (Legion)
 ## X-DBM-Mod-Name-zhTW: 隊伍首領 (軍臨天下)
 ## X-DBM-Mod-Name-zhCN: 队伍首领(军团再临)
 ## X-DBM-Mod-Sort: 060
-## X-DBM-Mod-MapID: 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677
+## X-DBM-Mod-MapID: 1501, 1466, 1456, 1477, 1458, 1516, 1571, 1492, 1544, 1493, 1651, 1677, 1753
 ## X-DBM-Mod-MinCoreRevision: 14737
 ## X-Revision: BigFoot
 
@@ -111,3 +111,9 @@ CathedralofEternalNight\Thrashbite.lua
 CathedralofEternalNight\Domatrax.lua
 CathedralofEternalNight\Mephistroth.lua
 CathedralofEternalNight\CoENTrash.lua
+
+SeatofTriumvirate\Zuraal.lua
+SeatofTriumvirate\Saprish.lua
+SeatofTriumvirate\ViceroyNezhar.lua
+SeatofTriumvirate\Lura.lua
+SeatofTriumvirate\SoTTrash.lua

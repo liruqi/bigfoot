@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: Archy - Archaeology Assistant
 ## Title-zhCN: [大脚][集]考古学助手
 ## Title-zhTW: [大腳][集]考古學助手

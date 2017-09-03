@@ -208,7 +208,7 @@ function CombatIndicatorConfigFunc()
 			function()
 				if (BigFoot_IsAddOnLoaded("dct") and BigFoot_HasAddon("dct_options")) then
 					DCT_showMenu();
-					PlaySound("igMainMenuOption");
+					PlaySound(SOUNDKIT.IG_MAINMENU_OPTION);
 					HideUIPanel(ModManagementFrame);
 				end
 			end,

@@ -194,7 +194,7 @@
 						</Texture>
 					</Layer>
 				</Layers>
-	
+
 				<ScrollChild>
 					<SimpleHTML name="BigFootReaderText">
 						<Size>
@@ -330,7 +330,7 @@
 			</OnLoad>
 			<OnShow>
 				if (not self.denySound) then
-					PlaySound("igMainMenuOption");
+					PlaySound(SOUNDKIT.IG_MAINMENU_OPTION);
 					self.denySound = nil;
 				end
 				if BigfootNewMainFrame and  BigfootNewMainFrame:IsShown() then
@@ -341,7 +341,7 @@
 			</OnShow>
 			<OnHide>
 				if (not self.denySound) then
-					PlaySound("gsTitleOptionExit");
+					PlaySound(SOUNDKIT.GS_TITLE_OPTION_EXIT);
 					self.denySound = nil;
 				end
 			</OnHide>

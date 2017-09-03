@@ -321,7 +321,7 @@ function Bag:OnClick(button)
 			elseif bagID == REAGENTBANK_CONTAINER or bagID > (GetNumBankSlots() + 4) then
 				self:PurchaseSlot()
 			elseif bagID > 0 then
-				PlaySound('BAGMENUBUTTONPRESS')
+				-- PlaySound('BAGMENUBUTTONPRESS')
 				PickupBagFromSlot(InvData:GetInvSlot(bagID))
 			end
 		end
@@ -334,7 +334,7 @@ function Bag:OnDrag()
 	local bagID = self:GetID()
 
 	if not(InvData:IsCachedBag(bagID, player) or bagID <= 0) then
-		PlaySound('BAGMENUBUTTONPRESS')
+		-- PlaySound('BAGMENUBUTTONPRESS')
 		PickupBagFromSlot(InvData:GetInvSlot(bagID))
 	end
 end
@@ -519,7 +519,7 @@ end
 
 --show the purchase slot dialog
 function Bag:PurchaseSlot()
-	PlaySound('igMainMenuOption')
+	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION)
 	if self:GetID() == REAGENTBANK_CONTAINER then
 		if not IsReagentBankUnlocked() then
 			StaticPopup_Show('CONFIRM_BUY_REAGENTBANK_TAB')

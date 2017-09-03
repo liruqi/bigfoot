@@ -27,7 +27,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 			<PostClick>
 				if (self.func) then
 					self.func(button, self.arg1, self.arg2, self.arg3);
-					PlaySound("UChatScrollButton");
+					PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 				end
 				PlayerLink_Hide();
 				HideDropDownMenu(1);

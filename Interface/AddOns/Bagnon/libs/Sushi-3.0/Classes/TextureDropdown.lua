@@ -153,7 +153,7 @@ end
 --[[ Other ]]--
 
 function TexDrop:OnClick()
-	PlaySound('igMainMenuOptionCheckBoxOn')
+	PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 	DropList:ClearAllPoints()
 
 	if not DropList:IsShown() or DropList.parent ~= self then

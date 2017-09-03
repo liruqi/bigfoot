@@ -1,4 +1,4 @@
-﻿## Interface: 70200
+﻿## Interface: 70300
 ## Title: [BF] SpellTimer
 ## Title-zhCN: [大脚]法术计时器
 ## Title-zhTW: [大腳]法術計時器

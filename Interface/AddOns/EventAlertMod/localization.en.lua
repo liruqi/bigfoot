@@ -52,8 +52,8 @@ EA_TTIP_SPECFLAG_CHECK_DEMONICFURY = "Show Demonic Fury in the left 1st position
 EA_TTIP_SPECFLAG_CHECK_BURNINGEMBERS = "Show Burning Embers in the left 1st position of Self-Buffs";--  ¤ä´©¿U¤õ¾lÂu
 EA_TTIP_SPECFLAG_CHECK_ARCANECHARGES = "Show Arcane Charges in the left 1st position of Self-Buffs";--  Support Mage's Arcane Charges
 EA_TTIP_SPECFLAG_CHECK_MAELSTROM = "Show Maelstrom in the left 1st position of Self-Buffs";			--  Support Shaman's Maelstrom
-EA_TTIP_SPECFLAG_CHECK_FURY = "Show Fury in the left 1st position of Self-Buffs";					--  Support Demonhunter's Fury 
-EA_TTIP_SPECFLAG_CHECK_PAIN = "Show Pain in the left 1st position of Self-Buffs";					--  Support Demonhunter's Pain 
+EA_TTIP_SPECFLAG_CHECK_FURY = "Show Fury in the left 1st position of Self-Buffs";					--  Support Demonhunter's Fury
+EA_TTIP_SPECFLAG_CHECK_PAIN = "Show Pain in the left 1st position of Self-Buffs";					--  Support Demonhunter's Pain
 
 EA_TTIP_GRPCFG_ICONALPHA = "Change the alpha value of this Icon";
 EA_TTIP_GRPCFG_TALENT = "Only active at this spec.";
@@ -181,7 +181,7 @@ EA_XGRPALERT_UNITTYPES = {
 	[5]={text="Boss 1", value="boss1"},
 	[6]={text="Boss 2", value="boss2"},
 	[7]={text="Boss 3", value="boss3"},
-	[8]={text="Boss 4", value="boss4"}, 
+	[8]={text="Boss 4", value="boss4"},
 	[9]={text="Party 1", value="party1"},
 	[10]={text="Party 2", value="party2"},
 	[11]={text="Party 3", value="party3"},
@@ -292,53 +292,12 @@ EA_XCMD_CMDHELP = {
 	},
 }
 
-EA_XOPT_SPECFLAG_HOLYPOWER = "HolyP ower";
-EA_XOPT_SPECFLAG_RUNICPOWER = "Runic Power";
-EA_XOPT_SPECFLAG_RUNES = "Runes";
-EA_XOPT_SPECFLAG_SOULSHARDS = "Soul Shards";
-EA_XOPT_SPECFLAG_LUNARPOWER = "Lunar Power";
-EA_XOPT_SPECFLAG_COMBOPOINT = "Combo Points";
-EA_XOPT_SPECFLAG_LIFEBLOOM = "Life Bloom";
-EA_XOPT_SPECFLAG_INSANITY = "Insanity";	
-EA_XOPT_SPECFLAG_RAGE = "Rage";
-EA_XOPT_SPECFLAG_ENERGY = "Energy";
-EA_XOPT_SPECFLAG_FOCUS = "Focus";
-EA_XOPT_SPECFLAG_LIGHTFORCE = "Chi";		--5.1   support display texts for Chi of Monk
-EA_XOPT_SPECFLAG_BURNINGEMBERS = "Burning Embers";
-EA_XOPT_SPECFLAG_DEMONICFURY = "Demonic Fury";
-EA_XOPT_SPECFLAG_ARCANECHARGES = "Arcane Charges";
-EA_XOPT_SPECFLAG_MAELSTROM = "Maelstrom";
-EA_XOPT_SPECFLAG_FURY = "Fury";
-EA_XOPT_SPECFLAG_Pain = "Pain";
-
-EA_XGRPALERT_POWERTYPE = "PowerType:";
-EA_XGRPALERT_POWERTYPES = {
-	[1]={text="Mana", value=EA_SPELL_POWER_MANA},
-	[2]={text="Rage", value=EA_SPELL_POWER_RAGE},
-	[3]={text="Focus", value=EA_SPELL_POWER_FOCUS},
-	[4]={text="Energy", value=EA_SPELL_POWER_ENERGY},
-	[5]={text="Runes", value=EA_SPELL_POWER_RUNES},
-	[6]={text="Runic Power", value=EA_SPELL_POWER_RUNIC_POWER},
-	[7]={text="Soul Shards", value=EA_SPELL_POWER_SOUL_SHARDS},
-	[8]={text="Lunar Power", value=EA_SPELL_POWER_LUNAR_POWER},
-	[9]={text="Holy Power", value=EA_SPELL_POWER_HOLY_POWER},
-	[10]={text="Chi", value=EA_SPELL_POWER_LIGHT_FORCE},				--5.1   support Chi of Monk.
-	[11]={text="Insanity", value=EA_SPELL_POWER_INSANITY},		
-	[12]={text="Burning Embers", value=EA_SPELL_POWER_BURNING_EMBERS},
-	[13]={text="Demonic Fury", value=EA_SPELL_POWER_DEMONIC_FURY},
-	[14]={text="Arcane Charges", value=EA_SPELL_POWER_ARCANE_CHARGES},
-	[15]={text="Maelstrom", value=EA_SPELL_POWER_MAELSTROM},
-	[16]={text="Fury", value=EA_SPELL_POWER_FURY},
-	[17]={text="Pain", value=EA_SPELL_POWER_PAIN},
-};
-
+EA_XSPECINFO_MANA = "Mana";
 EA_XSPECINFO_COMBOPOINT = "Combo Point";
 EA_XSPECINFO_RUNICPOWER	= "Runic Power";
 EA_XSPECINFO_RUNES	= "Runes";
 EA_XSPECINFO_SOULSHARDS	= "Soul Shards";
 EA_XSPECINFO_LUNARPOWER	= "Lunar Power";		--7.0  support Lunar Power of Balance Druid.
---EA_XSPECINFO_ECLIPSE	= "Eclipse(Luna)";
---EA_XSPECINFO_ECLIPSEORG	= "Eclipse(Solar)";
 EA_XSPECINFO_HOLYPOWER	= "Holy Power";
 EA_XSPECINFO_INSANITY= "Insanity";				--7.0  support Insanity of Shadow PRIEST.
 EA_XSPECINFO_ENERGY= "Energy";
@@ -350,5 +309,44 @@ EA_XSPECINFO_ARCANE_CHARGES= "Arcane Charges";		--7.0   support Arcane Charges o
 EA_XSPECINFO_MAELSTROM= "Maelstrom";				--7.0   support Maelstrom of Shaman.
 EA_XSPECINFO_FURY= "Fury";							--7.0   support Fury of Demonhunter
 EA_XSPECINFO_PAIN= "Pain";							--7.0   support Pain of Demonhunter
+
+EA_XOPT_SPECFLAG_MANA = EA_XSPECINFO_MANA;
+EA_XOPT_SPECFLAG_HOLYPOWER = EA_XSPECINFO_HOLYPOWER;
+EA_XOPT_SPECFLAG_RUNICPOWER = EA_XSPECINFO_RUNICPOWER;
+EA_XOPT_SPECFLAG_RUNES = EA_XSPECINFO_RUNES;
+EA_XOPT_SPECFLAG_SOULSHARDS = EA_XSPECINFO_SOULSHARDS;
+EA_XOPT_SPECFLAG_LUNARPOWER = EA_XSPECINFO_LUNARPOWER;
+EA_XOPT_SPECFLAG_COMBOPOINT = EA_XSPECINFO_COMBOPOINT;
+EA_XOPT_SPECFLAG_LIFEBLOOM = "LifeBloom";
+EA_XOPT_SPECFLAG_INSANITY = EA_XSPECINFO_INSANITY;
+EA_XOPT_SPECFLAG_RAGE = EA_XSPECINFO_RAGE;
+EA_XOPT_SPECFLAG_ENERGY = EA_XSPECINFO_ENERGY;
+EA_XOPT_SPECFLAG_FOCUS = EA_XSPECINFO_FOCUS;
+EA_XOPT_SPECFLAG_FOCUS_PET = EA_XSPECINFO_FOCUS_PET;
+EA_XOPT_SPECFLAG_LIGHTFORCE = EA_XSPECINFO_LIGHTFORCE;
+EA_XOPT_SPECFLAG_ARCANECHARGES = EA_XSPECINFO_ARCANECHARGES;
+EA_XOPT_SPECFLAG_MAELSTROM = EA_XSPECINFO_MAELSTROM;
+EA_XOPT_SPECFLAG_FURY = EA_XSPECINFO_FURY;
+EA_XOPT_SPECFLAG_PAIN = EA_XSPECINFO_PAIN;
+
+EA_XGRPALERT_POWERTYPE = "PowerType:";
+EA_XGRPALERT_POWERTYPES = {
+	[1]={text=EA_XSPECINFO_MANA, value=EA_SPELL_POWER_MANA},
+	[2]={text=EA_XSPECINFO_RAGE, value=EA_SPELL_POWER_RAGE},
+	[3]={text=EA_XSPECINFO_FOCUS, value=EA_SPELL_POWER_FOCUS},
+	[4]={text=EA_XSPECINFO_COMBOPOINT, value=EA_SPELL_POWER_COMBO_POINT},
+	[5]={text=EA_XSPECINFO_ENERGY, value=EA_SPELL_POWER_ENERGY},
+	[6]={text=EA_XSPECINFO_RUNES, value=EA_SPELL_POWER_RUNES},
+	[7]={text=EA_XSPECINFO_RUNICPOWER, value=EA_SPELL_POWER_RUNIC_POWER},
+	[8]={text=EA_XSPECINFO_SOULSHARDS, value=EA_SPELL_POWER_SOUL_SHARDS},
+	[9]={text=EA_XSPECINFO_LUNARPOWER, value=EA_SPELL_POWER_LUNAR_POWER},
+	[10]={text=EA_XSPECINFO_HOLYPOWER, value=EA_SPELL_POWER_HOLY_POWER},
+	[11]={text=EA_XSPECINFO_LIGHTFORCE, value=EA_SPELL_POWER_LIGHT_FORCE},
+	[12]={text=EA_XSPECINFO_INSANITY, value=EA_SPELL_POWER_INSANITY},
+	[13]={text=EA_XSPECINFO_ARCANECHARGES, value=EA_SPELL_POWER_ARCANE_CHARGES},
+	[14]={text=EA_XSPECINFO_MAELSTROM, value=EA_SPELL_POWER_MAELSTROM},
+	[15]={text=EA_XSPECINFO_FURY, value=EA_SPELL_POWER_FURY},
+	[16]={text=EA_XSPECINFO_PAIN, value=EA_SPELL_POWER_PAIN},
+};
 
 end		-- End Of If

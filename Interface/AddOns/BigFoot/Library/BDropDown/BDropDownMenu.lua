@@ -580,7 +580,7 @@ function BDropDownMenuButton_OnClick(self)
 		return;
 	end
 
-	PlaySound("UChatScrollButton");
+	PlaySound(SOUNDKIT.U_CHAT_SCROLL_BUTTON);
 end
 
 function BHideDropDownMenu(level)

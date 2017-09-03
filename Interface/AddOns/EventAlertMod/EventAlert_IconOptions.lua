@@ -70,7 +70,6 @@ function EventAlert_Icon_Options_Frame_ToggleAlertFrame()
 	end
 end
 
-
 function EventAlert_Icon_Options_Frame_SetAlertFrameText(eaf, spellName, toSetTextAndShow)
 	if (eaf ~= nil) then
 		if (toSetTextAndShow) then
@@ -308,7 +307,6 @@ function EventAlert_Icon_Options_Frame_ResetFrame()
 	end
 end
 
-
 function EventAlert_Icon_Options_Frame_MouseDown(button)
 	if button == "LeftButton" then
 		-- EA_Icon_Options_Frame:StartMoving();
@@ -415,53 +413,3 @@ function EventAlert_Icon_Options_Frame_Anchor_OnMouseUp3()
 	EA_Position.Scd_xOffset = EA_x6Ofs;
 	EA_Position.Scd_yOffset = EA_y6Ofs;
 end
-
-
--- function EventAlert_Icon_Options_Frame_DirectSelect_OnLoad(DropDown, DropTypeIndex)
--- 	local function MyDropDownClick(self)
--- 		EventAlert_Icon_Options_Frame_DirectSelect_OnClick(self, DropDown, DropTypeIndex);
--- 	end
---
--- 	local function MyDropDownInit()
--- 		local selectedValue = UIDropDownMenu_GetSelectedValue(DropDown);
--- 		if selectedValue == nil then selectedValue = 0 end;
--- 		local function AddItem(text, value)
--- 			local info = {};
--- 			info.text = text;
--- 			info.func = MyDropDownClick;
--- 			info.value = value;
--- 			info.checked = false;
--- 			if (info.value == selectedValue) then
--- 				info.checked = true;
--- 			end
--- 			-- info.checked = checked
--- 			UIDropDownMenu_AddButton(info)
--- 		end
--- 		AddItem(EA_XICON_DIRLEFT, 1);
--- 		AddItem(EA_XICON_DIRRIGHT, 2);
--- 		AddItem(EA_XICON_DIRUP, 3);
--- 		AddItem(EA_XICON_DIRDOWN, 4);
--- 	end
---
--- 	UIDropDownMenu_Initialize(DropDown, MyDropDownInit);
--- 	if (DropTypeIndex == 1) then
--- 		UIDropDownMenu_SetSelectedID(DropDown,  EA_Position.IconDropDown1);
--- 	elseif (DropTypeIndex == 2) then
--- 		UIDropDownMenu_SetSelectedID(DropDown,  EA_Position.IconDropDown2);
--- 	elseif (DropTypeIndex == 3) then
--- 		UIDropDownMenu_SetSelectedID(DropDown,  EA_Position.IconDropDown3);
--- 	end
--- end
---
--- function EventAlert_Icon_Options_Frame_DirectSelect_OnClick(self, DropDown, DropTypeIndex)
--- 	local SelValue = self.value;
--- 	if SelValue == nil then SelValue = 0 end;
--- 	UIDropDownMenu_SetSelectedValue(DropDown, SelValue);
--- 	if (DropTypeIndex == 1) then
--- 		EA_Position.IconDropDown1 = SelValue;
--- 	elseif (DropTypeIndex == 2) then
--- 		EA_Position.IconDropDown2 = SelValue;
--- 	elseif (DropTypeIndex == 3) then
--- 		EA_Position.IconDropDown3 = SelValue;
--- 	end
--- end

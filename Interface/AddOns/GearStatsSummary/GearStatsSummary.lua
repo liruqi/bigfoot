@@ -545,18 +545,6 @@ function GearStatsSummary_Sum(inspecting, tipUnit)
 				not2hand = true
 			end
 
-		-- if GSS_Mode then
-			-- for k,v in pairs(stats) do --newitemStat
-			-- --if i == INVSLOT_MAINHAND then print(k..":"..v) end
-				-- if(k~="itemType" and k~="link" and k~="Gems" and k~="Enchanted" and k~="Set") then
-					-- --if (k=="ITEM_MOD_STAMINA_SHORT") then print(v) end
-					-- if(not sum[k]) then sum[k] = 0 end
-					-- sum[k] = sum[k] + v;
-				-- end
-			-- end
-		-- end
-------
-
 			if iSet then
 				if not GSSJTNum[iSet] then GSSJTNum[iSet] = 1 else GSSJTNum[iSet] = GSSJTNum[iSet] + 1 end
 			end
@@ -605,15 +593,19 @@ function GearStatsSummary_Sum(inspecting, tipUnit)
 				end
 			end
 
-			for slot, shortname in next, RATING_SUMMARY_ENCHANTABLES do
-				if i == slot then
+			if RATING_SUMMARY_ENCHANTABLES[i] then
+				local isArtifact;
+				if i == INVSLOT_MAINHAND and quality == 6 then
+					isArtifact = true;
+				end
+				if not isArtifact then
 					if sum["CanEnchant"] == nil then sum["CanEnchant"] = 0 end
 					if sum["HasEnchant"] == nil then sum["HasEnchant"] = 0 end
 					sum["CanEnchant"] = sum["CanEnchant"] + 1
 					if stats["Enchanted"] then
 						sum["HasEnchant"] = sum["HasEnchant"] + 1
 					else
-						sum["EnchantMissing"] = sum["EnchantMissing"]..shortname
+						sum["EnchantMissing"] = sum["EnchantMissing"]..RATING_SUMMARY_ENCHANTABLES[i]
 					end
 				end
 			end

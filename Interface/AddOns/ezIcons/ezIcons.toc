@@ -1,4 +1,4 @@
-﻿## Interface: 70200
+﻿## Interface: 70300
 ## Title: Marking Helper
 ## Title-zhCN: [大脚]标记助手
 ## Title-zhTW: [大腳]標記助手

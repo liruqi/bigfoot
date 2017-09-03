@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Title: Bagnon Config
 ## Title-zhCN: [大脚][集]整合背包-设置
 ## Title-zhTW: [大腳][集]整合背包-設置

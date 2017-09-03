@@ -200,7 +200,7 @@ function PartyModConfigFunc()
 						BigFoot_LoadAddOn("BFQuest");
 					end
 					StaticPopup_Show("TEAMNOTICE_PARTY_COMMENT");
-					PlaySound("igMainMenuOption");
+					PlaySound(SOUNDKIT.IG_MAINMENU_OPTION);
 					HideUIPanel(ModManagementFrame);
 				end,
 				nil,
@@ -234,7 +234,7 @@ function PartyModConfigFunc()
 						BigFoot_LoadAddOn("BFQuest");
 					end
 					StaticPopup_Show("TEAMNOTICE_SET_COMMENT");
-					PlaySound("igMainMenuOption");
+					PlaySound(SOUNDKIT.IG_MAINMENU_OPTION);
 					HideUIPanel(ModManagementFrame);
 				end,
 				nil,

@@ -427,4 +427,11 @@ L["Window height"] = "視窗的高度"
 L["Windows"] = "視窗"
 L["Wipe mode"] = "清除模組"
 L["Yes"] = "是"
+L["Multistrike"] = "Multistrike"
 
+L["Friendly Fire"] = "隊友誤傷"
+L["List of players damaged"] = "傷害玩家列表"
+L["List of damaging spells"] = "傷害法術列表"
+L["spells"] = "法術"
+L["targets"] = "目標"
+L["Shows damage done on players by friendly players."] = true

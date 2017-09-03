@@ -294,7 +294,7 @@ function DCT_showMenu()
 		DCT_optionsloaded = LoadAddOn("dct_options")
 	end
 	if DCT_optionsloaded then
-		PlaySound("igMainMenuOpen");
+		PlaySound(SOUNDKIT.IG_MAINMENU_OPEN);
 
 		local k,v
 		for k,v in pairs(DCT_ModOptionList) do
@@ -317,7 +317,6 @@ end
 --Hide the Option Menu
 function DCT_hideMenu()
 	if DCT_Options then
-		--PlaySound("igMainMenuClose");
 		HideUIPanel(DCT_Options);
 	end
 end
