@@ -696,9 +696,9 @@ function HPetAllInfoFrame:Init()
 		rarityslider:Show()
 		isChecked = self:GetChecked()
 		if isChecked then
-			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
 		else
-			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
+			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 		end
 		HPetAllInfoFrame.lockrarity = isChecked or false
 	end)
@@ -777,6 +777,7 @@ function HPetAllInfoFrame:CreateSlider(name,dtype)
 	end)
 	button:SetScript("OnClick",function()
 		if tempSlider:IsShown() then
+			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF);
 			tempSlider:Hide()
 		else
 			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);

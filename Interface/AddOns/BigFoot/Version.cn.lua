@@ -1,6 +1,6 @@
 if GetLocale()~='zhCN' then return end
 local main= "7.3.0."
-local minor = "656"
+local minor = "659"
 BIGFOOT_VERSION = "zhCN"..main..minor;
 
 function GetMinorVersion()
@@ -8,6 +8,23 @@ function GetMinorVersion()
 end
 
 BigFootChangelog_ah();
+
+	BigFootChangelog_at("2017/09/08 (7.3.0.659)")
+	BigFootChangelog_ar("宠物助手","升级至最新版本(2.2.12)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.3.16709)。")
+
+
+	BigFootChangelog_at("2017/09/05 (7.3.0.658)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70300.02)。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(218)。")
+
+
+	BigFootChangelog_at("2017/09/04 (7.3.0.657)")
+	BigFootChangelog_ar("头像增强","尝试修复目标框体显示不正确的问题。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(216)。")
+	BigFootChangelog_ar("伤害统计","升级至最新版本(7.3.0b)。")
+	BigFootChangelog_ar("一键驱散","升级至最新版本(2.7.5.6)。")
+
 
 	BigFootChangelog_at("2017/09/01 (7.3.0.656)")
 	BigFootChangelog_ar("可接任务","升级至最新版本(091)。")
@@ -611,4 +628,4 @@ BigFootChangelog_ah();
 BigFootChangelog_af();
 
 
-BF_VERSION_CHECKSUM = "48"
+BF_VERSION_CHECKSUM = "63"

@@ -8,8 +8,8 @@
 ## Author: Qshine
 ## Author-zhCN: 上官晓雾
 ## Author-zhTW: 上官曉霧
-## X-Date: 2017-03-30
-## Version: 2.2.11
+## X-Date: 2017-09-07
+## Version: 2.2.12
 ## SavedVariables: HPetSaves
 ## Dependencies: BigFoot
 ## X-Revision: BigFoot

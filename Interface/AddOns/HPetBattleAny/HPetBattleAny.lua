@@ -92,7 +92,9 @@ HPetBattleAny.AutoHideShowfrmae={
 --------这里可以修改声音文件
 function HPetBattleAny:PlaySoundFile(t)
 	if t=="pvp" then
-		PlaySound(SOUNDKIT.IG_PLAYER_INVITE);	----PVP提示声
+		PlaySound(SOUNDKIT.IG_PLAYER_INVITE, "Master");	----PVP提示声
+	else
+		PlaySoundFile([[Sound\Events\scourge_horn.ogg]], "Master" ); 
 	end
 end
 

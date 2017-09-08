@@ -277,9 +277,13 @@ local function __BUnitFrame_SetTheme(__frame, __theme)
 end
 
 local function __BUnitFrame_Update(__frame, __part)
-
 	if (not __frame.unit) then
 		return;
+	end
+
+	if (__frame.portrait) then
+		-- Update portrait
+		SetPortraitTexture(__frame.portrait, __frame.unit);
 	end
 
 	if (not __part) then
@@ -291,11 +295,6 @@ local function __BUnitFrame_Update(__frame, __part)
 		local tmp = __part;
 		__part = {};
 		__part[tmp] = true;
-	end
-
-	if (__part["portrait"] or __part["all"]) then
-		-- Update portrait
-		SetPortraitTexture(__frame.portrait, __frame.unit);
 	end
 
 	if (__part["flag"] or __part["all"]) then
@@ -629,8 +628,8 @@ function BUnitFrame_OnEvent(self, event, ...)
 
 	local __unit = ...;
 
-	if not self.unit then self.unit ="target" end
-	if not __unit then __unit ="target" end
+	if not self.unit then self.unit ="" end
+	if not __unit then __unit ="" end
 
 	-- 仅更新选择选定的unit
 	if (string.sub(event, 1, 4) == "UNIT" and not UnitIsUnit(__unit, self.unit)) then
