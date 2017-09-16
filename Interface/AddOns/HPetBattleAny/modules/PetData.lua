@@ -1,6 +1,6 @@
 --[[
 BattlePetBreedID: Pet Data Module
-Last Update: Patch 7.3.0 Live; 2017-09-06T12:36:37Z
+Last Update: Patch 7.3.0 Live; 2017-09-13T23:54:59Z
 
 If you would like a copy of this data in a different format for your own purposes or to be informed of future updates:
 Contact MMOSimca / Simca@Malfurion - either through MMO-Champion, through Curse, or in-game
@@ -2108,7 +2108,7 @@ function BPBID_Arrays.InitializeArrays()
     BPBID_Arrays.BasePetStats[2059] = false
     BPBID_Arrays.BasePetStats[2060] = false
     BPBID_Arrays.BasePetStats[2061] = {8, 8, 8}
-    BPBID_Arrays.BasePetStats[2062] = false
+    BPBID_Arrays.BasePetStats[2062] = {7.5, 8, 8.5}
     BPBID_Arrays.BasePetStats[2063] = {7.5, 8, 8.5}
     BPBID_Arrays.BasePetStats[2064] = {8.25, 7.75, 8}
     BPBID_Arrays.BasePetStats[2065] = {8, 8, 8}
@@ -4247,7 +4247,7 @@ function BPBID_Arrays.InitializeArrays()
     BPBID_Arrays.BreedsPerSpecies[2059] = false
     BPBID_Arrays.BreedsPerSpecies[2060] = false
     BPBID_Arrays.BreedsPerSpecies[2061] = false
-    BPBID_Arrays.BreedsPerSpecies[2062] = false
+    BPBID_Arrays.BreedsPerSpecies[2062] = {8}
     BPBID_Arrays.BreedsPerSpecies[2063] = {4, 5, 12}
     BPBID_Arrays.BreedsPerSpecies[2064] = {8}
     BPBID_Arrays.BreedsPerSpecies[2065] = {3, 4, 5}
@@ -4298,7 +4298,7 @@ function BPBID_Arrays.InitializeArrays()
     BPBID_Arrays.BreedsPerSpecies[2110] = {3}
     BPBID_Arrays.BreedsPerSpecies[2111] = {3}
     BPBID_Arrays.BreedsPerSpecies[2112] = {3}
-    BPBID_Arrays.BreedsPerSpecies[2113] = false
+    BPBID_Arrays.BreedsPerSpecies[2113] = {8}
     BPBID_Arrays.BreedsPerSpecies[2114] = false
     BPBID_Arrays.BreedsPerSpecies[2115] = {12}
     BPBID_Arrays.BreedsPerSpecies[2116] = {9}
