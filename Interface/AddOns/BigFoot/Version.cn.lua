@@ -1,6 +1,6 @@
 if GetLocale()~='zhCN' then return end
 local main= "7.3.0."
-local minor = "660"
+local minor = "661"
 BIGFOOT_VERSION = "zhCN"..main..minor;
 
 function GetMinorVersion()
@@ -8,6 +8,12 @@ function GetMinorVersion()
 end
 
 BigFootChangelog_ah();
+
+	BigFootChangelog_at("2017/09/21 (7.3.0.661)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(245)。")
+	BigFootChangelog_ar("考古助手","升级至最新版本(7.3.0.1)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.3.16724)。")
+
 
 	BigFootChangelog_at("2017/09/14 (7.3.0.660)")
 	BigFootChangelog_ar("标记助手","使用新的标记助手插件(wMarker)。")
@@ -635,4 +641,4 @@ BigFootChangelog_ah();
 BigFootChangelog_af();
 
 
-BF_VERSION_CHECKSUM = "53"
+BF_VERSION_CHECKSUM = "52"

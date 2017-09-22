@@ -36,8 +36,8 @@ local raceMetatable = {
 local RaceID = { Unknown = 0 } -- Populated in AddRace
 private.RaceID = RaceID
 
-local AechaeologyRaceLabelFromID = {} -- Populated in AddRace
-private.AechaeologyRaceLabelFromID = AechaeologyRaceLabelFromID
+local ArchaeologyRaceLabelFromID = {} -- Populated in AddRace
+private.ArchaeologyRaceLabelFromID = ArchaeologyRaceLabelFromID
 
 -- Populated in InitializeRaces
 local CurrencyNameFromRaceID = {
@@ -47,6 +47,27 @@ local CurrencyNameFromRaceID = {
 local KeystoneIDToRace = {} -- Populated in InitializeRaces
 private.KeystoneIDToRace = KeystoneIDToRace
 
+local RaceTextureIDToRaceLabel = {
+	[461829] = "ArchRaceDraenei",
+	[461831] = "ArchRaceDwarf",
+	[461833] = "ArchRaceFossil",
+	[461835] = "ArchRaceNerubian",
+	[461837] = "ArchRaceNightElf",
+	[461839] = "ArchRaceTolvir",
+	[461841] = "ArchRaceTroll",
+	[461843] = "ArchRaceVrykul",
+	[462321] = "ArchRaceOrc",
+	[633000] = "ArchRaceMogu",
+	[633002] = "ArchRacePandaren",
+	[839111] = "ArchRaceMantid",
+	[1030616] = "ArchRaceArakkoa",
+	[1030617] = "ArchRaceDraenorOrc",
+	[1030618] = "ArchRaceOgre",
+	[1445573] = "ArchRaceDemons",
+	[1445575] = "ArchRaceHighborneNightElves",
+	[1445577] = "ArchRaceHighmountainTauren",
+}
+
 -- ----------------------------------------------------------------------------
 -- Helpers.
 -- ----------------------------------------------------------------------------
@@ -55,7 +76,8 @@ function private.InitializeRaces()
 
 	for raceID = 1, _G.GetNumArchaeologyRaces() do
 		local race = private.AddRace(raceID)
-		KeystoneIDToRace[race and race.keystone and race.keystone.ID] = race
+
+		KeystoneIDToRace[race.keystone.ID] = race
 	end
 
 	Races[RaceID.Unknown] = _G.setmetatable({
@@ -102,27 +124,6 @@ function private.InitializeRaces()
 	private.InitializeRaces = nil
 end
 
-local textureMap = {
-    [1445573] = "ArchRaceDemons", --恶魔
-    [1445577] = "ArchRaceHighmountainTauren", --至高岭牛头人
-    [1445575] = "ArchRaceHighborneNightElves", --上层精灵
-    [1030618] = "ArchRaceOgre", --食人魔
-    [1030617] = "ArchRaceDraenorOrc", --德拉诺氏族
-    [1030616] = "ArchRaceArakkoa", --鸦人
-    [633000] = "ArchRaceMogu", --魔古族
-    [633002] = "ArchRacePandaren", --熊猫人
-    [461843] = "ArchRaceVrykul", --维库人
-    [461841] = "ArchRaceTroll", --巨魔
-    [461829] = "ArchRaceDraenei", --德莱尼
-    [461837] = "ArchRaceNightElf", --暗夜精灵
-    [839111] = "ArchRaceMantid", --螳螂妖
-    [461833] = "ArchRaceFossil", --化石
-    [462321] = "ArchRaceOrc", --兽人
-    [461831] = "ArchRaceDwarf", --矮人
-    [461835] = "ArchRaceNerubian", --蛛魔
-    [461839] = "ArchRaceTolvir", --托维尔
-}
-
 function private.AddRace(raceID)
 	local existingRace = Races[raceID]
 	if existingRace then
@@ -130,13 +131,12 @@ function private.AddRace(raceID)
 		return
 	end
 
-	local raceName, raceTexturePath, keystoneItemID, fragmentsCollected, _, maxFragments = _G.GetArchaeologyRaceInfo(raceID)
-	local _, _, textureName = ("\\"):split(raceTexturePath)
-	local raceLabel = textureName and textureName:gsub("-", "") or textureMap[raceTexturePath]
+	local raceName, raceTextureID, keystoneItemID, fragmentsCollected, _, maxFragments = _G.GetArchaeologyRaceInfo(raceID)
+	local raceLabel = RaceTextureIDToRaceLabel[raceTextureID]
 	local keystoneName, _, _, _, _, _, _, _, _, keystoneTexture, _ = _G.GetItemInfo(keystoneItemID)
 
 	RaceID[raceLabel] = raceID
-	AechaeologyRaceLabelFromID[raceID] = raceLabel
+	ArchaeologyRaceLabelFromID[raceID] = raceLabel
 
 	local race = _G.setmetatable({
 		Artifacts = {},
@@ -147,7 +147,7 @@ function private.AddRace(raceID)
 		maxFragments = maxFragments,
 		name = raceName,
 		numArtifacts = _G.GetNumArtifactsByRace(raceID) or 0,
-		texture = raceTexturePath,
+		texture = raceTextureID,
 		keystone = {
 			ID = keystoneItemID,
 			name = keystoneName,
