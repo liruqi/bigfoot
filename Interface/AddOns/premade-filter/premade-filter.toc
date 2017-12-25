@@ -1,0 +1,24 @@
+## Interface: 70300
+## Title: Premade Filter
+## Title-ruRU: Premade Filter
+## Version: 2.1.0
+## Author: PremadeFilter
+## Notes: Advanced premade filtering
+## Notes-ruRU: Расширенный фильтр премейдов
+## SavedVariables: PremadeFilter_Data
+
+localization\core.lua
+localization\deDE.lua
+localization\esES.lua
+localization\esMX.lua
+localization\frFR.lua
+localization\itIT.lua
+localization\koKR.lua
+localization\ptBR.lua
+localization\ruRU.lua
+localization\zhCN.lua
+localization\zhTW.lua
+
+premade-filter.lua
+premade-filter.xml
+Bindings.xml
