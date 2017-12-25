@@ -4,6 +4,10 @@ rm -rfv Interface/AddOns/MySlot
 rm -rfv Interface/AddOns/TUnitFrame
 rm -rfv Interface/AddOns/BagBrother
 rm -rfv Interface/AddOns/Bagnon*
+rm -rfv Interface/AddOns/Combuctor
 git add -A Interface/AddOns/
 git commit -m "Clean up"
 git push
+
+#https://www.curseforge.com/wow/addons/premade-filter
+wget https://addons-origin.cursecdn.com/files/2497/976/premade-filter-2.1.0.zip
