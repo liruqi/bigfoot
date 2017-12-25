@@ -84,7 +84,6 @@
 				</FontString>
 			</Layer>
 		</Layers>
-
 		<Frames>
 			<ScrollFrame name="MYSLOT_ScrollFrame" inherits="UIPanelScrollFrameTemplate">
 				<Size>
@@ -132,7 +131,7 @@
 											self:SetText(self.text);
 										end
 										self:HighlightText()
-										ScrollingEdit_OnTextChanged(self,MYSLOT_ScrollFrame);
+										-- ScrollingEdit_OnTextChanged(self,MYSLOT_ScrollFrame);
 									</OnTextChanged>
 									<OnCursorChanged>
 										ScrollingEdit_OnCursorChanged(self,x, y-10,w,h);
@@ -256,6 +255,7 @@
 				MYSLOT_ReportFrame_EditBox:SetFocus();
 			</OnShow>
 			<OnHide>
+				MYSLOT_ReportFrame_EditBox:SetText("")
 				HideUIPanel(MYSLOT_LoadFrame);
 			</OnHide>
 		</Scripts>

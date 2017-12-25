@@ -75,12 +75,10 @@ local function ScanItemTooltip(itemLink)
 		if ( texture ) then
 			local texture = _G[ tip:GetName() .."Texture"..i]:GetTexture();
 			if ( texture ) then
-				--if string.find(texture, "gem") then
-					GemsSlotCount = GemsSlotCount + 1
-					if string.find(texture, "EmptySocket") then
-						GemsEmptyCount = GemsEmptyCount + 1
-					end
-				--end
+				GemsSlotCount = GemsSlotCount + 1
+				if string.find(texture, "EmptySocket") then
+					GemsEmptyCount = GemsEmptyCount + 1
+				end
 			end
 		end
 	end
@@ -317,7 +315,6 @@ function GearStatsSummary_GetTalentString(isInspecting)
 		else
 			return active
 		end
-		--return talentString
 	else
 		return ""
 	end
@@ -385,7 +382,6 @@ function GearStatsSummary_ShowFrame(frame,target,tiptitle,anchorx,anchory,ready)
 		active = GearStatsSummary_GetTalentString(true);
 	end
 
-	--DevTools_Dump(sum);
 	local tiptext = "";
 
 	local avgLevel = (sum["ITEMLEVEL"] or 0) / sum["ITEMSLOTFORCALC"]
@@ -501,7 +497,6 @@ function GearStatsSummary_Sum(inspecting, tipUnit)
 			local iLevel, iSet, GemsSlotCount, GemsEmptyCount = ScanItemTooltip(link);
 
 			if i == 16 or i == 17 then
-				-- if(quality == 6 and iLevel == 750)then
 				if quality == 6 then
 					if i == 16 then
 						local itemTexture17 = GetInventoryItemTexture(unit, 17)
@@ -515,10 +510,6 @@ function GearStatsSummary_Sum(inspecting, tipUnit)
 							iLevel = iLevel < iLv16 and iLv16 or iLevel;
 						end
 					end
-					-- local itemTexture17 = GetInventoryItemTexture(unit, 17)
-					-- if itemTexture17 then
-						-- iLevel = ScanItemTooltip(GetInventoryItemLink(unit, 16))
-					-- end
 				end
 			end
 
@@ -559,26 +550,6 @@ function GearStatsSummary_Sum(inspecting, tipUnit)
 				AddGem(stats["Gems"], "EmptyGemSlotCount", GemsEmptyCount)
 			end
 
-
-			-- No need for 6.x since there is no tinkle any more...
-			-- local OriGemSlotCount = 0
-		--	for k, v in next, GetItemStats(link) do
-		--		if(GemSlots[k]) then
-		--			OriGemSlotCount = OriGemSlotCount + v
-		--		end
-		--	end
-			-- if OriGemSlotCount < stats["Gems"]["GemSlotCount"] then
-				-- stats["Gems"]["ExtraSlot"] = 1
-			-- end
-
-			-- for i = 1, 3 do
-				-- local gemname, gemlink = GetItemGem(link, i)
-				-- if(gemlink) then
-					-- local name, link, quality, iLevel, reqLevel, itype, subType = GetItemInfo(gemlink)
-					-- AddGem(stats["Gems"], quality)
-				-- end
-			-- end
-
 			local check, _, color, Ltype, Id, Enchant, Gem1, Gem2, Gem3, Gem4, Suffix, Unique, LinkLvl, Reforge, Upgrade, Name = string.find(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%d*)|?h?%[?([^%[%]c]*)%]?|?h?|?r?");
 
 			if Enchant ~= nil and tonumber(Enchant) and tonumber(Enchant) > 0 then --func for RS
@@ -609,22 +580,8 @@ function GearStatsSummary_Sum(inspecting, tipUnit)
 					end
 				end
 			end
-
-			-- if (stats["Set"] ~= nil) then
-				-- for k,v in pairs(stats["Set"]) do
-					-- if sum["Set"] == nil then sum["Set"] = {} end
-					-- if sum["Set"][k] == nil then sum["Set"][k] = v end
-				-- end
-			-- end
-
 		end
 	end
-
-	-- if sum["Set"]~=nil and unit=="player" then
-		-- for k,v in pairs(sum["Set"]) do
-			-- sum["ITEM_MOD_PVP_POWER_SHORT"] = sum["ITEM_MOD_PVP_POWER_SHORT"] + v
-		-- end
-	-- end
 
 	return sum, GSSJTNum;
 end

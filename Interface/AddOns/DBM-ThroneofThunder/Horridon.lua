@@ -185,7 +185,7 @@ function mod:OnCombatStart(delay)
 		end
 		if mod.Options.InfoFrame then
 			DBM.InfoFrame:SetHeader(GetSpellInfo(137458))
-			DBM.InfoFrame:Show(1, "other", nhcount, "Next")
+			-- DBM.InfoFrame:Show(1, "other", nhcount, "Next")
 		end
 		--BH ADD END
 	end

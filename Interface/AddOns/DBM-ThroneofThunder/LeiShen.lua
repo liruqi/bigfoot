@@ -24,7 +24,7 @@ mod:RegisterEventsInCombat(
 )
 
 mod:RegisterEvents(
-	"CHAT_MSG_SAY"
+	-- "CHAT_MSG_SAY"
 )
 
 --Conduits (All phases)
@@ -176,7 +176,7 @@ end
 
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -293,7 +293,7 @@ function mod:SPELL_CAST_START(args)
 					DBM:PlayCountSound(thundercount)
 				end
 			end)
-		end	
+		end
 	--"<206.2 20:38:58> [UNIT_SPELLCAST_SUCCEEDED] Lei Shen [[boss1:Lightning Whip::0:136845]]", -- [13762] --This event comes about .5 seconds earlier than SPELL_CAST_START. Maybe worth using?
 	elseif args.spellId == 136850 then
 		warnLightningWhip:Show()
@@ -389,7 +389,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				end
 				--BH MODIFY END
 			end
-		end		
+		end
 		if phase == 2 and self:AntiSpam(3, 12) then
 			lightp2count = lightp2count + 1
 			if MyJSP2() then
@@ -440,7 +440,7 @@ function mod:SPELL_AURA_APPLIED(args)
 							sndWOP:Schedule(2.5, "countthree")
 							sndWOP:Schedule(3.5, "counttwo")
 							sndWOP:Schedule(4.5, "countone")
-						end						
+						end
 					end
 					if self.Options.HudMAP2 then
 						OverchargedMarkers[args.destName] = register(DBMHudMap:PlaceRangeMarkerOnPartyMember("timer", args.destName, 5, 6, 1, 1, 1, 0.8):Appear():RegisterForAlerts():Rotate(360, 6.5):SetAlertColor(0, 0, 1, 0.5))
@@ -760,7 +760,7 @@ end
 
 function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 	if spellId == 137146 and self:AntiSpam(2, 2) then--Supercharge Conduits (comes earlier than other events so we use this one)
-		sndWOP:Play("ex_tt_cjcn") --超級充能		
+		sndWOP:Play("ex_tt_cjcn") --超級充能
 		intermissionActive = true
 		firstchain = 0
 		twocirle = false

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1903, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16678 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16987 $"):sub(12, -3))
 mod:SetCreatureID(118523, 118374, 118518)--118523 Huntress kasparian, 118374 Captain Yathae Moonstrike, 118518 Prestess Lunaspyre
 mod:SetEncounterID(2050)
 mod:SetZone()
@@ -24,8 +24,6 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1 boss2 boss3"
 )
 
---TODO, video fight and improve timer interactions to better deal with huge variation in stuff like moon glaive timer.
---TODO, auto timer extending around specials (which trigger 7 second spell lockout on all other abilities)
 --[[
 (ability.id = 236694 or ability.id = 236442 or ability.id = 239379 or ability.id = 236712) and type = "begincast" or
 (ability.id = 237561 or ability.id = 236547 or ability.id = 236518 or ability.id = 233263 or ability.id = 239264 or ability.id = 236672) and type = "cast" or
@@ -73,18 +71,18 @@ local specWarnLunarFireOther		= mod:NewSpecialWarningTaunt(239264, nil, nil, nil
 local specWarnMoonBurn				= mod:NewSpecialWarningMoveTo(236519, nil, DBM_CORE_AUTO_SPEC_WARN_OPTIONS.you:format(236519), nil, 1, 7)
 
 --Huntress Kasparian
-mod:AddTimerLine(EJ_GetSectionInfo(14992))
+mod:AddTimerLine(DBM:EJ_GetSectionInfo(14992))
 local timerGlaiveStormCD			= mod:NewNextCountTimer(54, 239379, nil, nil, nil, 3)--Moon change special (but also used while inactive?)
 --local timerTwilightGlaiveCD			= mod:NewCDTimer(7.5, 237561, nil, nil, nil, 3)--6.1-34
 local timerMoonGlaiveCD				= mod:NewCDTimer(13.4, 236547, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--13.4-30 second variation, have fun with that
 --Captain Yathae Moonstrike
-mod:AddTimerLine(EJ_GetSectionInfo(14994))
+mod:AddTimerLine(DBM:EJ_GetSectionInfo(14994))
 local timerIncorporealShotCD		= mod:NewNextCountTimer(54, 236305, nil, nil, nil, 3)--Moon change special (but also used while inactive?)
 local timerCallMoontalonCD			= mod:NewCDTimer(31, 236694, nil, nil, nil, 1)
 local timerTwilightVolleyCD			= mod:NewCDTimer(12.8, 236442, nil, nil, nil, 2)--Cast while inactive. 8.5--20
 local timerRapidShotCD				= mod:NewCDTimer(18.2, 236596, nil, nil, nil, 3)--18.2 but sometimes 30
 --Priestess Lunaspyre
-mod:AddTimerLine(EJ_GetSectionInfo(14997))
+mod:AddTimerLine(DBM:EJ_GetSectionInfo(14997))
 local timerEmbraceofEclipseCD		= mod:NewNextCountTimer(54, 233264, nil, nil, nil, 5, nil, DBM_CORE_HEALER_ICON..DBM_CORE_DAMAGE_ICON)--Moon change special (but also used while inactive in phase 1)
 local timerLunarBeaconCD			= mod:NewCDTimer(20.6, 236712, nil, nil, nil, 3)--20.6-31.7
 local timerLunarFireCD				= mod:NewCDTimer(11, 239264, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)

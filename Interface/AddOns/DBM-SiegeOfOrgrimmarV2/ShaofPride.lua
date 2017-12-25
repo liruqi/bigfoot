@@ -40,7 +40,7 @@ local warnAuraOfPride			= mod:NewTargetAnnounce(146817, 3)--75-99 Energy
 local warnOvercome				= mod:NewTargetAnnounce(144843, 3)--100 Energy (pre mind control)
 local warnOvercomeMC			= mod:NewTargetAnnounce(144863, 4)--Mind control version (ie applied being hit by swelling pride while you have 144843)
 --Manifestation of Pride
-local warnManifestation			= mod:NewSpellAnnounce("ej8262", 3, "Interface\\Icons\\achievement_raid_terraceofendlessspring04")
+-- local warnManifestation			= mod:NewSpellAnnounce("ej8262", 3, "Interface\\Icons\\achievement_raid_terraceofendlessspring04")
 local warnMockingBlast			= mod:NewSpellAnnounce(144379, 3, nil, false)
 
 --Sha of Pride
@@ -61,7 +61,7 @@ local yellAuraOfPride			= mod:NewYell(146817)
 local specWarnOvercome			= mod:NewSpecialWarningYou(144843, nil, nil, nil, 3)--100 EnergyHonestly, i have a feeling your best option if this happens is to find a way to kill yourself!
 local specWarnBanishment		= mod:NewSpecialWarningYou(145215, nil, nil, nil, 3)--Heroic
 --Manifestation of Pride
-local specWarnManifestation		= mod:NewSpecialWarningSwitch("ej8262", not mod:IsHealer())--Spawn warning, need trigger first
+-- local specWarnManifestation		= mod:NewSpecialWarningSwitch("ej8262", not mod:IsHealer())--Spawn warning, need trigger first
 local specWarnMockingBlast		= mod:NewSpecialWarningInterrupt(144379)
 
 --Sha of Pride
@@ -72,7 +72,7 @@ local timerSelfReflectionCD		= mod:NewNextTimer(25, 144800)
 local timerWoundedPrideCD		= mod:NewNextTimer(30, 144358, nil, mod:IsTank())--A tricky on that is based off unit power but with variable timings, but easily workable with an 11, 26 rule
 local timerBanishmentCD			= mod:NewNextTimer(37.5, 145215)
 local timerCorruptedPrisonCD	= mod:NewNextTimer(53, 144574)--Technically 51 for Imprison base cast, but this is timer til debuffs go out.
-local timerManifestationCD		= mod:NewNextTimer(60, "ej8262", nil, nil, nil, "Interface\\Icons\\achievement_raid_terraceofendlessspring04")
+-- local timerManifestationCD		= mod:NewNextTimer(60, "ej8262", nil, nil, nil, "Interface\\Icons\\achievement_raid_terraceofendlessspring04")
 local timerSwellingPrideCD		= mod:NewNextCountTimer(75.5, 144400)
 local timerWeakenedResolve		= mod:NewBuffFadesTimer(60, 147207, nil, false)
 --Pride
@@ -94,7 +94,7 @@ mod:AddBoolOption("HudMAPAoP", true, "sound")
 mod:AddBoolOption("RangeFrame", true, "sound")
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -227,9 +227,9 @@ function mod:OnCombatStart(delay)
 	sndWOP:Schedule(24.5-delay, "countone")
 	timerCorruptedPrisonCD:Start(-delay)
 	sndWOP:Schedule(40-delay, "readyrescue") --準備救人
-	timerManifestationCD:Start(-delay)
+	-- timerManifestationCD:Start(-delay)
 	sndWOP:Schedule(60-delay, "bigmobsoon") --準備大怪
-	specWarnManifestation:Schedule(64-delay)
+	-- specWarnManifestation:Schedule(64-delay)
 	if mod:IsDps() then
 		sndWOP:Schedule(64-delay, "killbigmob")--大怪快打
 	else
@@ -289,7 +289,7 @@ function mod:SPELL_CAST_START(args)
 	elseif args.spellId == 144379 then
 		local sourceGUID = args.sourceGUID
 		warnMockingBlast:Show()
-		if sourceGUID == UnitGUID("target") or sourceGUID == UnitGUID("focus") then 
+		if sourceGUID == UnitGUID("target") or sourceGUID == UnitGUID("focus") then
 			specWarnMockingBlast:Show(args.sourceName)
 			sndWOP:Play("kickcast") --快打斷
 		end
@@ -313,7 +313,7 @@ function mod:SPELL_CAST_START(args)
 		sndWOP:Schedule(24.5, "countone")
 		timerCorruptedPrisonCD:Start()
 		sndWOP:Cancel("readyrescue")
-		sndWOP:Schedule(40, "readyrescue") --準備救人			
+		sndWOP:Schedule(40, "readyrescue") --準備救人
 		if self:IsMythic() then
 			timerBanishmentCD:Start()
 		end
@@ -332,15 +332,15 @@ function mod:SPELL_CAST_SUCCESS(args)
 		sndWOP:Schedule(24.5, "countone")
 		timerCorruptedPrisonCD:Start()
 		sndWOP:Schedule(40, "readyrescue") --準備救人
-		timerWoundedPrideCD:Start(11.5)		
-		timerManifestationCD:Start()
+		timerWoundedPrideCD:Start(11.5)
+		-- timerManifestationCD:Start()
 		sndWOP:Schedule(60, "bigmobsoon") --準備大怪
-		specWarnManifestation:Schedule(64)
+		-- specWarnManifestation:Schedule(64)
 		if mod:IsDps() then
 			sndWOP:Schedule(64, "killbigmob")--大怪快打
 		else
 			sndWOP:Schedule(64, "bigmob")--大怪出現
-		end		
+		end
 		timerSwellingPrideCD:Start(75, swellingCount + 1)
 --		countdownSwellingPride:Start()
 		sndWOP:Schedule(72.5, "aesoon") --準備AOE
@@ -369,10 +369,10 @@ function mod:SPELL_CAST_SUCCESS(args)
 						end
 					end
 					if inRange then
-						if self:CheckNearby(30, args.destName) and self.Options.HudMAPBP then					
+						if self:CheckNearby(30, args.destName) and self.Options.HudMAPBP then
 							BurstingMarkers[targetName] = register(DBMHudMap:PlaceStaticMarkerOnPartyMember("timer", targetName, 5, 3, 0, 1, 0, 0.8):Appear():RegisterForAlerts():Rotate(360, 3.2))
 						end
-						if self:CheckNearby(6, args.destName) and self:AntiSpam(2, 2) then					
+						if self:CheckNearby(6, args.destName) and self:AntiSpam(2, 2) then
 							sndWOP:Play("runaway") --快躲開
 						end
 					end
@@ -381,17 +381,17 @@ function mod:SPELL_CAST_SUCCESS(args)
 		end
 	elseif args.spellId == 144832 then
 		warnUnleashed:Show()
-		sndWOP:Play("phasechange") --階段轉換		
+		sndWOP:Play("phasechange") --階段轉換
 		timerGiftOfTitansCD:Cancel()
 --		countdownSwellingPride:Cancel()
 		timerSwellingPrideCD:Cancel()
 		firstWound = false
 		UnleashedCast = true
-		timerManifestationCD:Start()--Not yet verified if altered or not
-		specWarnManifestation:Cancel()
-		specWarnManifestation:Schedule(64)
-		sndWOP:Cancel("bigmobsoon")		
-		sndWOP:Schedule(60, "bigmobsoon") --準備大怪		
+		-- timerManifestationCD:Start()--Not yet verified if altered or not
+		-- specWarnManifestation:Cancel()
+		-- specWarnManifestation:Schedule(64)
+		sndWOP:Cancel("bigmobsoon")
+		sndWOP:Schedule(60, "bigmobsoon") --準備大怪
 		if mod:IsDps() then
 			sndWOP:Cancel("killbigmob")
 			sndWOP:Schedule(64, "killbigmob")--大怪快打
@@ -507,7 +507,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		specWarnWoundedPride:Show()
 		if mod:IsTank() or mod:IsHealer() then
 			sndWOP:Play("changemt") --換坦嘲諷
-		end	
+		end
 		if not firstWound and not self:IsLFR() then
 			firstWound = true
 			timerWoundedPrideCD:Start()

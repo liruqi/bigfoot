@@ -1,6 +1,6 @@
 if GetLocale()~='zhCN' then return end
 local main= "7.3.0."
-local minor = "661"
+local minor = "673"
 BIGFOOT_VERSION = "zhCN"..main..minor;
 
 function GetMinorVersion()
@@ -8,6 +8,80 @@ function GetMinorVersion()
 end
 
 BigFootChangelog_ah();
+
+	BigFootChangelog_at("2017/12/21 (7.3.0.673)")
+	BigFootChangelog_ar("按键保存","兼容上一版本配置。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.15.17041)。")
+
+
+	BigFootChangelog_at("2017/12/21 (7.3.0.672)")
+	BigFootChangelog_ar("集合石","功能优化。")
+	BigFootChangelog_ar("可接任务","升级至最新版本(092)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.15.17030)。")
+
+
+	BigFootChangelog_at("2017/12/14 (7.3.0.671)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70300.08)。")
+	BigFootChangelog_ar("拍卖增强","添加一个关闭按钮。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(263)。")
+	BigFootChangelog_ar("伤害统计","升级至最新版本(7.3.2b)。")
+	BigFootChangelog_ar("界面调整","升级至最新版本(4.7.10.1)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.14.16998)。")
+
+
+	BigFootChangelog_at("2017/12/07 (7.3.0.670)")
+	BigFootChangelog_ar("大脚插件","添加拍卖增强插件(BaudAuction)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.11.16940)。")
+
+
+	BigFootChangelog_at("2017/11/30 (7.3.0.669)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70300.07)。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(261)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.8.16882)。")
+
+
+	BigFootChangelog_at("2017/11/23 (7.3.0.668)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70300.06)。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(259)。")
+	BigFootChangelog_ar("团队记录","添加新团队本首领支持。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.8.16865)。")
+
+
+	BigFootChangelog_at("2017/11/16 (7.3.0.667)")
+	BigFootChangelog_ar("伤害统计","升级至最新版本(7.3.2a)。")
+	BigFootChangelog_ar("一键驱散","升级至最新版本(2.7.5.7)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.8.16857)。")
+
+
+	BigFootChangelog_at("2017/11/02 (7.3.0.666)")
+	BigFootChangelog_ar("秘境增强","升级至最新版本(0.12.8)。")
+	BigFootChangelog_ar("考古助手","升级至最新版本(7.3.0.2)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.7.16840)。")
+
+
+	BigFootChangelog_at("2017/10/19 (7.3.0.665)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(257)。")
+	BigFootChangelog_ar("竞技语音","升级至最新版本(1.17)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.7.16807)。")
+
+
+	BigFootChangelog_at("2017/10/13 (7.3.0.664)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(253)。")
+	BigFootChangelog_ar("竞技助手","升级至最新版本(5.2.1)。")
+	BigFootChangelog_ar("伤害统计","升级至最新版本(7.3.0c)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.6.16791)。")
+
+
+	BigFootChangelog_at("2017/09/30 (7.3.0.663)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70300.04)。")
+	BigFootChangelog_ar("世界任务","升级至最新版本(249)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.4.16752)。")
+
+
+	BigFootChangelog_at("2017/09/25 (7.3.0.662)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70300.03)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.4.16737)。")
+
 
 	BigFootChangelog_at("2017/09/21 (7.3.0.661)")
 	BigFootChangelog_ar("世界任务","升级至最新版本(245)。")
@@ -641,4 +715,4 @@ BigFootChangelog_ah();
 BigFootChangelog_af();
 
 
-BF_VERSION_CHECKSUM = "52"
+BF_VERSION_CHECKSUM = "55"

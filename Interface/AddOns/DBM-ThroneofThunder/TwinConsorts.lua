@@ -247,7 +247,7 @@ local function showTTtime(nextTT)
 		if mod.Options.InfoFrame then
 			DBM.InfoFrame:Hide()
 			DBM.InfoFrame:SetHeader(L.NextTT)
-			DBM.InfoFrame:Show(1, "time", sortedTTA[nextTT], TTA[sortedTTA[nextTT]]- (GetTime()-combatstarttime))
+			-- DBM.InfoFrame:Show(1, "time", sortedTTA[nextTT], TTA[sortedTTA[nextTT]]- (GetTime()-combatstarttime))
 		end
 	end
 end

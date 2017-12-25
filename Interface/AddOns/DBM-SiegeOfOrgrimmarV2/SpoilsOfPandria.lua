@@ -183,7 +183,7 @@ function mod:OnCombatEnd()
 		DBM.RangeCheck:Hide()
 	end
 	if self.Options.LTZD then
-		DBM:HideLTSpecialWarning()
+		-- DBM:HideLTSpecialWarning()
 	end
 end
 
@@ -333,7 +333,7 @@ function mod:SPELL_AURA_REMOVED(args)
 		sndWOP:Cancel("counttwo")
 		sndWOP:Cancel("countone")
 		if self.Options.LTZD then
-			DBM:HideLTSpecialWarning()
+			-- DBM:HideLTSpecialWarning()
 		end
 	elseif args.spellId == 145692 then
 		timerEnrage:Cancel(args.destName)

@@ -165,7 +165,7 @@ function mod:SPELL_CAST_START(args)
 		sndWOP:Schedule(21.8, "countone")
 		DBM.InfoFrame:Hide()
 		DBM.InfoFrame:SetHeader(GetSpellInfo(138763).."("..(InterruptingJoltCount + 1)..")")
-		DBM.InfoFrame:Show(1, "time", "", 22)
+		-- DBM.InfoFrame:Show(1, "time", "", 22)
 	end
 end
 
@@ -187,7 +187,7 @@ local function PowerDelay()
 		sndWOP:Schedule(17, "counttwo")
 		sndWOP:Schedule(18, "countone")
 		DBM.InfoFrame:SetHeader(GetSpellInfo(138763).."(1)")
-		DBM.InfoFrame:Show(1, "time", "", 18)
+		-- DBM.InfoFrame:Show(1, "time", "", 18)
 	end
 end
 
