@@ -9,3 +9,4 @@
 
 ## 其它推荐插件列表
 * [TellMeWhen](https://github.com/ascott18/TellMeWhen) https://mods.curse.com/addons/wow/tellmewhen
+* [Premade Filter](https://www.curseforge.com/wow/addons/premade-filter) 集合石过滤金团
