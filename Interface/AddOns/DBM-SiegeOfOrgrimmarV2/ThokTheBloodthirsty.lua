@@ -171,7 +171,7 @@ local function checkbossrange()
 	if phase == 2 then
 		mod:Schedule(0.2, checkbossrange)
 	else
-		DBM:HideLTSpecialWarning()
+		-- DBM:HideLTSpecialWarning()
 	end
 end
 

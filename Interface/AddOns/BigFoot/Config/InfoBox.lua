@@ -15,6 +15,7 @@ function InfoBoxConfigFunc()
 	end
 
 	local function setFramePoint(frame,...)
+		if InCombatLockdown() then return end
 		frame:SetUserPlaced(true)
 		local point,anchor,refPoint,x,y = ...
 		frame:ClearAllPoints()
@@ -56,7 +57,7 @@ function InfoBoxConfigFunc()
 			SetCVar("uiscale",BigFoot_Config.uiscale)
 			BigFoot_Config.uiscale = nil
 		end
-		
+
 		if BigFoot_Config.frameLoc then
 			if CompactRaidFrameManager then
 				PartyMemberFrame1:SetPoint("TOPLEFT", CompactRaidFrameManager, "TOPRIGHT", 0, -20);

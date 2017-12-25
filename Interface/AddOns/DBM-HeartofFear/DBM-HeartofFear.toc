@@ -11,7 +11,6 @@
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: MOP
 ## X-DBM-Mod-Has-LFR : 1
-## X-DBM-Mod-Name: Heart of Fear
 ## X-DBM-Mod-Sort: 4
 ## X-DBM-Mod-MapID: 1009
 ## LoadOnDemand: 1

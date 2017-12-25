@@ -7,8 +7,8 @@ local pblua = LibStub:GetLibrary('pblua')
 local _MySlot = pblua.load_proto_ast(MySlot.ast)
 
 local MYSLOT_AUTHOR = "T.G. <farmer1992@gmail.com>"
-local MYSLOT_VER = 23
-local MYSLOT_ALLOW_VER = {MYSLOT_VER, 22, 21, 20}
+local MYSLOT_VER = 24
+local MYSLOT_ALLOW_VER = 23
 MySlot_SavedDb = MySlot_SavedDb or {}
 
 local MYSLOT_LINE_SEP = IsWindowsClient() and "\r\n" or "\n"
@@ -232,10 +232,6 @@ local function KeyToByte(key, command)
 		mod, key = _mod, _key
 	end
 
-	if not MySlot.KEYS[key] then
-		MySlot:Print(L["[WARN] Ignore unsupported Key Binding [ %s ] , contact %s please"]:format(key, MYSLOT_AUTHOR))
-		return nil
-	end
 	mod = mod or "NONE"
 
 	if not MySlot.MOD_KEYS[mod] then
@@ -244,7 +240,12 @@ local function KeyToByte(key, command)
 	end
 
 	local msg = _MySlot.Key()
-	msg.key = MySlot.KEYS[key]
+	if MySlot.KEYS[key] then
+		msg.key = MySlot.KEYS[key]
+	else
+		msg.key = MySlot.KEYS["KEYCODE"]
+		msg.keycode = key
+	end
 	msg.mod = MySlot.MOD_KEYS[mod]
 
 	return msg
@@ -430,7 +431,7 @@ function MySlot:ImportByText(text, Sname)
 		return
 	end
 
-	if ver < MYSLOT_VER then
+	if ver < MYSLOT_ALLOW_VER then
 		self:Print(L["Importing text [ver:%s] is not compatible with current version"]:format(ver))
 		return
 	end
@@ -620,12 +621,18 @@ function MySlot:RecoverData(msg)
 
 		if b.key1 then
 			local mod, key = MySlot.R_MOD_KEYS[ b.key1.mod], MySlot.R_KEYS[ b.key1.key]
+            if key == "KEYCODE" then
+                key = b.key1.keycode
+            end
 			local key = ( mod ~= "NONE" and (mod .. "-") or "" ) .. key
 			SetBinding(key ,command, 1)
 		end
 
 		if b.key2 then
 			local mod, key = MySlot.R_MOD_KEYS[ b.key2.mod], MySlot.R_KEYS[ b.key2.key]
+            if key == "KEYCODE" then
+                key = b.key2.keycode
+            end
 			local key = ( mod ~= "NONE" and (mod .. "-") or "" ) .. key
 			SetBinding(key ,command, 1)
 		end
@@ -720,9 +727,11 @@ function MYSLOT_LoadFrame_Update()
 	FauxScrollFrame_Update(MYSLOT_LoadFrameScrollFrame, index, 4, 32 );
 end
 
-function MYSLOT_ReportFrame_Update(name)
+local function MYSLOT_ReportFrame_Update(name)
 	for _, Stable in pairs(MySlot_SavedDb) do
 		if Stable and Stable.Sname and Stable.Sname == name then
+			MYSLOT_ReportFrame_EditBox.change = false;
+			MYSLOT_ReportFrame_EditBox:SetText("")
 			MYSLOT_ReportFrame_EditBox:SetText(Stable.Scheme)
 			MYSLOT_ReportFrame_EditBox:HighlightText()
 			MYSLOT_ReportFrame_EditBox:SetCursorPosition(0);
@@ -805,24 +814,24 @@ function MYSLOT_LoadFrame_OnScroll(self, offset)
 	FauxScrollFrame_OnVerticalScroll(self, offset, 27, MYSLOT_LoadFrame_Update)
 end
 
-function MySlot_Clearall(what)
-	if what == "action" then
+local function MySlot_Clearall(what)
+	-- if what == "action" then
         for i = 1, MYSLOT_MAX_ACTIONBAR do
             PickupAction(i)
             ClearCursor()
         end
-    elseif what == "binding" then
-        for i = 1, GetNumBindings() do
-            local _, _, key1, key2 = GetBinding(i)
+    -- elseif what == "binding" then
+        -- for i = 1, GetNumBindings() do
+            -- local _, _, key1, key2 = GetBinding(i)
 
-            for _, key in pairs({key1, key2}) do
-                if key then
-                    SetBinding(key, nil, 1)
-                end
-            end
-        end
-        SaveBindings(GetCurrentBindingSet())
-    end
+            -- for _, key in pairs({key1, key2}) do
+                -- if key then
+                    -- SetBinding(key, nil, 1)
+                -- end
+            -- end
+        -- end
+        -- SaveBindings(GetCurrentBindingSet())
+    -- end
 end
 
 SlashCmdList["Myslot"] = function(msg, editbox)
@@ -839,4 +848,3 @@ SlashCmdList["Myslot"] = function(msg, editbox)
 end
 
 SLASH_Myslot1 = "/Myslot"
-

@@ -172,9 +172,11 @@ local default_config = {
 			leavetimer = 30,
 			noafk = true,
 			noafk_ticks = 5,
+			noafk_distance = 500,
 			nopvp = false,
 			frame = {},
 			tutorial = 0,
+			argus_min_itemlevel = 830,
 		},
 		rarescan = {
 			show_icons = true,
@@ -191,7 +193,7 @@ local default_config = {
 			always_use_english = true,
 			add_from_premade = false,
 			autosearch = true,
-			autosearch_cooldown = 1800,
+			autosearch_cooldown = 600,
 			autosearch_share = false,
 		},
 		disable_world_map_widgets = false,
@@ -567,10 +569,13 @@ function WorldQuestTracker.RareWidgetOnClick (self, button)
 			local callback = nil
 			local EnglishRareName = rf.RaresENNames [npcId]
 			local rareName = parent.RareName
+			
+			local itemLevelRequired = ff.GetItemLevelRequirement()
+			
 			if (EnglishRareName and WorldQuestTracker.db.profile.rarescan.always_use_english) then
-				WorldQuestTracker.FindGroupForCustom (EnglishRareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH_RARENPC"], "Doing rare encounter against " .. rareName .. ". Group created with World Quest Tracker #NPCID" .. npcId .. "#LOC " .. (rareName or "") .. " ", callback)
+				WorldQuestTracker.FindGroupForCustom (EnglishRareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH_RARENPC"], "Doing rare encounter against " .. rareName .. ". Group created with World Quest Tracker #NPCID" .. npcId .. "#LOC " .. (rareName or "") .. " ", itemLevelRequired, callback)
 			else
-				WorldQuestTracker.FindGroupForCustom (rareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH_RARENPC"], "Doing rare encounter against " .. rareName .. ". Group created with World Quest Tracker #NPCID" .. npcId .. "#LOC " .. (EnglishRareName or "") .. " ", callback)
+				WorldQuestTracker.FindGroupForCustom (rareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH_RARENPC"], "Doing rare encounter against " .. rareName .. ". Group created with World Quest Tracker #NPCID" .. npcId .. "#LOC " .. (EnglishRareName or "") .. " ", itemLevelRequired, callback)
 			end
 		end
 		
@@ -968,6 +973,10 @@ function WorldQuestTracker:OnInit()
 	end
 	
 	function WorldQuestTracker.IsInvasionPoint()
+		if (ff:IsShown()) then
+			return
+		end
+		
 		local mapFileName = GetMapInfo()
 		--> we are using where the map file name which always start with "InvasionPoint"
 		--> this makes easy to localize group between different languages on the group finder
@@ -976,20 +985,21 @@ function WorldQuestTracker:OnInit()
 			--the player is inside a invasion
 			local invasionName = C_Scenario.GetInfo()
 			if (invasionName) then
-				--> can queue?
-				if (not IsInGroup() and not QueueStatusMinimapButton:IsShown()) then
-					--> is search for invasions enabled?
-					if (WorldQuestTracker.db.profile.groupfinder.invasion_points) then
-						--WorldQuestTracker.FindGroupForCustom (mapFileName, invasionName, "click to search for groups")
+				--> is search for invasions enabled?
+				if (WorldQuestTracker.db.profile.groupfinder.invasion_points) then
+					--> can queue?
+					if (not IsInGroup() and not QueueStatusMinimapButton:IsShown()) then
 						local callback = nil
 						local ENNameFromMapFileName = mapFileName:gsub ("InvasionPoint", "")
 						if (ENNameFromMapFileName and WorldQuestTracker.db.profile.rarescan.always_use_english) then
-							WorldQuestTracker.FindGroupForCustom ("Invasion Point: " .. (ENNameFromMapFileName or ""), invasionName, L["S_GROUPFINDER_ACTIONS_SEARCH"], "Doing Invasion Point " .. invasionName .. ". Group created with World Quest Tracker #EN Invasion Point: " .. (ENNameFromMapFileName or "") .. " ", callback)
+							WorldQuestTracker.FindGroupForCustom ("Invasion Point: " .. (ENNameFromMapFileName or ""), invasionName, L["S_GROUPFINDER_ACTIONS_SEARCH"], "Doing Invasion Point " .. invasionName .. ". Group created with World Quest Tracker #EN Invasion Point: " .. (ENNameFromMapFileName or "") .. " ", 0, callback)
 						else
-							WorldQuestTracker.FindGroupForCustom (invasionName, invasionName, L["S_GROUPFINDER_ACTIONS_SEARCH"], "Doing Invasion Point " .. invasionName .. ". Group created with World Quest Tracker #EN Invasion Point: " .. (ENNameFromMapFileName or "") .. " ", callback)
+							WorldQuestTracker.FindGroupForCustom (invasionName, invasionName, L["S_GROUPFINDER_ACTIONS_SEARCH"], "Doing Invasion Point " .. invasionName .. ". Group created with World Quest Tracker #EN Invasion Point: " .. (ENNameFromMapFileName or "") .. " ", 0, callback)
 						end
+					else
+						WorldQuestTracker:Msg (L["S_GROUPFINDER_QUEUEBUSY2"])
 					end
-				end					
+				end
 			end
 		end
 	end
@@ -1012,6 +1022,9 @@ function WorldQuestTracker:OnInit()
 			C_Timer.After (3, WorldQuestTracker.IsInvasionPoint)
 		else
 			WorldQuestTracker.IsInvasionPoint()
+			--> trigger once more since on some clientes MapInfo() is having a delay on update the correct map
+			C_Timer.After (1, WorldQuestTracker.IsInvasionPoint)
+			C_Timer.After (2, WorldQuestTracker.IsInvasionPoint)
 		end
 	end
 
@@ -1126,7 +1139,9 @@ function WorldQuestTracker:OnInit()
 
 			WorldQuestTracker.AllCharactersQuests_Remove (questID)
 			WorldQuestTracker.RemoveQuestFromTracker (questID)
-
+			
+			FlashClientIcon()
+			
 			if (QuestMapFrame_IsQuestWorldQuest (questID)) then --wait, is this inception?
 				local title, questType, texture, factionID, tagID, tagName, worldQuestType, rarity, isElite, tradeskillLineIndex, selected, isSpellTarget, timeLeft, isCriteria, gold, goldFormated, rewardName, rewardTexture, numRewardItems, itemName, itemTexture, itemLevel, quantity, quality, isUsable, itemID, isArtifact, artifactPower, isStackable = WorldQuestTracker:GetQuestFullInfo (questID)
 
@@ -2152,7 +2167,7 @@ function rf.IsRareAWorldQuest (rareName)
 end
 
 function rf.IsTargetARare()
-	if (UnitExists ("target") and not UnitIsDead ("target")) then
+	if (UnitExists ("target")) then -- and not UnitIsDead ("target")
 		local serial = UnitGUID ("target")
 		local npcId = WorldQuestTracker:GetNpcIdFromGuid (serial)
 		if (npcId) then
@@ -2211,12 +2226,13 @@ function rf.IsTargetARare()
 							local isWorldQuest = rf.IsRareAWorldQuest (rareName)
 							if (not isWorldQuest) then
 								local callback = nil
-								--WorldQuestTracker.FindGroupForCustom (rareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH_RARENPC"], "Doing rare encounter against " .. rareName .. ". Group create with World Quest Tracker #NPCID" .. npcId .. "#ENUS " .. (rf.RaresENNames [npcId] or "") .. " ", callback)
 								local EnglishRareName = rf.RaresENNames [npcId]
+								local itemLevelRequired = ff.GetItemLevelRequirement()
+								
 								if (EnglishRareName and WorldQuestTracker.db.profile.rarescan.always_use_english) then
-									WorldQuestTracker.FindGroupForCustom (EnglishRareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH_RARENPC"], "Doing rare encounter against " .. rareName .. ". Group created with World Quest Tracker #NPCID" .. npcId .. "#LOC " .. (rareName or "") .. " ", callback)
+									WorldQuestTracker.FindGroupForCustom (EnglishRareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH_RARENPC"], "Doing rare encounter against " .. rareName .. ". Group created with World Quest Tracker #NPCID" .. npcId .. "#LOC " .. (rareName or "") .. " ", itemLevelRequired, callback)
 								else
-									WorldQuestTracker.FindGroupForCustom (rareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH_RARENPC"], "Doing rare encounter against " .. rareName .. ". Group created with World Quest Tracker #NPCID" .. npcId .. "#LOC " .. (EnglishRareName or "") .. " ", callback)
+									WorldQuestTracker.FindGroupForCustom (rareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH_RARENPC"], "Doing rare encounter against " .. rareName .. ". Group created with World Quest Tracker #NPCID" .. npcId .. "#LOC " .. (EnglishRareName or "") .. " ", itemLevelRequired, callback)
 								end
 							end
 						end
@@ -2236,10 +2252,10 @@ function rf.IsTargetARare()
 							
 							local EnglishRareName = rf.RaresENNames [npcId]
 							if (EnglishRareName and WorldQuestTracker.db.profile.rarescan.always_use_english) then
-								WorldQuestTracker.FindGroupForCustom (EnglishRareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH"], "Doing Argus World Boss against " .. rareName .. " Group created with World Quest Tracker #NPCID" .. npcId .. "#LOC " .. (rareName or "") .. " ", callback)
+								WorldQuestTracker.FindGroupForCustom (EnglishRareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH"], "Doing Argus World Boss against " .. rareName .. " Group created with World Quest Tracker #NPCID" .. npcId .. "#LOC " .. (rareName or "") .. " ", 0, callback)
 								WorldQuestTracker.Debug ("IsTargetARare() > invasion boss detected and using english name.")
 							else
-								WorldQuestTracker.FindGroupForCustom (rareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH"], "Doing Invasion Point boss encounter against " .. rareName .. " Group created with World Quest Tracker #NPCID" .. npcId, callback)
+								WorldQuestTracker.FindGroupForCustom (rareName, rareName, L["S_GROUPFINDER_ACTIONS_SEARCH"], "Doing Invasion Point boss encounter against " .. rareName .. " Group created with World Quest Tracker #NPCID" .. npcId, 0, callback)
 								WorldQuestTracker.Debug ("IsTargetARare() > invasion boss detected and cannot english name.")
 							end
 						end
@@ -3054,7 +3070,15 @@ end
 		--quando a lideran� passa para o jogador vindo de um player que estava offline
 		--muitas vezes nao esta acontecendo nadad ao tentar crita um grupo
 	--
-
+	
+	function ff.GetItemLevelRequirement()
+		local isInArgus = WorldQuestTracker.IsArgusZone (GetCurrentMapAreaID())
+		if (isInArgus) then
+			return WorldQuestTracker.db.profile.groupfinder.argus_min_itemlevel
+		end
+		return 0
+	end
+	
 	function ff.SetAction (actionID, message, ...)
 
 		--> show the frame
@@ -3156,7 +3180,7 @@ end
 
 	function ff.OnBBlockButtonPress (self, button)
 		if (self.questID) then
-			ff.FindGroupForQuest (self.questID, true)
+			WorldQuestTracker.FindGroupForQuest (self.questID, true)
 		end
 	end
 
@@ -3379,7 +3403,7 @@ end
 							--> check location for distance
 							if (selfX and selfX ~= 0 and DF.GetDistance_Point) then
 								local distance = DF:GetDistance_Point (selfX, selfY, x, y)
-								if (distance > 500) then
+									if (distance > WorldQuestTracker.db.profile.groupfinder.noafk_distance) then
 									unitTable.faraway = unitTable.faraway + 1
 									if (unitTable.faraway > WorldQuestTracker.db.profile.groupfinder.noafk_ticks) then
 										--print ("[debug] found a player too far away, sqrt > 500 yards:", distance, UnitName ("party" .. i))
@@ -3615,7 +3639,8 @@ end
 				--> format used by world quest tracker
 				local npcId = desc:match ("#NPCID%x%x%x%x%x%x")
 				if (npcId) then
-					npcId = tonumber (npcId:gsub ("#NPCID", ""))
+					npcId = npcId:gsub ("#NPCID", "")
+					npcId = tonumber (npcId)
 					if (npcId) then
 						if (rf.RaresToScan [npcId]) then
 							--> rare up
@@ -3715,7 +3740,7 @@ end
 			groupDesc = "Doing world quest " .. questName .. ". Group created with World Quest Tracker. #ID" .. questID .. pvpTag .. (AddToDesc or "")
 		end
 
-		local itemLevelRequired = 0
+		local itemLevelRequired = ff.MinItemLevel or 0
 		local honorLevelRequired = 0
 		local isAutoAccept = true
 		local isPrivate = false
@@ -3728,7 +3753,14 @@ end
 		
 		--> if is an epic quest, converto to raid
 		local title, factionID, tagID, tagName, worldQuestType, rarity, isElite, tradeskillLineIndex = WorldQuestTracker.GetQuest_Info (questID)
-		if (rarity == LE_WORLD_QUEST_QUALITY_EPIC or questID == 0) then
+		if (rarity == LE_WORLD_QUEST_QUALITY_EPIC) then -- or questID == 0
+			--converto to raid if the quest is a world boss
+			C_Timer.After (2, function() ConvertToRaid(); end)
+		end
+		
+		local mapFileName = GetMapInfo()
+		if (mapFileName and mapFileName:find ("InvasionPoint")) then
+			--converto to raid if the group is for an invasion point
 			C_Timer.After (2, function() ConvertToRaid(); end)
 		end
 
@@ -3774,12 +3806,7 @@ end
 		if (not ff.CheckValidClick (self, button)) then
 			return
 		end
-
-		---C_LFGList.GetLanguageSearchFilter()
-		--print (self.questName)
-		--Message: Usage: C_LFGList.Search(categoryID, searchTerms [, filter, preferredFilters, languageFilter])
-		--LFGListSearchPanel_ParseSearchTerms = coloca dentro de uma tabela
-
+		
 --		print ("Search", self.ToSearch, "Unlist", self.ToUnlist, "Leave", self.ToLeave, "Create", self.ToCreate, "Apply", self.ToApply, "Kick", self.ToKick, "UnApply", self.ToUnapply)
 
 		if (self.ToSearch) then
@@ -3914,22 +3941,28 @@ end
 		end
 	end)
 
-	function WorldQuestTracker.FindGroupForQuest (questID)
-		ff.FindGroupForQuest (questID)
+	function WorldQuestTracker.FindGroupForQuest (questID, fromOTButton)
+		local itemLevelRequired = ff.GetItemLevelRequirement()
+		ff.FindGroupForQuest (questID, fromOTButton, nil, nil, nil, nil, itemLevelRequired)
 	end
 	
-	function WorldQuestTracker.FindGroupForCustom (searchString, customTitle, customDesc, customGroupDescription, callback)
-		ff.FindGroupForQuest (searchString, nil, true, customTitle, customDesc, customGroupDescription, callback)
+	function WorldQuestTracker.FindGroupForCustom (searchString, customTitle, customDesc, customGroupDescription, minItemLevel, callback)
+		ff.FindGroupForQuest (searchString, nil, true, customTitle, customDesc, customGroupDescription, minItemLevel, callback)
 	end
 	
-	function ff.FindGroupForQuest (questID, fromOTButton, isSearchOnCustom, customTitle, customDesc, customGroupDescription, callback)
+	function ff.FindGroupForQuest (questID, fromOTButton, isSearchOnCustom, customTitle, customDesc, customGroupDescription, minItemLevel, callback)
 		--> reset the search type
 		ff.SearchCustom = nil
 		ff.SearchCustomGroupDesc = nil
 		ff.SearchCallback = nil
+		ff.MinItemLevel = nil
 		
 		if (callback) then
 			ff.SearchCallback = callback
+		end
+		
+		if (minItemLevel) then
+			ff.MinItemLevel = minItemLevel
 		end
 		
 		if (isSearchOnCustom) then
@@ -3997,8 +4030,16 @@ end
 					--> everything at this point should be already set
 					--> just query the player if want another group
 					ff.SetAction (ff.actions.ACTIONTYPE_GROUP_SEARCH)
+					return
 				end
 			end
+		end
+		
+		local mapFileName = GetMapInfo()
+		if (not mapFileName) then
+			C_Timer.After (3, WorldQuestTracker.IsInvasionPoint)
+		else
+			WorldQuestTracker.IsInvasionPoint()
 		end
 	end
 
@@ -4034,7 +4075,8 @@ end
 			if (isInArea and HaveQuestData (questID)) then
 				local isWorldQuest = QuestMapFrame_IsQuestWorldQuest (questID)
 				if (isWorldQuest) then
-					ff.FindGroupForQuest (questID)
+					--FlashClientIcon()
+					WorldQuestTracker.FindGroupForQuest (questID)
 				end
 			end
 
@@ -4316,7 +4358,7 @@ end
 if (symbol_1K) then
 	function WorldQuestTracker.ToK (numero)
 		if (numero > 99999999) then
-			return format ("%.2f", numero/100000000) .. symbol_1B
+			return format ("%.1f", numero/100000000) .. symbol_1B
 		elseif (numero > 999999) then
 			return format ("%d", numero/10000) .. symbol_10K
 		elseif (numero > 99999) then
@@ -4328,9 +4370,31 @@ if (symbol_1K) then
 		end
 		return format ("%.1f", numero)
 	end
+	
+	WorldQuestTracker.ToK_FormatBigger = WorldQuestTracker.ToK
 else
+
+	--> To "K" functions for western clients
+	
+	--> used on the world map small squares, there's not much space there since patch 7.3, so we are formating them on billions to preserve space
 	function WorldQuestTracker.ToK (numero)
-		if (numero > 999999) then
+		if (numero > 99999999) then
+			return format ("%.1f", numero/1000000000) .. "B"
+		elseif (numero > 999999) then
+			return format ("%.0f", numero/1000000) .. "M"
+		elseif (numero > 99999) then
+			return floor (numero/1000) .. "K"
+		elseif (numero > 999) then
+			return format ("%.1f", (numero/1000)) .. "K"
+		end
+		return format ("%.1f", numero)
+	end
+	
+	--> used on zone maps and the on the statusbar where there is more space for numbers
+	function WorldQuestTracker.ToK_FormatBigger (numero)
+		if (numero > 999999999) then
+			return format ("%.0f", numero/1000000000) .. "B"
+		elseif (numero > 999999) then
 			return format ("%.0f", numero/1000000) .. "M"
 		elseif (numero > 99999) then
 			return floor (numero/1000) .. "K"
@@ -4662,7 +4726,7 @@ function WorldQuestTracker.RewardIsArtifactPowerGerman (itemLink) -- thanks @Sup
 	local w1, w2, w3, w4 = "Millionen", "Million", "%d+,%d+", "([^,]+),([^,]+)" --works for German
 
 	if (WorldQuestTracker.GameLocale == "ptBR") then
-		w1, w2, w3, w4 = "milh", "milh", "%d+.%d+", "([^,]+).([^,]+)"
+		w1, w2, w3, w4 = "milh", "milh", "%d+,%d+", "([^,]+).([^,]+)" --@tercio 11 october 2017: replaced the dot with a comma on "%d+,%d+"
 	elseif (WorldQuestTracker.GameLocale == "frFR") then
 		w1, w2, w3, w4 = "million", "million", "%d+,%d+", "([^,]+),([^,]+)"
 	end
@@ -4684,10 +4748,13 @@ function WorldQuestTracker.RewardIsArtifactPowerGerman (itemLink) -- thanks @Sup
 				if (not n) then
 					n = power:match (" %d+ ") --thanks @Arwarld_ on curseforge - ticket #427
 					n = tonumber (n)
-					n=n..".0"
-					n = tonumber (n)
-				end
 
+					if (n) then
+						n=n..".0"
+						n = tonumber (n)
+					end
+				end
+				
 				if (n) then
 					n = n * 1000000
 					return true, n or 0
@@ -4759,7 +4826,7 @@ function WorldQuestTracker.RewardIsArtifactPower (itemLink)
 	if (text and text:match ("|cFFE6CC80")) then
 		local power = GameTooltipFrameTextLeft3:GetText()
 		if (power) then
-
+		
 			if (power:find (SECOND_NUMBER)) then
 				local n = power:match (" %d+%.%d+ ")
 				n = tonumber (n)
@@ -4769,6 +4836,18 @@ function WorldQuestTracker.RewardIsArtifactPower (itemLink)
 				end
 				if (n) then
 					n = n * 1000000
+					return true, n or 0
+				end
+				
+			elseif (power:find (THIRD_NUMBER)) then
+				local n = power:match (" %d+%.%d+ ")
+				n = tonumber (n)
+				if (not n) then
+					n = power:match (" %d+ ")
+					n = tonumber (n)
+				end
+				if (n) then
+					n = n * 1000000000
 					return true, n or 0
 				end
 			end
@@ -4778,6 +4857,7 @@ function WorldQuestTracker.RewardIsArtifactPower (itemLink)
 			else
 				power = power:gsub ("%p", ""):match ("%d+")
 			end
+			
 			power = tonumber (power)
 			return true, power or 0
 		end
@@ -4787,7 +4867,7 @@ function WorldQuestTracker.RewardIsArtifactPower (itemLink)
 	if (text2 and text2:match ("|cFFE6CC80")) then
 		local power = GameTooltipFrameTextLeft4:GetText()
 		if (power) then
-
+		
 			if (power:find (SECOND_NUMBER)) then
 				local n = power:match (" %d+%.%d+ ")
 				n = tonumber (n)
@@ -4800,7 +4880,7 @@ function WorldQuestTracker.RewardIsArtifactPower (itemLink)
 					return true, n or 0
 				end
 			end
-
+		
 			if (WorldQuestTracker.GameLocale == "frFR") then
 				power = power:gsub ("%s", ""):gsub ("%p", ""):match ("%d+")
 			else
@@ -5905,7 +5985,7 @@ function WorldQuestTracker.UpdateZoneWidgets (forceUpdate)
 			WorldQuestTracker.WorldMap_ResourceIndicator.text = total_Resources
 		end
 		if (total_APower >= 1000) then
-			WorldQuestTracker.WorldMap_APowerIndicator.text = WorldQuestTracker.ToK (total_APower)
+			WorldQuestTracker.WorldMap_APowerIndicator.text = WorldQuestTracker.ToK_FormatBigger (total_APower)
 		else
 			WorldQuestTracker.WorldMap_APowerIndicator.text = total_APower
 		end
@@ -6137,8 +6217,12 @@ function WorldQuestTracker.SetupWorldQuestButton (self, worldQuestType, rarity, 
 					end
 
 					if (artifactPower >= 1000) then
-						if (artifactPower > 999999) then -- 1M
-							self.flagText:SetText (WorldQuestTracker.ToK (artifactPower))
+						if (artifactPower > 999999999) then -- 1B
+							self.flagText:SetText (WorldQuestTracker.ToK_FormatBigger (artifactPower))
+							
+						elseif (artifactPower > 999999) then -- 1M
+							--self.flagText:SetText (WorldQuestTracker.ToK (artifactPower))
+							self.flagText:SetText (WorldQuestTracker.ToK_FormatBigger (artifactPower))
 						elseif (artifactPower > 9999) then
 							self.flagText:SetText (WorldQuestTracker.ToK (artifactPower))
 						else
@@ -12382,7 +12466,11 @@ function WorldQuestTracker.UpdateWorldQuestsOnWorldMap (noCache, showFade, isQue
 												if (artifactPower > 999999) then
 													--widget.amountText:SetText (format ("%.1fM", artifactPower/1000000))
 													widget.amountText:SetText (WorldQuestTracker.ToK (artifactPower))
-
+													
+													local text = widget.amountText:GetText()
+													text = text:gsub ("%.0", "")
+													widget.amountText:SetText (text)
+													
 												elseif (artifactPower > 9999) then
 													--widget.amountText:SetText (format ("%.0fK", artifactPower/1000))
 													widget.amountText:SetText (WorldQuestTracker.ToK (artifactPower))

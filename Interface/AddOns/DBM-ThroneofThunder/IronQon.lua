@@ -220,7 +220,7 @@ end
 
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -281,8 +281,8 @@ function mod:OnCombatStart(delay)
 		timerWhirlingWindsCD:Start(15-delay)
 		timerLightningStormCD:Start(22-delay)
 		if self.Options.InfoFrame then
-			--DBM.InfoFrame:SetHeader(GetSpellInfo(136193))
-			--DBM.InfoFrame:Show(5, "playerbaddebuff", 136193)
+			DBM.InfoFrame:SetHeader(GetSpellInfo(136193))
+			DBM.InfoFrame:Show(5, "playerbaddebuff", 136193)
 		end
 	end
 	berserkTimer:Start(-delay)
@@ -371,7 +371,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				if self.Options.HudMAP then
 					lightmaker[args.destName] = register(DBMHudMap:AddEdge(0, 0, 1, 1, nil, "player", args.destName))
 					fixdebuffremovebug(args.destName)
-				end				
+				end
 			else
 				if (args.destName == mod.Options.dispsetLight1) or (args.destName == mod.Options.dispsetLight2) then
 					sndWOP:Play("helpme") --救我
@@ -628,7 +628,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		sndWOP:Cancel("countfour")
 		sndWOP:Cancel("countthree")
 		sndWOP:Cancel("counttwo")
-		sndWOP:Cancel("countone")		
+		sndWOP:Cancel("countone")
 		if phase == 2 then
 			warnWindStorm:Schedule(70)
 			specWarnWindStorm:Schedule(70)
@@ -650,7 +650,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 			timerFistSmashCD:Start(30, fistSmashCount+1) -- heroic cd longer.
 		else
 			timerFistSmashCD:Start(nil, fistSmashCount+1)
-		end		
+		end
 		if MyJS() then
 			specWarnJSA:Show()
 			sndWOP:Play("defensive") --注意減傷

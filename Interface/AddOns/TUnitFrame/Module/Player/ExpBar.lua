@@ -50,6 +50,8 @@ local function __MoveSecondaryFrames()
 	-- if there is xperl we do net do anything
 	--Terry@bf
 	if XPerl_Player then return end
+	if InCombatLockdown() then return end
+
 	PetFrame:SetToplevel(false)
 	local _,class = UnitClass("player")
 	if not class then return end
@@ -81,6 +83,8 @@ local function __MoveSecondaryFrames()
 end
 
 local function __ResetSecondaryFrames()
+	if InCombatLockdown() then return end
+
 	PetFrame:SetToplevel(true)
 
 	local _,class = UnitClass("player")
@@ -105,7 +109,6 @@ local function __ResetSecondaryFrames()
 			points.origin[4],
 			points.origin[5])
 	end
-
 end
 
 ---------------------------

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1737, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16586 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16987 $"):sub(12, -3))
 mod:SetCreatureID(104154)--The Demon Within (111022)
 mod:SetEncounterID(1866)
 mod:SetZone()
@@ -28,11 +28,6 @@ mod:RegisterEvents(
 	"CHAT_MSG_MONSTER_YELL"
 )
 
---TODO, if anquished spirits is important, add a timer. if not, remove warning.
---TODO, Do a bunch of stuff with well of souls? infoframe to track stacks/who should soak next?
---TODO, infoframe for TimeStop (206310) used correctly/well?
---TODO, maybe add a 'watch orb" warning to chaos seed?
---TODO, new voice "Move to time bubble" (movetimebubble)
 --[[
 (ability.id = 206219 or ability.id = 206220 or ability.id = 206514 or ability.id = 206675 or ability.id = 206840 or ability.id = 207938 or ability.id = 206883 or ability.id = 208545 or ability.id = 209270 or ability.id = 211152 or ability.id = 208672 or ability.id = 167819 or ability.id = 206939 or ability.id = 206744) and type = "begincast"
 or (ability.id = 206222 or ability.id = 206221 or ability.id = 221783 or ability.id = 212258) and type = "cast"
@@ -40,9 +35,9 @@ or (ability.id = 227427 or ability.id = 206516) and type = "applybuff"
 or (ability.id = 227427 or ability.id = 206516) and type = "removebuff"
 --]]
 
-local Kurazmal = EJ_GetSectionInfo(13121)
-local Vethriz = EJ_GetSectionInfo(13124)
-local Dzorykx = EJ_GetSectionInfo(13129)
+local Kurazmal = DBM:EJ_GetSectionInfo(13121)
+local Vethriz = DBM:EJ_GetSectionInfo(13124)
+local Dzorykx = DBM:EJ_GetSectionInfo(13129)
 
 --Stage One: The Council of Elders
 ----Gul'dan
@@ -305,6 +300,14 @@ function mod:OnCombatEnd()
 	end
 	if self.Options.InfoFrame then
 		DBM.InfoFrame:Hide()
+	end
+end
+
+function mod:OnTimerRecovery()
+	if self:IsMythic() then
+		self:SetCreatureID(104154, 111022)
+	else
+		self:SetCreatureID(104154)
 	end
 end
 

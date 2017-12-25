@@ -55,16 +55,16 @@ local berserkTimer						= mod:NewBerserkTimer(360)
 --local countdownImplodingEnergy			= mod:NewCountdown(10, 142986)
 --local soundDisplacedEnergy				= mod:NewSound(142913)
 
-mod:AddBoolOption("Malhelper", true, "sound")
-mod:AddBoolOption("MalhelperSend", false, "sound", 
-function()
-	if mod.Options.MalhelperSend then
-		DBM.MalHelperEnabled = true
-		DBM:AddMsg("|cFFFA6BC1"..MHExRTL.sendnote.."|r")
-	else
-		DBM.MalHelperEnabled = false
-	end
-end)
+-- mod:AddBoolOption("Malhelper", true, "sound")
+-- mod:AddBoolOption("MalhelperSend", false, "sound",
+-- function()
+	-- if mod.Options.MalhelperSend then
+		-- DBM.MalHelperEnabled = true
+		-- DBM:AddMsg("|cFFFA6BC1"..MHExRTL.sendnote.."|r")
+	-- else
+		-- DBM.MalHelperEnabled = false
+	-- end
+-- end)
 
 mod:AddBoolOption("RangeFrame", true)--Various things
 mod:AddBoolOption("SetIconOnDisplacedEnergy", false)
@@ -79,7 +79,7 @@ end
 
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -125,7 +125,7 @@ end
 
 local function getShieldState()
 	local colors = {"Red", "Yellow", "Green"}
-	local ShieldDebuffs = {GetSpellInfo(142863), GetSpellInfo(142864), GetSpellInfo(142865)}	
+	local ShieldDebuffs = {GetSpellInfo(142863), GetSpellInfo(142864), GetSpellInfo(142865)}
 	local amount
 	for i= 1, 3 do
 		amount = select(15, UnitDebuff("player", ShieldDebuffs[i]))
@@ -256,14 +256,14 @@ function mod:OnCombatEnd()
 	if self.Options.HudMAP then
 		DBMHudMap:FreeEncounterMarkers()
 	end
-	if self.Options.Malhelper and (not IsAddOnLoaded("Malkorok")) then
-		ExRT:ExBossmodsCloseAll()
-	end
+	-- if self.Options.Malhelper and (not IsAddOnLoaded("Malkorok")) then
+		-- ExRT:ExBossmodsCloseAll()
+	-- end
 	--BH ADD
-	if self.Options.LTshow then
-		needshowshield = false
-		DBM:HideLTSpecialWarning()
-	end
+	-- if self.Options.LTshow then
+		-- needshowshield = false
+		-- DBM:HideLTSpecialWarning()
+	-- end
 	--BH ADD END
 end
 

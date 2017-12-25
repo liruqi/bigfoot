@@ -125,7 +125,7 @@ mod:AddDropdownOption("optDD", {"nodd", "DD1", "DD2", "DD3"}, "nodd", "sound")
 mod:AddDropdownOption("optOC", {"five", "ten", "none"}, "five", "sound")
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -175,9 +175,9 @@ do
 	frame:SetScript("OnEvent", function(self, event, timestamp, subEvent, _, _, _, _, _, destGUID, _, _, _, ...)
 		if damagedMob == destGUID then
 			local damage
-			if subEvent == "SWING_DAMAGE" then 
-				damage = select( 1, ... ) 
-			elseif subEvent == "RANGE_DAMAGE" or subEvent == "SPELL_DAMAGE" or subEvent == "SPELL_PERIODIC_DAMAGE" then 
+			if subEvent == "SWING_DAMAGE" then
+				damage = select( 1, ... )
+			elseif subEvent == "RANGE_DAMAGE" or subEvent == "SPELL_DAMAGE" or subEvent == "SPELL_PERIODIC_DAMAGE" then
 				damage = select( 4, ... )
 			end
 			if damage then
@@ -185,7 +185,7 @@ do
 			end
 		end
 	end)
-	
+
 	function showDamagedHealthBar(self, mob, spellName, health)
 		damagedMob = mob
 		hpRemaining = health
@@ -193,7 +193,7 @@ do
 		DBM.BossHealth:RemoveBoss(getDamagedHP)
 		DBM.BossHealth:AddBoss(getDamagedHP, spellName)
 	end
-	
+
 	function hideDamagedHealthBar()
 		DBM.BossHealth:RemoveBoss(getDamagedHP)
 	end
@@ -257,7 +257,7 @@ function mod:SPELL_CAST_START(args)
 		if ((mod.Options.optDD == "DD1") and (boltCasts == 1)) or ((mod.Options.optDD == "DD2") and (boltCasts == 2)) or ((mod.Options.optDD == "DD3") and (boltCasts == 3)) then
 			sndWOP:Play("kickcast") --快打斷
 			specWarnSandBolt:Show(args.sourceName)
-		end	
+		end
 		if ((mod.Options.optDD == "DD1") and (boltCasts == 3)) or ((mod.Options.optDD == "DD2") and (boltCasts == 1)) or ((mod.Options.optDD == "DD3") and (boltCasts == 2)) then
 			specWarnDDL:Schedule(2)
 			sndWOP:Schedule(2, "interruptsoon") --打斷準備
@@ -293,7 +293,7 @@ function mod:SPELL_CAST_START(args)
 		sndSpirit:Schedule(32, "countone")
 	elseif args.spellId == 137350 then
 		warnShadowedLoaSpirit:Show()
-		specWarnShadowedLoaSpirit:Show()
+		-- specWarnShadowedLoaSpirit:Show()
 		timerShadowedLoaSpiritCD:Start()
 		sndSpirit:Play("killspirit")
 		sndSpirit:Cancel("countthree")
@@ -379,7 +379,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				sndWOP:Play("ex_tt_njs") 	 --女祭祀強化
 			end
 			--BH ADD END
-			--Swap timers. While possessed 
+			--Swap timers. While possessed
 			local elapsed, total = timerBlessedLoaSpiritCD:GetTime()
 			timerBlessedLoaSpiritCD:Cancel()
 			if elapsed and total then--If for some reason it was nil, like it JUST came off cd, do nothing, she should cast loa spirit right away.
@@ -400,7 +400,7 @@ function mod:SPELL_AURA_APPLIED(args)
 				sndWOP:Play("ex_tt_shw")	--霜王強化
 			end
 			--BH ADD END
-			--Swap timers. While possessed 
+			--Swap timers. While possessed
 			local elapsed, total = timerBitingColdCD:GetTime()
 			timerBitingColdCD:Cancel()
 			if elapsed and total and total ~= 0 then--If for some reason it was nil, like it JUST came off cd, do nothing, he should cast frost bite right away.
@@ -438,7 +438,7 @@ function mod:SPELL_AURA_APPLIED(args)
 					bosshealthnow = ("%d"):format(UnitHealth("boss"..i) / UnitHealthMax("boss"..i) * 100)
 					break
 				end
-			end				
+			end
 			local bosspowerspeed
 			if self:IsDifficulty("heroic10", "heroic25") then
 				bosspowerspeed = math.modf(68*(0.85^(speedcheck-1)))
@@ -447,7 +447,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			end
 			local actboss = args.destName
 			DBM.InfoFrame:SetHeader(actboss.."["..bosshealthnow.."%]"..GetSpellInfo(136442))
-			DBM.InfoFrame:Show(1, "time", bosshealthnow, bosspowerspeed, actboss)
+			-- DBM.InfoFrame:Show(1, "time", bosshealthnow, bosspowerspeed, actboss)
 		end
 		--BH ADD END
 	elseif args.spellId == 136903 then--Player Debuff version, not cast version

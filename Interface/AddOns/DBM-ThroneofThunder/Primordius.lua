@@ -63,7 +63,7 @@ mod:AddBoolOption("HudMAPF", true, "sound")
 
 local DBMHudMap = DBMHudMap
 local free = DBMHudMap.free
-local function register(e)	
+local function register(e)
 	DBMHudMap:RegisterEncounterMarker(e)
 	return e
 end
@@ -96,15 +96,15 @@ local function showspellinfo()
 			table.insert(sh,{K=k,V=v})
 		end
 		DBM.InfoFrame:SetHeader(L.BossSpellInfo)
-		if #sh == 1 then
-			DBM.InfoFrame:Show(1, "other", sh[1].V, sh[1].K)
-		elseif #sh == 2 then
-			DBM.InfoFrame:Show(2, "other", sh[1].V, sh[1].K, sh[2].V, sh[2].K)
-		elseif #sh == 3 then
-			DBM.InfoFrame:Show(3, "other", sh[1].V, sh[1].K, sh[2].V, sh[2].K, sh[3].V, sh[3].K)
-		elseif #sh == 4 then
-			DBM.InfoFrame:Show(4, "other", sh[1].V, sh[1].K, sh[2].V, sh[2].K, sh[3].V, sh[3].K, sh[4].V, sh[4].K)
-		end
+		-- if #sh == 1 then
+			-- DBM.InfoFrame:Show(1, "other", sh[1].V, sh[1].K)
+		-- elseif #sh == 2 then
+			-- DBM.InfoFrame:Show(2, "other", sh[1].V, sh[1].K, sh[2].V, sh[2].K)
+		-- elseif #sh == 3 then
+			-- DBM.InfoFrame:Show(3, "other", sh[1].V, sh[1].K, sh[2].V, sh[2].K, sh[3].V, sh[3].K)
+		-- elseif #sh == 4 then
+			-- DBM.InfoFrame:Show(4, "other", sh[1].V, sh[1].K, sh[2].V, sh[2].K, sh[3].V, sh[3].K, sh[4].V, sh[4].K)
+		-- end
 	end
 end
 
@@ -232,7 +232,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		showspellinfo()
 	elseif args.spellId == 136225 then
 		warnPathogenGlands:Show(args.destName)
-		showspellinfo()	
+		showspellinfo()
 	elseif args.spellId == 136228 then
 		warnVolatilePathogen:Show(args.destName)
 		timerVolatilePathogenCD:Start()
@@ -247,7 +247,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		metabolicBoost = true
 		sndWOP:Play("ex_tt_sljs")--加速
 		warnMetabolicBoost:Show(args.destName)
-		showspellinfo()		
+		showspellinfo()
 	elseif args.spellId == 136210 then
 		warnVentralSacs:Show(args.destName)
 		showspellinfo()
@@ -338,7 +338,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		warnPustuleEruption:Show()
 		timerPustuleEruptionCD:Start()
 		if not self:IsDifficulty("lfr25") then
-			specWarnPustuleEruption:Show()		
+			specWarnPustuleEruption:Show()
 			sndWOP:Play("ex_tt_zynx")--注意膿血
 			if mod.Options.HudMAPF then
 				for i = 1, DBM:GetNumGroupMembers() do

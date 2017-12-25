@@ -57,8 +57,9 @@ local __PUI_INDEXTOTYPE = {
 -- 特殊物品数据
 local __PUI_SPECIALS = {};
 __PUI_SPECIALS["HEARTHSTON"] = {
-	["6948"] = true,
-	["64488"] = true,
+	["6948"] = true,	--炉石
+	["110560"] = true,	--要塞炉石
+	["140192"] = true,	--达拉然炉石
 };
 
 -------------------
@@ -558,8 +559,8 @@ end
 local frame = CreateFrame("Frame", "__PUI_UPdateFrame", UIParent);
 frame:SetScript("OnUpdate",  __PUI_OnUpdate);
 
-local function GetAuctionItemClasses() 
-    return AUCTION_CATEGORY_WEAPONS, AUCTION_CATEGORY_ARMOR, AUCTION_CATEGORY_CONTAINERS, 
+local function GetAuctionItemClasses()
+    return AUCTION_CATEGORY_WEAPONS, AUCTION_CATEGORY_ARMOR, AUCTION_CATEGORY_CONTAINERS,
            AUCTION_CATEGORY_CONSUMABLES,AUCTION_CATEGORY_GLYPHS, AUCTION_CATEGORY_TRADE_GOODS,
            AUCTION_CATEGORY_RECIPES, AUCTION_CATEGORY_GEMS, AUCTION_CATEGORY_MISCELLANEOUS,AUCTION_CATEGORY_QUEST_ITEMS, AUCTION_CATEGORY_BATTLE_PETS
 end

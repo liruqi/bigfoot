@@ -1372,14 +1372,14 @@ end
 --增加最大镜头距离
 function RaidAlerter_SetCameraMaxToMax()
 	if RaidAlerter_SET.cameraMax then
-		SetCVar("cameraDistanceMax", 50);			--当前3.05版本极限=25，但不排除BLZ将来增大的可能，所以预留点空间
-		SetCVar("cameraDistanceMaxFactor", 4);		--当前3.05版本极限=2
+		-- SetCVar("cameraDistanceMax", 50);			--当前3.05版本极限=25，但不排除BLZ将来增大的可能，所以预留点空间
+		-- SetCVar("cameraDistanceMaxFactor", 4);		--当前3.05版本极限=2
 	end
 end
 
 function RaidAlerter_SetCameraMaxToDefaut()
-	SetCVar("cameraDistanceMax", 15);
-	SetCVar("cameraDistanceMaxFactor", 1);
+	-- SetCVar("cameraDistanceMax", 15);
+	-- SetCVar("cameraDistanceMaxFactor", 1);
 end
 
 function RaidAlerter_RAIDMODEList_OnClick(self,id)

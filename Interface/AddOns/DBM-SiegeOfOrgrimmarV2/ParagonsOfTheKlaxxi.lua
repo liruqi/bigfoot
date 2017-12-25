@@ -575,7 +575,7 @@ function mod:OnCombatEnd()
 		DBMHudMap:FreeEncounterMarkers()
 	end
 	if self.Options.LTchong or self.Options.LTIP then
-		DBM:HideLTSpecialWarning()
+		-- DBM:HideLTSpecialWarning()
 	end
 end
 
@@ -1056,7 +1056,7 @@ function mod:UNIT_DIED(args)
 		timerInjectionCD:Cancel()
 		dissectorlive = false
 		if self.Options.LTchong then
-			DBM:HideLTSpecialWarning()
+			-- DBM:HideLTSpecialWarning()
 			showtank = false
 		end
 		testinfo()

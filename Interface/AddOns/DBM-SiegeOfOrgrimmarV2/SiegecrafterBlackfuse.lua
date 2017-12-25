@@ -253,7 +253,7 @@ function mod:OnCombatEnd()
 		DBM.InfoFrame:Hide()
 	end
 	if self.Options.LTHX then
-		DBM:HideLTSpecialWarning()
+		-- DBM:HideLTSpecialWarning()
 	end
 end
 
@@ -460,7 +460,7 @@ local function showheroichx()
 			showheroichx()
 		end)
 	else
-		DBM:HideLTSpecialWarning()
+		-- DBM:HideLTSpecialWarning()
 	end
 end
 

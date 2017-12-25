@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1861, "DBM-TombofSargeras", nil, 875)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 16717 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 16983 $"):sub(12, -3))
 mod:SetCreatureID(115767)--116328 Vellius, 115795 Abyss Stalker, 116329/116843 Sarukel
 mod:SetEncounterID(2037)
 mod:SetZone()
@@ -19,10 +19,6 @@ mod:RegisterEventsInCombat(
 	"UNIT_SPELLCAST_SUCCEEDED boss1"
 )
 
---TODO: Do more with who has Buffer fish?
---TODO, automate Hydra Shot and assigning of soakers?
---TODO, target scan dark depths?
---TODO, hydra shot lowered to 30 on mythic, see if still 40 in other modes
 --[[
 (ability.id = 230273 or ability.id = 232722 or ability.id = 230384 or ability.id = 232746 or ability.id = 232757 or ability.id = 232827 or ability.id = 232756 or ability.id = 230358) and type = "begincast" or
 (ability.id = 230201 or ability.id = 232745) and type = "cast" or
@@ -120,13 +116,6 @@ local consumingHunger = GetSpellInfo(230384)
 local hydraIcons = {}
 local eventsRegistered = false
 local p3MythicCrashingWave = {30.9, 30.9, 40.6, 35.8, 30.9}--All minus 2 because timer starts at SUCCESS but is for START
-
---/run DBM:GetModByName("1861"):TestHydraShot(1)
-function mod:TestHydraShot(icon)
-	specWarnHydraShot:Show(self:IconNumToTexture(icon))
-	yellHydraShot:Yell(icon, "Hydra Shot", icon)
-	yellHydraShotFades:Countdown(5, 4, icon)
-end
 
 function mod:OnCombatStart(delay)
 	self.vb.phase = 1

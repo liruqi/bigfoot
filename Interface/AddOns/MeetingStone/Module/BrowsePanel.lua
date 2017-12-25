@@ -111,6 +111,10 @@ function BrowsePanel:OnInitialize()
                 key = 'MemberRole',
                 text = L['成员'],
                 width = 125,
+                sortHandler = function(activity)
+                    local numMembers = activity:GetNumMembers()
+                    return numMembers
+                end,
                 class = Addon:GetClass('MemberDisplay'),
                 formatHandler = function(grid, activity)
                     grid:SetActivity(activity)
@@ -120,6 +124,10 @@ function BrowsePanel:OnInitialize()
                 key = 'Level',
                 text = L['等级'],
                 width = 60,
+                sortHandler = function(activity)
+                    local minLevel = activity:GetMinLevel()
+                    return minLevel
+                end,
                 textHandler = function(activity)
                     local minLevel = activity:GetMinLevel()
                     local maxLevel = activity:GetMaxLevel()
@@ -139,6 +147,15 @@ function BrowsePanel:OnInitialize()
                 key = 'ItemLeave',
                 text = L['要求'],
                 width = 60,
+                sortHandler = function(activity)
+                    if activity:IsArenaActivity() then
+                        local pvpRating = activity:GetPvPRating()
+                        return pvpRating
+                    else
+                        local itemLevel = activity:GetItemLevel()
+                        return itemLevel
+                    end
+                end,
                 textHandler = function(activity)
                     if activity:IsArenaActivity() then
                         local pvpRating = activity:GetPvPRating()
