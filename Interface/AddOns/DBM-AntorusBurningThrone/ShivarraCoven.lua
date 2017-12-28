@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1986, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17029 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17064 $"):sub(12, -3))
 mod:SetCreatureID(122468, 122467, 122469)--122468 Noura, 122467 Asara, 122469 Diima, 125436 Thu'raya (mythic only)
 mod:SetEncounterID(2073)
 mod:SetZone()
@@ -27,7 +27,8 @@ mod:RegisterEventsInCombat(
 )
 
 --TODO, auto range frame for fury of Golganneth?
---TODO, figure out how to do timerBossIncoming better, so it works on mythic
+--TODO, verify timerBossIncoming on all difficulties
+--TODO, transcribe/video and tweak some timers for activation especially timerStormofDarknessCD which had some timer refreshed debug
 --[[
 (ability.id = 245627 or ability.id = 252861 or ability.id = 253650 or ability.id = 250095 or ability.id = 250648) and type = "begincast"
  or (ability.id = 244899 or ability.id = 245518 or ability.id = 253520 or ability.id = 245532 or ability.id = 250335 or ability.id = 250333 or ability.id = 250334 or ability.id = 249793 or ability.id = 250757 or ability.id = 246329) and type = "cast"
@@ -142,7 +143,6 @@ mod.vb.MachinationsLeft = 0
 mod.vb.fpIcon = 6
 mod.vb.chilledIcon = 1
 mod.vb.glareIcon = 4
---mod.vb.lastTormentCaster = DBM_CORE_UNKNOWN
 
 function mod:OnCombatStart(delay)
 	self.vb.stormCount = 0
@@ -151,7 +151,6 @@ function mod:OnCombatStart(delay)
 	self.vb.fpIcon = 4
 	self.vb.chilledIcon = 1
 	self.vb.glareIcon = 4
-	--self.vb.lastTormentCaster = DBM_CORE_UNKNOWN
 	if self:IsMythic() then
 		self:SetCreatureID(122468, 122467, 122469, 125436)
 	else
@@ -161,7 +160,7 @@ function mod:OnCombatStart(delay)
 	timerWhirlingSaberCD:Start(8-delay)
 	timerFieryStrikeCD:Start(11-delay)
 --	timerTouchofDarknessCD:Start(1-delay)
-	timerShadowBladesCD:Start(11.8-delay)
+	timerShadowBladesCD:Start(10.9-delay)
 	if not self:IsEasy() then
 		timerFulminatingPulseCD:Start(20.3-delay)
 		countdownFulminatingPulse:Start(20.3-delay)
@@ -247,8 +246,6 @@ function mod:SPELL_CAST_SUCCESS(args)
 		timerChilledBloodCD:Start()
 		voiceChilledBlood:Play("healall")
 	elseif (spellId == 250335 or spellId == 250333 or spellId == 250334 or spellId == 249793) then--Torment selections
-		--self.vb.lastTormentCaster = args.sourceName
-		--self.vb.lastTormentCaster = string.split(",", self.vb.lastTormentCaster)--Strip title
 		countdownTitans:Start()
 		if spellId == 250335 then--Machinations of Aman'Thul
 			timerMachinationsofAmanThulCD:Start()
@@ -453,40 +450,6 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, _, spellId)
 		DBM:Debug("UNIT_SPELLCAST_SUCCEEDED fired with: "..name, 2)
 	end
 end
-
---[[
-function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, npc)
-	if msg:find("spell:250095") then--Machinations of Aman'Thul
-		self.vb.MachinationsLeft = 4
-		specWarnTormentofTitans:Show()
-		voiceTormentofTitans:Play("killmob")
-		if not self:IsMythic() and self.vb.tormentCount % 2 == 0 then
-			timerBossIncoming:Start(14, self.vb.lastTormentCaster)
-		end
-	elseif msg:find("spell:245671") then--Flames of Khaz'goroth
-		specWarnTormentofTitans:Show()
-		voiceTormentofTitans:Play("runtoedge")
-		voiceTormentofTitans:Schedule(1, "killmob")
-		if not self:IsMythic() and self.vb.tormentCount % 2 == 0 then
-			timerBossIncoming:Start(14, self.vb.lastTormentCaster)
-		end
-	elseif msg:find("spell:245910") then--Spectral Army of Norgannon
-		specWarnTormentofTitans:Show()
-		voiceTormentofTitans:Play("watchstep")
-		if not self:IsMythic() and self.vb.tormentCount % 2 == 0 then
-			timerBossIncoming:Start(14, self.vb.lastTormentCaster)
-		end
-	elseif msg:find("spell:246763") then--Fury of Golganneth
-		specWarnTormentofTitans:Show()
-		voiceTormentofTitans:Play("scatter")
-		voiceTormentofTitans:Schedule(1, "killmob")
-		if not self:IsMythic() and self.vb.tormentCount % 2 == 0 then
-			timerBossIncoming:Start(14, self.vb.lastTormentCaster)
-		end
-	end
-	DBM:Debug("CHAT_MSG_RAID_BOSS_EMOTE fired with: "..npc.."/"..self.vb.lastTormentCaster, 2)
-end
---]]
 
 --"<196.23 00:02:34> [UNIT_TARGETABLE_CHANGED] boss3#true#true#true#Diima, Mother of Gloom#Creature-0-2083-1712-12288-122469-0000111E27#elite#2150947263", -- [1436]
 --"<196.23 00:02:34> [UNIT_TARGETABLE_CHANGED] nameplate2#false#false#true#Noura, Mother of Flames#Creature-0-2083-1712-12288-122468-0000111E27#elite#2150947229", -- [1437]

@@ -510,6 +510,18 @@ function GearStatsSummary_Sum(inspecting, tipUnit)
 							iLevel = iLevel < iLv16 and iLv16 or iLevel;
 						end
 					end
+					if unit == "player" then
+						local pointsSpent = select(6,C_ArtifactUI.GetEquippedArtifactInfo());
+						if pointsSpent > 51 then
+							local numRelicSlots = C_ArtifactUI.GetEquippedArtifactNumRelicSlots(true);
+							for i = 1, numRelicSlots do
+								local isAttuned = C_ArtifactUI.GetEquippedArtifactRelicAttuneInfo(i);
+								if isAttuned then
+									iLevel = iLevel + 5;
+								end
+							end
+						end
+					end
 				end
 			end
 

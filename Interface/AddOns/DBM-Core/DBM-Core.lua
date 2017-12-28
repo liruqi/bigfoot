@@ -41,7 +41,7 @@
 --  Globals/Default Options  --
 -------------------------------
 DBM = {
-	Revision = tonumber(("$Revision: 17041 $"):sub(12, -3)),
+	Revision = tonumber(("$Revision: 17067 $"):sub(12, -3)),
 	DisplayVersion = "7.3.15 alpha", -- the string that is shown as version
 	ReleaseRevision = 17026 -- the revision of the latest stable version that is available
 }
@@ -237,6 +237,7 @@ DBM.DefaultOptions = {
 	ArrowPoint = "TOP",
 	-- global boss mod settings (overrides mod-specific settings for some options)
 	DontShowBossAnnounces = false,
+	DontShowTargetAnnouncements = true,
 	DontShowSpecialWarnings = false,
 	DontShowBossTimers = false,
 	DontShowUserTimers = false,
@@ -273,7 +274,6 @@ DBM.DefaultOptions = {
 	ShowRespawn = true,
 	ShowQueuePop = true,
 	HelpMessageVersion = 3,
-	NewsMessageShown = 4,
 	MoviesSeen = {},
 	MovieFilter = "AfterFirst",
 	LastRevision = 0,
@@ -1796,7 +1796,6 @@ do
 			local time, text = msg:match("^%w+ ([%d:]+) (.+)$")
 			if not (time and text) then
 				for i, v in ipairs(DBM_CORE_TIMER_USAGE) do DBM:AddMsg(v) end
-				--DBM:AddMsg(DBM_PIZZA_ERROR_USAGE)
 				return
 			end
 			local min, sec = string.split(":", time)
@@ -5508,9 +5507,6 @@ do
 						end
 					end
 				end
-				if testBuild then
-					self:AddMsg(DBM_CORE_NEED_LOGS)
-				end
 				--call OnCombatStart
 				if mod.OnCombatStart then
 					mod:OnCombatStart(delay or 0, event == "PLAYER_REGEN_DISABLED_AND_MESSAGE" or event == "SPELL_CAST_SUCCESS")
@@ -5846,9 +5842,6 @@ do
 						end
 					end
 				end
-			end
-			if testBuild then
-				self:AddMsg(DBM_CORE_NEED_LOGS)
 			end
 			if mod.OnCombatEnd then mod:OnCombatEnd(wipe) end
 			if #inCombat == 0 then--prevent error if you pulled multiple boss. (Earth, Wind and Fire)
@@ -6290,13 +6283,8 @@ end
 do
 	function DBM:PLAYER_ENTERING_WORLD()
 		if not self.Options.DontShowReminders then
-			if GetLocale() == "ptBR" or GetLocale() == "frFR" or GetLocale() == "itIT" or GetLocale() == "esES" or GetLocale() == "ruRU" then
-				C_TimerAfter(10, function() if self.Options.HelpMessageVersion < 5 then self.Options.HelpMessageVersion = 5 self:AddMsg(DBM_CORE_NEED_LOCALS) end end)
-			end
-			-- C_TimerAfter(20, function() if not self.Options.ForumsMessageShown then self.Options.ForumsMessageShown = self.ReleaseRevision self:AddMsg(DBM_FORUMS_MESSAGE) end end)	-- bf@178
-			-- C_TimerAfter(25, function() if self.Options.SilentMode then self:AddMsg(DBM_SILENT_REMINDER) end end)
-			-- C_TimerAfter(30, function() if not self.Options.SettingsMessageShown then self.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end)	-- bf@178
-			-- C_TimerAfter(40, function() if self.Options.SettingsMessageShown and self.Options.NewsMessageShown < 11 then self.Options.NewsMessageShown = 11 self:AddMsg(DBM_CORE_WHATS_NEW_LINK) end end)
+			C_TimerAfter(25, function() if self.Options.SilentMode then self:AddMsg(DBM_SILENT_REMINDER) end end)
+			C_TimerAfter(30, function() if not self.Options.SettingsMessageShown then self.Options.SettingsMessageShown = true self:AddMsg(DBM_HOW_TO_USE_MOD) end end)
 		end
 		if type(RegisterAddonMessagePrefix) == "function" then
 			if not RegisterAddonMessagePrefix("D4") then -- main prefix for DBM4
@@ -7283,7 +7271,7 @@ function bossModPrototype:CheckNearby(range, targetname)
 		local uId = DBM:GetRaidUnitId(targetname)
 		if uId and not UnitIsUnit("player", uId) then
 			local inRange = DBM.RangeCheck:GetDistance(uId)
-			if inRange and inRange < range then
+			if inRange and inRange < range+0.5 then
 				return true
 			end
 		end
@@ -8436,6 +8424,7 @@ do
 	function announcePrototype:Show(...) -- todo: reduce amount of unneeded strings
 		if not self.option or self.mod.Options[self.option] then
 			if DBM.Options.DontShowBossAnnounces then return end	-- don't show the announces if the spam filter option is set
+			if DBM.Options.DontShowTargetAnnouncements and (self.announceType == "target" or self.announceType == "targetcount") then return end--don't show announces that are generic target announces
 			local argTable = {...}
 			local colorCode = ("|cff%.2x%.2x%.2x"):format(self.color.r * 255, self.color.g * 255, self.color.b * 255)
 			if #self.combinedtext > 0 then
@@ -9766,7 +9755,7 @@ do
 		if activeVP ~= "None" and activeVP == value then
 			if self.VoiceVersions[value] < 7 then--Version will be bumped when new voice packs released that contain new voices.
 				if not self.Options.DontShowReminders then
-					-- self:AddMsg(DBM_CORE_VOICE_PACK_OUTDATED)	--bf@178.com 19
+					-- self:AddMsg(DBM_CORE_VOICE_PACK_OUTDATED)	--bf@178.com 18
 				end
 				SWFilterDisabed = self.VoiceVersions[value]--Set disable to version on current voice pack
 			else

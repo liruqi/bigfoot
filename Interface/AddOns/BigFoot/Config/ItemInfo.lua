@@ -14,8 +14,8 @@ function ItemInfoConfigFunc()
 		__L["Show Auction Info"]		= "物品AH信息";
 		Show_Auction_Info_TOOLTIP="统计物品在拍卖行中的价格"
 
-		__L["Show Additional Info"]		= "物品等级|堆叠|用途";
-		Show_Additional_Info_TOOLTIP="显示物品等级，可堆叠的数量及用提提示"
+		__L["Show Additional Info"]		= "物品等级|堆叠";
+		Show_Additional_Info_TOOLTIP="显示物品等级，可堆叠的数量"
 
 		__L["Show Gem Info"]			= "宝石信息";
 		Show_Gem_Info_TOOLTIP="显示镶嵌在当前装备上的宝石名称"
@@ -42,8 +42,8 @@ function ItemInfoConfigFunc()
 		__L["Show Auction Info"]		= "物品AH信息";
 		Show_Auction_Info_TOOLTIP="統計物品在拍賣行中的價格"
 
-		__L["Show Additional Info"]	= "物品等級|堆疊|用途";
-		Show_Additional_Info_TOOLTIP="顯示物品等級，可堆疊數量及用途提示"
+		__L["Show Additional Info"]	= "物品等級|堆疊";
+		Show_Additional_Info_TOOLTIP="顯示物品等級，可堆疊數量"
 
 		__L["Show Gem Info"]			= "寶石信息";
 		Show_Gem_Info_TOOLTIP="顯示鑲嵌在當前裝備上的寶石名稱"
@@ -140,11 +140,9 @@ function ItemInfoConfigFunc()
 					if (__arg == 1) then
 						II_Config['ItemLevel'] = 1;
 						II_Config['StackCount'] = 1;
-						II_Config['UseInfo'] = 1;
 					else
 						II_Config['ItemLevel'] = nil;
 						II_Config['StackCount'] = nil;
-						II_Config['UseInfo'] = nil;
 					end
 				end
 			end,
