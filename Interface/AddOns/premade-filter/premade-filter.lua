@@ -163,9 +163,11 @@ local PremadeFilter_ActivityInfo = {
 	
 	["3-131-479"]	= { tier = 7, instance = 5, raid = true, difficulty = 14 }, -- ToS Normal
 	["3-131-478"]	= { tier = 7, instance = 5, raid = true, difficulty = 15 }, -- ToS Heroic
+	["3-131-492"]	= { tier = 7, instance = 5, raid = true, difficulty = 16 }, -- ToS Mythic
 	
 	["3-132-482"]	= { tier = 7, instance = 6, raid = true, difficulty = 14 }, -- AtBT Normal
 	["3-132-483"]	= { tier = 7, instance = 6, raid = true, difficulty = 15 }, -- AtBT Heroic
+	["3-132-493"]	= { tier = 7, instance = 6, raid = true, difficulty = 16 }, -- AtBT Mythic
 }
 
 local PremadeFilter_RealmChapters = {
@@ -1239,6 +1241,40 @@ local PremadeFilter_Relams = {
 		
 };
 
+StaticPopupDialogs["PREMADEFILTER_CONFIRM_CLOSE"] = {
+	text = T("Automatic monitoring of new groups in background is broken since patch 7.2. It was forbidden by Blizzard and is no longer possible. See https://us.battle.net/forums/en/wow/topic/20754326419 for more details.\n\nYou can manually trigger background search by assigning key binding."),
+	button1 = OKAY,
+	button2 = NO,
+	OnShow = function(self)
+		PremadeFilter_Frame.closeConfirmation = true;
+	end,
+	OnHide = function(self)
+		PremadeFilter_Frame.closeConfirmation = false;
+	end,
+	OnAccept = function(self, arg1, reason)
+		if PremadeFilter_Frame:IsVisible() then
+			PremadeFilter_Frame.ShowNextTime = true;
+			
+			HideUIPanel(PVEFrame);
+			
+			PremadeFilter_MinimapButton:Show();
+			PremadeFilter_MinimapButton.Eye:Show();
+			EyeTemplate_StartAnimating(PremadeFilter_MinimapButton.Eye);
+			
+			PremadeFilter_StartMonitoring();
+		end
+	end,
+	OnCancel = function(self, arg1, reason)
+		PremadeFilter_Frame.ShowNextTime = false;
+		PremadeFilter_Frame:Hide();
+		PremadeFilter_Frame.AdvancedButton:Enable();
+	end,
+	timeout = 0,
+	whileDead = true,
+	hideOnEscape = true,
+	preferredIndex = 3
+}
+
 StaticPopupDialogs["PREMADEFILTER_SAVE_FILTERSET"] = {
 	text = T("Enter filter set name"),
 	hasEditBox = true,
@@ -1692,6 +1728,7 @@ function PremadeFilter_OnHide(self)
 	self.AdvancedButton:SetPushedTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Down");
 	self.AdvancedButton:SetDisabledTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Disabled");
 
+	StaticPopup_Hide("PREMADEFILTER_CONFIRM_CLOSE");
 	StaticPopup_Hide("PREMADEFILTER_SAVE_FILTERSET");
 	
 	local helpPlate = PremadeFilter_HelpPlate;
@@ -1703,7 +1740,11 @@ end
 
 function PremadeFilter_Toggle()
 	if PremadeFilter_Frame:IsVisible() then
-		PremadeFilter_Frame:Hide();
+		if QueueStatusMinimapButton:IsVisible() or PremadeFilter_Frame.closeConfirmation then
+			PremadeFilter_Frame:Hide();
+		else
+			StaticPopup_Show("PREMADEFILTER_CONFIRM_CLOSE");
+		end
 	else
 		PremadeFilter_Frame:Show();
 	end
@@ -1762,11 +1803,14 @@ function PremadeFilter_GetAvailableBosses()
 	if type(activity) == "table" then		
 		EncounterJournal_TierDropDown_Select(nil, activity.tier);
 		
-		local instanceID = EJ_GetInstanceByIndex(activity.instance, activity.raid);		
-		if activity.tier == 7 and activity.instance == 6 and instanceID == 959 then
-			instanceID = 946
+		local instanceID = EJ_GetInstanceByIndex(activity.instance, activity.raid);
+		
+		if GetLocale() == "zhCN" then --Fix zhCN UI API bug (https://twitter.com/liruqi/status/946870306873909248)
+			if activity.tier == 7 and activity.instance == 6 and instanceID == 959 then
+				instanceID = 946
+			end
 		end
-
+		
 		EncounterJournal_DisplayInstance(instanceID);
 		
 		if activity.difficulty then
@@ -2537,12 +2581,7 @@ function LFGListSearchPanel_UpdateResultList(self)
 			
 			local infoName = PremadeFilter_GetInfoName(activityID, name);
 			local matches = PremadeFilter_IsStringMatched(name:lower(), include, exclude, possible);
-
-			-- description
-			if matches then
-				matches = PremadeFilter_IsStringMatched(comment:lower(), include, exclude, possible);
-			end
-
+			
 			-- check additional filters
 			if matches and extraFilters then
 				-- category
@@ -2558,6 +2597,11 @@ function LFGListSearchPanel_UpdateResultList(self)
 				-- activity
 				if matches and extraFilters.activity then
 					matches = (activityID == extraFilters.activity);
+				end
+				
+				-- description
+				if matches and extraFilters.description then
+					matches = PremadeFilter_IsStringMatched(comment:lower(), extraFilters.description.include, extraFilters.description.exclude, extraFilters.description.possible);
 				end
 				
 				-- item level
