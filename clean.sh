@@ -1,3 +1,4 @@
+#Clean up for mage branch
 rm -rfv Interface/AddOns/BigFootBank
 rm -rfv Interface/AddOns/TheBurningTrade
 rm -rfv Interface/AddOns/MySlot
@@ -8,13 +9,12 @@ rm -rfv Interface/AddOns/Combuctor
 git add -A Interface/AddOns/
 git commit -m "Clean up"
 
-#https://www.curseforge.com/wow/addons/premade-filter
-wget https://addons-origin.cursecdn.com/files/2497/976/premade-filter-2.1.0.zip
-unzip premade-filter-2.1.0.zip
-rm Interface/AddOns/premade-filter
+git clone https://github.com/Tga123/premade-filter
+rm -rfv premade-filter/.git
+rm -rfv Interface/AddOns/premade-filter
 mv premade-filter Interface/AddOns
 git add -A Interface/AddOns/
-git commit -m "Add suggested"
-git push
+#git commit -m "Update premade-filter"
+#git push
 
 
