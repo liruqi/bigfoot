@@ -3,7 +3,7 @@ local Recount = _G.Recount
 local AceLocale = LibStub("AceLocale-3.0")
 local L = AceLocale:GetLocale( "Recount" )
 
-local revision = tonumber(string.sub("$Revision: 1386 $", 12, -3))
+local revision = tonumber(string.sub("$Revision: 1451 $", 12, -3))
 if Recount.Version < revision then
 	Recount.Version = revision
 end
@@ -123,14 +123,14 @@ function Recount:AddGain(source, victim, ability, amount, attribute,srcGUID,srcF
 	if srcRetention then
 
 		if not dbCombatants[source] then
-			Recount:AddCombatant(source,sourceowner,srcGUID,srcFlags,sourceownerID)
+			Recount:AddCombatant(source, sourceowner, srcGUID, srcFlags, sourceownerID)
 		end -- Elsia: Until here is if pets heal anybody.
 		local sourceData = dbCombatants[source]
 		Recount:SetActive(sourceData)
 
 		Recount:AddAmount(sourceData,DataAmount,amount)
-		Recount:AddTableDataSum(sourceData,DataTable,ability,victim,amount)
-		Recount:AddTableDataSum(sourceData,DataTable2,victim,ability,amount)
+		Recount:AddTableDataSum(sourceData, DataTable, ability, victim, amount)
+		Recount:AddTableDataSum(sourceData, DataTable2, victim, ability, amount)
 	end
 end
 

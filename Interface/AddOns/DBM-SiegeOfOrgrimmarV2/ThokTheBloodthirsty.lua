@@ -3,8 +3,6 @@ local L		= mod:GetLocalizedStrings()
 local sndWOP	= mod:SoundMM("SoundWOP")
 local sndPX		= mod:SoundMM("SoundPX", mod:IsSpellCaster())
 
-local LibRange = LibStub("LibRangeCheck-2.0")
-
 mod:SetRevision(("$Revision: 11360 $"):sub(12, -3))
 mod:SetCreatureID(71529)
 mod:SetEncounterID(1599)
@@ -158,16 +156,6 @@ local function MyJS()
 end
 
 local function checkbossrange()
-	if UnitExists("boss1") then
-		local minrange, maxrange = LibRange:getRange("boss1")
-		if minrange and maxrange then
-			if minrange < 40 then
-				DBM:ShowLTSpecialWarning(minrange.." - "..maxrange, 0, 1, 0)
-			else
-				DBM:ShowLTSpecialWarning(minrange.." - "..maxrange, 1, 0, 0)
-			end
-		end
-	end
 	if phase == 2 then
 		mod:Schedule(0.2, checkbossrange)
 	else

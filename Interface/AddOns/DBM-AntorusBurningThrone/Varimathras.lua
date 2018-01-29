@@ -1,12 +1,12 @@
 local mod	= DBM:NewMod(1983, "DBM-AntorusBurningThrone", nil, 946)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17095 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17183 $"):sub(12, -3))
 mod:SetCreatureID(122366)
 mod:SetEncounterID(2069)
 mod:SetZone()
 --mod:SetBossHPInfoToHighest()
-mod:SetUsedIcons(1, 3, 4, 5, 6)
+mod:SetUsedIcons(1, 3, 4)
 mod:SetHotfixNoticeRev(16945)
 mod.respawnTime = 29
 
@@ -54,11 +54,13 @@ local specWarnEchoesOfDoom				= mod:NewSpecialWarningYou(248732, nil, nil, nil, 
 local yellEchoesOfDoom					= mod:NewYell(248732)
 
 --Torments of the Shivarra
+mod:AddTimerLine(GENERAL)
 local timerTormentofFlamesCD			= mod:NewNextTimer(5, 243967, nil, nil, nil, 6)
 local timerTormentofFrostCD				= mod:NewNextTimer(61, 243976, nil, nil, nil, 6)
 local timerTormentofFelCD				= mod:NewNextTimer(61, 243979, nil, nil, nil, 6)
 local timerTormentofShadowsCD			= mod:NewNextTimer(61, 243974, nil, nil, nil, 6)
 --The Fallen Nathrezim
+mod:AddTimerLine(BOSS)
 local timerShadowStrikeCD				= mod:NewCDTimer(8.5, 243960, nil, "Tank", nil, 5, nil, DBM_CORE_TANK_ICON)--8.5-14 (most of time it's 9.7 or more, But lowest has to be used
 local timerDarkFissureCD				= mod:NewCDTimer(32, 243999, nil, nil, nil, 3)--32-33
 local timerMarkedPreyCD					= mod:NewNextTimer(30.3, 244042, nil, nil, nil, 3)

@@ -1,367 +1,251 @@
 
--- here is your custom color. note: it acts as a filter applied to the texture image.
-local COLOR = { r = 0.6, g = 0, b = 0 ,a = 0.8}
+local ADDON_NAME = ...
+local _G = _G
+local knownTable = {} -- Save known items for later use
+local db
+local questItems = { -- Quest items and matching quests
+	-- Equipment Blueprint: Tuskarr Fishing Net
+	[128491] = 39359, -- Alliance
+	[128251] = 39359, -- Horde
+	-- Equipment Blueprint: Unsinkable
+	[128250] = 39358, -- Alliance
+	[128489] = 39358, -- Horde
+}
+local specialItems = { -- Items needing special treatment
+	-- Krokul Flute -> Flight Master's Whistle
+	[152964] = { 141605, 11, 269 } -- 269 for Flute applied Whistle, 257 (or anything else than 269) for pre-apply Whistle
+}
 
-local tooltip = CreateFrame('GameTooltip')
-tooltip:SetOwner(WorldFrame, 'ANCHOR_NONE')
-local _
+-- Tooltip and scanning by Phanx @ http://www.wowinterface.com/forums/showthread.php?p=271406
+-- Search string by Phanx @ https://github.com/Phanx/BetterBattlePetTooltip/blob/master/Addon.lua
+local S_PET_KNOWN = strmatch(_G.ITEM_PET_KNOWN, "[^%(]+")
 
-local IsAlreadyKnown,tog_swith
-do
-	local knowns = {}
+local scantip = CreateFrame("GameTooltip", "AKScanningTooltip", nil, "GameTooltipTemplate")
+scantip:SetOwner(UIParent, "ANCHOR_NONE")
 
-	-- things we have to care. please let me know if any lack or surplus here.
-	local container = GetItemClassInfo(LE_ITEM_CLASS_CONTAINER);
-	local consumable = GetItemClassInfo(LE_ITEM_CLASS_CONSUMABLE);
-	local glyph = GetItemClassInfo(LE_ITEM_CLASS_GLYPH);
-	local recipe = GetItemClassInfo(LE_ITEM_CLASS_RECIPE);
-	local miscallaneous = GetItemClassInfo(LE_ITEM_CLASS_MISCELLANEOUS);
-	local knowables = { [consumable] = true, [glyph] = true, [recipe] = true, [miscallaneous] = true, }
-
-	local lines = {}
-	for i = 1, 40 do
-		lines[i] = tooltip:CreateFontString()
-		tooltip:AddFontStrings(lines[i], tooltip:CreateFontString())
+local function _checkIfKnown(itemLink)
+	if knownTable[itemLink] then -- Check if we have scanned this item already and it was known then
+		return true
 	end
 
-	function IsAlreadyKnown (itemLink)
-		if ( not itemLink ) then
-			return
+	local itemID = tonumber(itemLink:match("item:(%d+)"))
+	if itemID and questItems[itemID] then -- Check if item is a quest item.
+		if IsQuestFlaggedCompleted(questItems[itemID]) then -- Check if the quest for item is already done.
+			if db.debug and not knownTable[itemLink] then print(format("%d - QuestItem", itemID)) end
+			knownTable[itemLink] = true -- Mark as known for later use
+			return true -- This quest item is already known
 		end
-
-		local itemID = itemLink:match('item:(%d+):')
-		if ( knowns[itemID] ) then
-			return true
-		end
-
-		local _, _, _, _, _, itemType = GetItemInfo(itemLink)
-		if ( not knowables[itemType] ) then
-			return
-		end
-
-		tooltip:ClearLines()
-		tooltip:SetHyperlink(itemLink)
-
-		for i = 1, tooltip:NumLines() do
-			if ( lines[i]:GetText() == ITEM_SPELL_KNOWN ) then
-				knowns[itemID] = true
-				return true
+		return false -- Quest item is uncollected... or something went wrong
+	elseif itemID and specialItems[itemID] then -- Check if we need special handling, this is most likely going to break with then next item we add to this
+		local specialData = specialItems[itemID]
+		local _, specialLink = GetItemInfo(specialData[1])
+		if specialLink then
+			local specialTbl = { strsplit(":", specialLink) }
+			local specialInfo = tonumber(specialTbl[specialData[2]])
+			if specialInfo == specialData[3] then
+				if db.debug and not knownTable[itemLink] then print(format("%d, %d - SpecialItem", itemID, specialInfo)) end
+				knownTable[itemLink] = true -- Mark as known for later use
+				return true -- This specialItem is already known
 			end
 		end
+		return false -- Item is specialItem, but data isn't special
+	end
 
-		-- New Add for PET
-		for i = 1, tooltip:NumLines() do
-			for maxAllowed = 1, 3, 2 do
-				if ( lines[i]:GetText() == format(ITEM_PET_KNOWN, maxAllowed, maxAllowed)) then
-					knowns[itemID] = true
-					return true
-				end
+	if itemLink:match("|H(.-):") == "battlepet" then -- Check if item is Caged Battlepet (dummy item 82800)
+		local _, battlepetID = strsplit(":", itemLink)
+		if C_PetJournal.GetNumCollectedInfo(battlepetID) > 0 then
+			if db.debug and not knownTable[itemLink] then print(format("%d - BattlePet: %s %d", itemID, battlepetID, C_PetJournal.GetNumCollectedInfo(battlepetID))) end
+			knownTable[itemLink] = true -- Mark as known for later use
+			return true -- Battlepet is collected
+		end
+		return false -- Battlepet is uncollected... or something went wrong
+	end
+
+	scantip:ClearLines()
+	scantip:SetHyperlink(itemLink)
+
+	--for i = 2, scantip:NumLines() do -- Line 1 is always the name so you can skip it.
+	local lines = scantip:NumLines()
+	for i = 2, lines do -- Line 1 is always the name so you can skip it.
+		local text = _G["AKScanningTooltipTextLeft"..i]:GetText()
+		if text == _G.ITEM_SPELL_KNOWN or strmatch(text, S_PET_KNOWN) then
+			if db.debug and not knownTable[itemLink] then print(format("%d - Tip %d: %s (%s / %s)", itemID, i, tostring(text), text == _G.ITEM_SPELL_KNOWN and "true" or "false", strmatch(text, S_PET_KNOWN) and "true" or "false")) end
+			--knownTable[itemLink] = true -- Mark as known for later use
+			--return true -- Item is known and collected
+			if lines - i <= 3 then -- Mounts have Riding skill and Reputation requirements under Already Known -line
+				knownTable[itemLink] = true -- Mark as known for later use
 			end
+		elseif text == _G.TOY and _G["AKScanningTooltipTextLeft"..i + 2] and _G["AKScanningTooltipTextLeft"..i + 2]:GetText() == _G.ITEM_SPELL_KNOWN then
+			-- Check if items is Toy already known
+			if db.debug and not knownTable[itemLink] then print(format("%d - Toy %d", itemID, i)) end
+			knownTable[itemLink] = true
 		end
 	end
+	--return false -- Item is not known, uncollected... or something went wrong
+	return knownTable[itemLink] and true or false
 end
 
--- merchant frame
+local tog_swith
 
-local function MerchantFrame_UpdateMerchantInfo ()
+local function _hookAH() -- Most of this found from AddOns/Blizzard_AuctionUI/Blizzard_AuctionUI.lua
 	if not tog_swith then return end
-	local numItems = GetMerchantNumItems()
-
-	for i = 1, MERCHANT_ITEMS_PER_PAGE do
-		local index = (MerchantFrame.page - 1) * MERCHANT_ITEMS_PER_PAGE + i
-		if ( index > numItems ) then
-			return
-		end
-
-		local button = _G['MerchantItem' .. i .. 'ItemButton']
-		button.bfTexture = button.bfTexture or button:CreateTexture(nil,"OVERLAY");
-
-		if ( button and button:IsShown() ) then
-			local _, _, _, _, numAvailable, isUsable = GetMerchantItemInfo(index)
-
-			if ( isUsable and IsAlreadyKnown(GetMerchantItemLink(index)) ) then
-				local r, g, b = COLOR.r, COLOR.g, COLOR.b
-				if ( numAvailable == 0 ) then
-					r, g, b = r * 0.5, g * 0.5, b * 0.5
-				end
-
-				-- SetItemButtonTextureVertexColor(button, r, g, b)
-				button.bfTexture:SetTexture(TEXTURE_ITEM_QUEST_BORDER);
-				button.bfTexture:SetAllPoints(button)
-				button.bfTexture:SetVertexColor(r, g, b,COLOR.a)
-				button.bfTexture:Show();
-			else
-				button.bfTexture:Hide();
-			end
-		end
-	end
-end
-
-hooksecurefunc('MerchantFrame_UpdateMerchantInfo', MerchantFrame_UpdateMerchantInfo)
-
-local function MerchantFrame_UpdateBuybackInfo ()
-	if not tog_swith then return end
-	local numItems = GetNumBuybackItems()
-
-	for index = 1, BUYBACK_ITEMS_PER_PAGE do
-		if ( index > numItems ) then
-			return
-		end
-
-		local button = _G['MerchantItem' .. index .. 'ItemButton']
-		button.bfTexture = button.bfTexture or button:CreateTexture(nil,"OVERLAY");
-
-		if ( button and button:IsShown() ) then
-			local _, _, _, _, _, isUsable = GetBuybackItemInfo(index)
-
-			if ( isUsable and IsAlreadyKnown(GetBuybackItemLink(index)) ) then
-				-- SetItemButtonTextureVertexColor(button, COLOR.r, COLOR.g, COLOR.b)
-				button.bfTexture:SetTexture(TEXTURE_ITEM_QUEST_BORDER);
-				button.bfTexture:SetAllPoints(button)
-				button.bfTexture:SetVertexColor(COLOR.r, COLOR.g, COLOR.b,COLOR.a)
-				button.bfTexture:Show();
-			else
-				button.bfTexture:Hide();
-			end
-		end
-	end
-end
-
-hooksecurefunc('MerchantFrame_UpdateBuybackInfo', MerchantFrame_UpdateBuybackInfo)
-
--- guild bank frame
-
-local function GuildBankFrame_Update ()
-	if not tog_swith then return end
-	if ( GuildBankFrame.mode ~= 'bank' ) then
-		return
-	end
-
-	local tab = GetCurrentGuildBankTab()
-	local tem_num;
-
-	for i = 1, MAX_GUILDBANK_SLOTS_PER_TAB do
-		tem_num = math.fmod(i, NUM_SLOTS_PER_GUILDBANK_GROUP) == 0 and 14 or math.fmod(i, NUM_SLOTS_PER_GUILDBANK_GROUP)
-		local button = _G['GuildBankColumn' .. math.ceil((i - 0.5) / NUM_SLOTS_PER_GUILDBANK_GROUP) .. 'Button' .. tem_num]
-		button.bfTexture = button.bfTexture or button:CreateTexture(nil,"OVERLAY");
-		if ( button and button:IsShown() ) then
-			local texture, _, locked = GetGuildBankItemInfo(tab, i)
-			if ( texture and not locked ) then
-				if ( IsAlreadyKnown(GetGuildBankItemLink(tab, i)) ) then
-					-- SetItemButtonTextureVertexColor(button, COLOR.r, COLOR.g, COLOR.b)
-					button.bfTexture:SetTexture(TEXTURE_ITEM_QUEST_BORDER);
-					button.bfTexture:SetAllPoints(button)
-					button.bfTexture:SetVertexColor(COLOR.r, COLOR.g, COLOR.b,COLOR.a)
-					button.bfTexture:Show();
-				else
-					button.bfTexture:Hide();
-				end
-			end
-		end
-	end
-end
-
-local isBlizzard_GuildBankUILoaded
-if ( IsAddOnLoaded('Blizzard_GuildBankUI') ) then
-	isBlizzard_GuildBankUILoaded = true
-
-	hooksecurefunc('GuildBankFrame_Update', GuildBankFrame_Update)
-end
-
--- bank frame
-
-local function BankFrameItemButton_Update (button)
-	local container = button:GetParent():GetID()
-
-	if container ~= -1 then
-		return
-	end
-
-	local slot = button:GetID()
-	local _, _, _, _, _, _, itemLink = GetContainerItemInfo(container, slot)
-	button.bfTexture = button.bfTexture or button:CreateTexture(nil,"OVERLAY");
-
-	if IsAlreadyKnown(itemLink) then
-		-- SetItemButtonTextureVertexColor(button, COLOR.r, COLOR.g, COLOR.b)
-		button.bfTexture:SetTexture(TEXTURE_ITEM_QUEST_BORDER);
-		button.bfTexture:SetAllPoints(button)
-		button.bfTexture:SetVertexColor(COLOR.r, COLOR.g, COLOR.b,COLOR.a)
-		button.bfTexture:Show();
-	else
-		button.bfTexture:Hide();
-	end
-end
-
-hooksecurefunc('BankFrameItemButton_Update', BankFrameItemButton_Update)
-
--- auction frame
-
-local function AuctionFrameBrowse_Update ()
-	if not tog_swith then return end
-	local numItems = GetNumAuctionItems('list')
 	local offset = FauxScrollFrame_GetOffset(BrowseScrollFrame)
 
-	for i = 1, NUM_BROWSE_TO_DISPLAY do
-		local index = offset + i
-		if ( index > numItems ) then
-			return
-		end
-
-		local button = _G['BrowseButton' .. i .. 'Item']
-		button.bfTexture = button.bfTexture or button:CreateTexture(nil,"OVERLAY");
-
-		if ( button and button:IsShown() ) then
-			local _, _, _, _, canUse =  GetAuctionItemInfo('list', index)
-
-			if ( canUse and IsAlreadyKnown(GetAuctionItemLink('list', index)) ) then
-				-- texture:SetVertexColor(COLOR.r, COLOR.g, COLOR.b)
-				button.bfTexture:SetTexture(TEXTURE_ITEM_QUEST_BORDER);
-				button.bfTexture:SetAllPoints(button)
-				button.bfTexture:SetVertexColor(COLOR.r, COLOR.g, COLOR.b,COLOR.a)
-				button.bfTexture:Show();
+	for i=1, _G.NUM_BROWSE_TO_DISPLAY do
+		if (_G["BrowseButton"..i.."Item"] and _G["BrowseButton"..i.."ItemIconTexture"]) or _G["BrowseButton"..i].id then -- Something to do with ARL?
+			local itemLink
+			if _G["BrowseButton"..i].id then
+				itemLink = GetAuctionItemLink('list', _G["BrowseButton"..i].id)
 			else
-				button.bfTexture:Hide();
+				itemLink = GetAuctionItemLink('list', offset + i)
 			end
-		end
-	end
-end
 
-local function AuctionFrameBid_Update ()
-	if not tog_swith then return end
-	local numItems = GetNumAuctionItems('bidder')
-	local offset = FauxScrollFrame_GetOffset(BidScrollFrame)
-
-	for i = 1, NUM_BIDS_TO_DISPLAY do
-		local index = offset + i
-		if ( index > numItems ) then
-			return
-		end
-
-		local button = _G['BidButton' .. i .. 'Item']
-		button.bfTexture = button.bfTexture or button:CreateTexture(nil,"OVERLAY");
-
-		if ( button and button:IsShown() ) then
-			local _, _, _, _, canUse =  GetAuctionItemInfo('bidder', index)
-
-			if ( canUse and IsAlreadyKnown(GetAuctionItemLink('bidder', index)) ) then
-				-- texture:SetVertexColor(COLOR.r, COLOR.g, COLOR.b)
-				button.bfTexture:SetTexture(TEXTURE_ITEM_QUEST_BORDER);
-				button.bfTexture:SetAllPoints(button)
-				button.bfTexture:SetVertexColor(COLOR.r, COLOR.g, COLOR.b,COLOR.a)
-				button.bfTexture:Show();
-			else
-				button.bfTexture:Hide();
-			end
-		end
-	end
-end
-
-local function AuctionFrameAuctions_Update ()
-	if not tog_swith then return end
-	local numItems = GetNumAuctionItems('owner')
-	local offset = FauxScrollFrame_GetOffset(AuctionsScrollFrame)
-
-	for i = 1, NUM_AUCTIONS_TO_DISPLAY do
-		local index = offset + i
-		if ( index > numItems ) then
-			return
-		end
-
-		local button = _G['AuctionsButton' .. i .. 'Item']
-		button.bfTexture = button.bfTexture or button:CreateTexture(nil,"OVERLAY");
-
-		if ( button and button:IsShown() ) then
-			local _, _, _, _, canUse, _, _, _, _, _, _, _, saleStatus = GetAuctionItemInfo('owner', index)
-
-			if ( canUse and IsAlreadyKnown(GetAuctionItemLink('owner', index)) ) then
-				local r, g, b = COLOR.r, COLOR.g, COLOR.b
-				if ( saleStatus == 1 ) then
-					r, g, b = r * 0.5, g * 0.5, b * 0.5
+			if itemLink and _checkIfKnown(itemLink) then
+				if _G["BrowseButton"..i].id then
+					_G["BrowseButton"..i].Icon:SetVertexColor(db.r, db.g, db.b)
+				else
+					_G["BrowseButton"..i.."ItemIconTexture"]:SetVertexColor(db.r, db.g, db.b)
 				end
 
-				-- texture:SetVertexColor(r, g, b)
-				button.bfTexture:SetTexture(TEXTURE_ITEM_QUEST_BORDER);
-				button.bfTexture:SetAllPoints(button)
-				button.bfTexture:SetVertexColor(r, g, b,COLOR.a)
-				button.bfTexture:Show();
+				if db.monochrome then
+					if _G["BrowseButton"..i].id then
+						_G["BrowseButton"..i].Icon:SetDesaturated(true)
+					else
+						_G["BrowseButton"..i.."ItemIconTexture"]:SetDesaturated(true)
+					end
+				end
 			else
-				button.bfTexture:Hide();
+				if _G["BrowseButton"..i].id then
+					_G["BrowseButton"..i].Icon:SetVertexColor(1, 1, 1)
+					_G["BrowseButton"..i].Icon:SetDesaturated(false)
+				else
+					_G["BrowseButton"..i.."ItemIconTexture"]:SetVertexColor(1, 1, 1)
+					_G["BrowseButton"..i.."ItemIconTexture"]:SetDesaturated(false)
+				end
 			end
 		end
 	end
 end
 
-local isBlizzard_AuctionUILoaded
-if ( IsAddOnLoaded('Blizzard_AuctionUI') ) then
-	isBlizzard_AuctionUILoaded = true
-
-	hooksecurefunc('AuctionFrameBrowse_Update', AuctionFrameBrowse_Update)
-	hooksecurefunc('AuctionFrameBid_Update', AuctionFrameBid_Update)
-	hooksecurefunc('AuctionFrameAuctions_Update', AuctionFrameAuctions_Update)
-end
-
--- ContainerFrame
-local function ContainerFrame_UpdateBuybackInfo (frame)
+local function _hookMerchant() -- Most of this found from FrameXML/MerchantFrame.lua
 	if not tog_swith then return end
-	local id = frame:GetID();
-	local name = frame:GetName();
-	local __itemButton,__quality,__link;
-	if frame.size and type(frame.size) == "number" and frame.size > 1 then
-		for i=1, frame.size, 1 do
-			__itemButton = _G[name.."Item"..i];
-			__itemButton.bfTexture = __itemButton.bfTexture or __itemButton:CreateTexture(nil,"OVERLAY");
-			_, _, _, __quality, _, _, __link = GetContainerItemInfo(id, __itemButton:GetID());
-			if IsAlreadyKnown (__link) then
-				-- SetItemButtonTextureVertexColor(__itemButton, COLOR.r, COLOR.g, COLOR.b)
-				__itemButton.bfTexture:SetTexture(TEXTURE_ITEM_QUEST_BORDER);
-				__itemButton.bfTexture:SetAllPoints(__itemButton)
-				__itemButton.bfTexture:SetVertexColor(COLOR.r, COLOR.g, COLOR.b,COLOR.a)
-				__itemButton.bfTexture:Show();
-			else
-				__itemButton.bfTexture:Hide();
+	for i = 1, _G.MERCHANT_ITEMS_PER_PAGE do
+		local index = (((MerchantFrame.page - 1) * _G.MERCHANT_ITEMS_PER_PAGE) + i)
+		local itemButton = _G["MerchantItem"..i.."ItemButton"]
+		local merchantButton = _G["MerchantItem"..i]
+		local itemLink = GetMerchantItemLink(index)
+
+		if itemLink and _checkIfKnown(itemLink) then
+			SetItemButtonNameFrameVertexColor(merchantButton, db.r, db.g, db.b)
+			SetItemButtonSlotVertexColor(merchantButton, db.r, db.g, db.b)
+			SetItemButtonTextureVertexColor(itemButton, 0.9*db.r, 0.9*db.g, 0.9*db.b)
+			SetItemButtonNormalTextureVertexColor(itemButton, 0.9*db.r, 0.9*db.g, 0.9*db.b)
+
+			if db.monochrome then
+				_G["MerchantItem"..i.."ItemButtonIconTexture"]:SetDesaturated(true)
 			end
+		else
+			_G["MerchantItem"..i.."ItemButtonIconTexture"]:SetDesaturated(false)
 		end
 	end
 end
 
-hooksecurefunc("ContainerFrame_OnShow",function(frame)
-	ContainerFrame_UpdateBuybackInfo(frame)
-end)
-
-hooksecurefunc("ContainerFrame_OnEvent", function(frame,event,...)
-	local arg1 = ...;
-	if ( event == "BAG_OPEN" or event == "BAG_UPDATE" ) then
-		if ( frame:GetID() == arg1 ) then
-			ContainerFrame_UpdateBuybackInfo(frame)
-		end
-	end
-end)
-
--- for LoD addons
-
-if ( not (isBlizzard_GuildBankUILoaded and isBlizzard_AuctionUILoaded) ) then
-	local function OnEvent (self, event, addonName)
-		if ( addonName == 'Blizzard_GuildBankUI' ) then
-			isBlizzard_GuildBankUILoaded = true
-
-			hooksecurefunc('GuildBankFrame_Update', GuildBankFrame_Update)
-		elseif ( addonName == 'Blizzard_AuctionUI' ) then
-			isBlizzard_AuctionUILoaded = true
-
-			hooksecurefunc('AuctionFrameBrowse_Update', AuctionFrameBrowse_Update)
-			hooksecurefunc('AuctionFrameBid_Update', AuctionFrameBid_Update)
-			hooksecurefunc('AuctionFrameAuctions_Update', AuctionFrameAuctions_Update)
-		end
-
-		if ( isBlizzard_GuildBankUILoaded and isBlizzard_AuctionUILoaded ) then
+local f = CreateFrame("Frame")
+f:RegisterEvent("ADDON_LOADED")
+f:SetScript("OnEvent", function(self, event, ...)
+	if event == "ADDON_LOADED" and (...) == ADDON_NAME then
+		if IsAddOnLoaded("Blizzard_AuctionUI") then
 			self:UnregisterEvent(event)
-			self:SetScript('OnEvent', nil)
-			OnEvent = nil
+
+			if IsAddOnLoaded("Auc-Advanced") and _G.AucAdvanced.Settings.GetSetting("util.compactui.activated") then
+				hooksecurefunc("GetNumAuctionItems", _hookAH)
+			else
+				hooksecurefunc("AuctionFrameBrowse_Update", _hookAH)
+			end
+		end
+
+		if type(AlreadyKnownSettings) ~= "table" then
+			AlreadyKnownSettings = {r = 0, g = 1, b = 0, monochrome = false}
+		end
+		db = AlreadyKnownSettings
+
+		hooksecurefunc("MerchantFrame_UpdateMerchantInfo", _hookMerchant)
+	elseif event == "ADDON_LOADED" and (...) == "Blizzard_AuctionUI" then
+		self:UnregisterEvent(event)
+
+		if IsAddOnLoaded("Auc-Advanced") and _G.AucAdvanced.Settings.GetSetting("util.compactui.activated") then
+			hooksecurefunc("GetNumAuctionItems", _hookAH)
+		else
+			hooksecurefunc("AuctionFrameBrowse_Update", _hookAH)
 		end
 	end
+end)
 
-	tooltip:SetScript('OnEvent', OnEvent)
-	tooltip:RegisterEvent('ADDON_LOADED')
+local function _RGBToHex(r, g, b)
+	r = r <= 255 and r >= 0 and r or 0
+	g = g <= 255 and g >= 0 and g or 0
+	b = b <= 255 and b >= 0 and b or 0
+	return format("%02x%02x%02x", r, g, b)
+end
+
+local function _changedCallback(restore)
+	local R, G, B
+	if restore then -- The user bailed, we extract the old color from the table created by ShowColorPicker.
+		R, G, B = unpack(restore)
+	else -- Something changed
+		R, G, B = ColorPickerFrame:GetColorRGB()
+	end
+
+	db.r, db.g, db.b = R, G, B
+	DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00".. ADDON_NAME ..":|r |cff".._RGBToHex(db.r*255, db.g*255, db.b*255).."custom|r monochrome ".. (db.monochrome and "|cff00ff00true|r" or "|cffff0000false|r"))
+end
+
+local function _ShowColorPicker(r, g, b, a, changedCallback)
+	ColorPickerFrame.hasOpacity, ColorPickerFrame.opacity = false, 1
+	ColorPickerFrame.previousValues = { r, g, b }
+	ColorPickerFrame.func, ColorPickerFrame.opacityFunc, ColorPickerFrame.cancelFunc = changedCallback, changedCallback, changedCallback
+	ColorPickerFrame:SetColorRGB(r, g, b)
+	ColorPickerFrame:Hide() -- Need to run the OnShow handler.
+	ColorPickerFrame:Show()
+end
+
+SLASH_ALREADYKNOWN1 = "/alreadyknown"
+SLASH_ALREADYKNOWN2 = "/ak"
+
+SlashCmdList.ALREADYKNOWN = function(...)
+	if (...) == "green" then
+		db.r = 0; db.g = 1; db.b = 0
+	elseif (...) == "blue" then
+		db.r = 0; db.g = 0; db.b = 1
+	elseif (...) == "yellow" then
+		db.r = 1; db.g = 1; db.b = 0
+	elseif (...) == "cyan" then
+		db.r = 0; db.g = 1; db.b = 1
+	elseif (...) == "purple" then
+		db.r = 1; db.g = 0; db.b = 1
+	elseif (...) == "gray" then
+		db.r = 0.5; db.g = 0.5; db.b = 0.5
+	elseif (...) == "custom" then
+		_ShowColorPicker(db.r, db.g, db.b, false, _changedCallback)
+	elseif (...) == "monochrome" then
+		db.monochrome = not db.monochrome
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00".. ADDON_NAME ..":|r Monochrome: ".. (db.monochrome and "|cff00ff00true|r" or "|cffff0000false|r"))
+	elseif (...) == "debug" then
+		db.debug = not db.debug
+		if db.debug then wipe(knownTable) end
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00".. ADDON_NAME ..":|r Debug: ".. (db.debug and "|cff00ff00true|r" or "|cffff0000false|r"))
+	else
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00".. ADDON_NAME ..":|r /ak ( green | blue | yellow | cyan | purple | gray | custom | monochrome )")
+	end
+
+	if (...) ~= "" and (...) ~= "custom" and (...) ~= "monochrome" and (...) ~= "debug" then
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00".. ADDON_NAME ..":|r |cff".._RGBToHex(db.r*255, db.g*255, db.b*255)..(...).."|r, Monochrome: ".. (db.monochrome and "|cff00ff00true|r" or "|cffff0000false|r"))
+		if db.debug then DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00".. ADDON_NAME ..":|r Debug: |cff00ff00true|r") end
+	end
+
+	if ColorPickerFrame:IsShown() and (...) ~= "custom" then
+		_ShowColorPicker(db.r, db.g, db.b, false, _changedCallback)
+	end
 end
 
 function AlreadyKnown_Toggle(swith)

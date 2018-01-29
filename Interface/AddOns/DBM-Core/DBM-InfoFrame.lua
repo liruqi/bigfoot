@@ -19,7 +19,7 @@
 --
 -- Special thanks to:
 --    * Arta
---    * Omegal @ US-Whisperwind (continuing mod support for 3.2+)
+--    * Omegal @ US-Kel'Thuzad (continuing mod support for 3.2+)
 --    * Tennberg (a lot of fixes in the enGB/enUS localization)
 --
 --
@@ -395,7 +395,7 @@ local function updateEnemyAbsorb()
 				else
 					text = absorbAmount
 				end
-				lines[UnitName(uId)] = mfloor(text)
+				lines[UnitName(uId)] = mfloor(text).."%"
 			end
 		end
 	end
@@ -424,7 +424,7 @@ local function updateAllAbsorb()
 				else
 					text = absorbAmount
 				end
-				lines[UnitName(uId)] = mfloor(text)
+				lines[UnitName(uId)] = mfloor(text).."%"
 			end
 		end
 	end
@@ -437,7 +437,7 @@ local function updateAllAbsorb()
 			else
 				text = absorbAmount
 			end
-			lines[UnitName(uId)] = mfloor(text)
+			lines[UnitName(uId)] = mfloor(text).."%"
 		end
 	end
 	updateLines()
@@ -457,7 +457,7 @@ local function updatePlayerAbsorb()
 			else
 				text = absorbAmount
 			end
-			lines[UnitName(uId)] = mfloor(text)
+			lines[UnitName(uId)] = mfloor(text).."%"
 		end
 	end
 	updateLines()
@@ -825,7 +825,7 @@ function infoFrame:Show(maxLines, event, ...)
 	--this also allows spell name to be given by mod, since value 1 verifies it's a number
 	if type(value[1]) == "number" and event ~= "health" and event ~= "function" and event ~= "playertargets" and event ~= "playeraggro" and event ~= "playerpower" and event ~= "enemypower" and event ~= "test" then
 		--value[1] = DBM:GetSpellInfo(value[1])
-		error("DBM-InfoFrame: Must pass spell NAME, not ID number. Report boss and this error to DBM author", 2)
+		error("DBM-InfoFrame: Must pass spell NAME, not ID number. Report boss and this error to DBM author (MysticalOS)", 2)
 	end
 
 	if events[currentEvent] then
@@ -850,10 +850,14 @@ function infoFrame:RegisterCallback(cb)
 	updateCallbacks[#updateCallbacks + 1] = cb
 end
 
-function infoFrame:Update()
+function infoFrame:Update(time)
 	frame = frame or createFrame()
 	if frame:IsShown() then
-		onUpdate(frame)
+		if time then
+			C_Timer.After(time, function() onUpdate(frame) end)
+		else
+			onUpdate(frame)
+		end
 	end
 end
 

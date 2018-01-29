@@ -791,6 +791,7 @@ DEFAULT_SPAMWORD = [[
 5173
 平台
 门票
+LFG:
 ]]
 
 ZONE_ACTIVITY_MAP = {

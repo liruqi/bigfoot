@@ -88,7 +88,7 @@ function CodeCommentData(activity)
         GetAddonSource(),
         GetPlayerFullName(),
         GetPlayerSavedInstance(customId),
-        format('%s-%s-%s', activity:GetModeText(), activity:GetLootText(), activity:GetName()),
+        nil,
         CompressNumber(activity:IsUseHonorLevel() and UnitHonorLevel('player') or nil)
     ))
     return data
@@ -408,6 +408,7 @@ function UnpackIds(data)
             offset = offset + 1
         end
     end
+    
     return list
 end
 
@@ -418,12 +419,4 @@ function ListToMap(list)
         end
     end
     return map
-end
-
-function CheckMode(mode)
-    return mode ~= 0 and rawget(ACTIVITY_MODE_NAMES, mode)
-end
-
-function CheckLoot(loot)
-    return loot ~= 0 and rawget(ACTIVITY_LOOT_NAMES, loot)
 end
