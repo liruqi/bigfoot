@@ -4,7 +4,6 @@ if not L then return end
 L["A blue star indicates all party members have this quest as well (if they have world quest tracker installed)."] = "蓝星说明所有队员都有此任务（如果他们也使用了本插件）。"
 L["Click on Summary to see statistics and a saved list of quests on other characters."] = "点击奖励统计可查看帐号下其他角色的统计数据。"
 L["S_APOWER_AVAILABLE"] = "可用的"
-L["S_APOWER_DOWNVALUE"] = "奖励神器能量的任务显示 %s 就说明它可以在新的笔记研究后再去完成。"
 L["S_APOWER_NEXTLEVEL"] = "下一等级"
 L["S_ENABLED"] = "已启用"
 L["S_ERROR_NOTIMELEFT"] = "此任务已过期。"

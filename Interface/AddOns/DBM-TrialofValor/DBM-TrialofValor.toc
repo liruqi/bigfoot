@@ -14,11 +14,10 @@
 ## X-DBM-Mod-Type: RAID
 ## X-DBM-Mod-Category: LEG
 ## X-DBM-Mod-Has-Mythic : 1
-## X-DBM-Mod-Sort: 054
+## X-DBM-Mod-Sort: 504
 ## X-DBM-Mod-MapID: 1648
 ## X-DBM-Mod-MinCoreRevision: 14737
 ## X-Revision: BigFoot
-## LoadOnDemand: 1
 
 localization.en.lua
 localization.tw.lua

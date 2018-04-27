@@ -3,7 +3,7 @@ function ItemInfoConfigFunc()
 	local __L = BLocal("ItemInfo");
 
 	if (GetLocale() == "zhCN") then
-		__L["Item Info"]					= {"物品信息", "wupinxinxi"};
+		__L["Item Info"]				= {"物品信息", "wupinxinxi"};
 
 		__L["Enable Item Info"]			= "启用物品信息";
 		Enable_Item_Info_TOOLTIP="扩展物品的相关信息"

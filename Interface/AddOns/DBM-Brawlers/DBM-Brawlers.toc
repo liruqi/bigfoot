@@ -16,7 +16,7 @@
 ## X-DBM-Mod-Name: Brawlers
 ## X-DBM-Mod-Name-zhCN: 搏击俱乐部
 ## X-DBM-Mod-Name-zhTW: 鬥陣俱樂部
-## X-DBM-Mod-Sort: 135
+## X-DBM-Mod-Sort: 517
 ## X-DBM-Mod-MapID: 369,1043
 ## X-DBM-Mod-MinCoreRevision: 12473
 ## X-Revision: BigFoot

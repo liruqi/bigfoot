@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Brawlers", "DBM-Brawlers")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17471 $"):sub(12, -3))
 --mod:SetCreatureID(60491)
 --mod:SetModelID(41448)
 mod:SetZone(DBM_DISABLE_ZONE_DETECTION)
@@ -25,7 +25,6 @@ local berserkTimer			= mod:NewBerserkTimer(120)--all fights have a 2 min enrage 
 mod:AddBoolOption("SpectatorMode", true)
 mod:AddBoolOption("SpeakOutQueue", true)
 mod:AddBoolOption("NormalizeVolume", true, "misc")
-mod:RemoveOption("HealthFrame")
 
 local playerIsFighting = false
 local currentFighter = nil
@@ -266,7 +265,7 @@ end
 
 do
 	function mod:UNIT_AURA(uId)
-		local currentQueueRank = select(17, UnitBuff("player", QueuedBuff))
+		local currentQueueRank = select(17, DBM:UnitBuff("player", QueuedBuff))
 		if currentQueueRank and currentQueueRank ~= lastRank then
 			lastRank = currentQueueRank
 			warnQueuePosition:Show(currentQueueRank)

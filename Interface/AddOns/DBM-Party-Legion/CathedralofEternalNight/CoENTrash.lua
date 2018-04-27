@@ -8,7 +8,7 @@ mod:SetZone()
 mod.isTrashMod = true
 
 mod:RegisterEvents(
-	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320",
+	"SPELL_CAST_START 239232 237391 238543 236737 242724 242760 239320 239266",
 	"SPELL_AURA_APPLIED 238688 239161",
 	"UNIT_SPELLCAST_START"
 )
@@ -28,8 +28,6 @@ local specWarnChokingVines		= mod:NewSpecialWarningRun(238688, nil, nil, nil, 4,
 local specWarnTomeSilence		= mod:NewSpecialWarningSwitch(239161, "-Healer", nil, nil, 1, 2)
 local specWarnFelblazeOrb		= mod:NewSpecialWarningDodge(239320, nil, nil, nil, 1, 2)
 local specWarnVenomStorm		= mod:NewSpecialWarningDodge(239266, nil, nil, nil, 1, 2)
-
-mod:RemoveOption("HealthFrame")
 
 function mod:FelStrikeTarget(targetname, uId)
 	if not targetname then
@@ -70,6 +68,9 @@ function mod:SPELL_CAST_START(args)
 	elseif spellId == 239320 then
 		specWarnFelblazeOrb:Show()
 		specWarnFelblazeOrb:Play("watchorb")
+	elseif spellId == 239266 then
+		specWarnVenomStorm:Show()
+		specWarnVenomStorm:Play("shockwave")
 	end
 end
 
@@ -88,8 +89,6 @@ end
 function mod:UNIT_SPELLCAST_START(uId, _, _, _, spellId)
 	if spellId == 238653 then
 		self:SendSync("ShadowWave")
-	elseif spellId == 239266 then
-		self:SendSync("VenomStorm")
 	end
 end
 
@@ -97,8 +96,5 @@ function mod:OnSync(msg)
 	if msg == "ShadowWave" then
 		specWarnShadowWave:Show()
 		specWarnShadowWave:Play("shockwave")
-	elseif msg == "VenomStorm" then
-		specWarnVenomStorm:Show()
-		specWarnVenomStorm:Play("shockwave")
 	end
 end

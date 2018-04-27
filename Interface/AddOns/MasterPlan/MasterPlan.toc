@@ -9,13 +9,14 @@
 ## X-Website: https://www.townlong-yak.com/master-plan/
 ## SavedVariables: MasterPlanAG,SV_GarrisonMissionManager
 ## SavedVariablesPerCharacter: MasterPlanPC,SVPC_GarrisonMissionManager
-## Version: 0.109
-## X-Version-Key: pack
+## Version: 0.112
+## X-Version-Key: whirlpool
 ## Dependencies: BigFoot
 ## X-Revision: BigFoot
 ## LoadOnDemand: 1
 
 Libs/Evie.lua
+Libs/AltGameTooltip.xml
 Libs/Reframe.lua
 
 PlanA\PlanA.lua

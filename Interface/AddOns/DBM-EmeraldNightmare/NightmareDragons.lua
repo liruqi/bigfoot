@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1704, "DBM-EmeraldNightmare", nil, 768)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
 mod:SetCreatureID(102679)--Ysondre, 102683 (Emeriss), 102682 (Lethon), 102681 (Taerar)
 mod:SetEncounterID(1854)
 mod:SetZone()
@@ -198,7 +198,6 @@ do
 end
 
 function mod:OnCombatStart(delay)
-	spellName1, spellName2, spellName3, spellName4 = DBM:GetSpellInfo(203102), DBM:GetSpellInfo(203125), DBM:GetSpellInfo(203124), DBM:GetSpellInfo(203121)
 	self.vb.volatileInfectionIcon = 1
 	self.vb.alternateOozes = false
 	table.wipe(activeBossGUIDS)
@@ -208,9 +207,6 @@ function mod:OnCombatStart(delay)
 	timerBreathCD:Start(15.5, Ysondre)
 	timerDefiledSpiritCD:Start(30-delay)
 	timerNightmareBlastCD:Start(40-delay)--40 on mythic, it changing on heroic too is assumed. Was 22.5 before
-	if DBM.BossHealth:IsShown() then
-		DBM.BossHealth:Clear()
-	end
 	if self:IsMythic() then
 		--Only done on mythic for now since we know for sure what dragons are up once we know what dragons are down.
 		--On non mythic one dragon is missing from encounter and we have no way of knowing what one currently :\
@@ -379,25 +375,16 @@ function mod:INSTANCE_ENCOUNTER_ENGAGE_UNIT()
 				timerBreathCD:Start(15.5, bossName)
 				timerVolatileInfectionCD:Start(19.5)
 				timerEssenceOfCorruptionCD:Start(29.5)
-				if DBM.BossHealth:IsShown() then
-					DBM.BossHealth:AddBoss(cid, Emeriss)
-				end
 			elseif cid == 102682 then -- Lethon
 				timerShadowBurstCD:Stop()
 				timerBreathCD:Start(13, bossName)
 				timerSiphonSpiritCD:Start(20.5)
-				if DBM.BossHealth:IsShown() then
-					DBM.BossHealth:AddBoss(cid, Lethon)
-				end
 			elseif cid == 102681 then -- Taerar
 				timerBellowingRoarCD:Stop()
 				timerBreathCD:Start(17, bossName)
 				timerShadesOfTaerarCD:Start(19.5)--19.5-21
 				countdownShadesOfTaerar:Start(19.5)
 				timerSeepingFogCD:Start(25)
-				if DBM.BossHealth:IsShown() then
-					DBM.BossHealth:AddBoss(cid, Taerar)
-				end
 			end
 			self:SendSync("IEEU", bossName, unitGUID)
 		end
@@ -449,16 +436,10 @@ function mod:OnSync(msg, targetName, guid)
 		if cid == 102683 then--Emeriss
 			timerVolatileInfectionCD:Stop()
 			timerEssenceOfCorruptionCD:Stop()
-			if DBM.BossHealth:IsShown() then
-				DBM.BossHealth:RemoveBoss(cid)
-			end
 		elseif cid == 102682 then--Lethon
 			timerSiphonSpiritCD:Stop()
 			if not self:IsEasy() then
 				timerShadowBurstCD:Start(19.5)
-			end
-			if DBM.BossHealth:IsShown() then
-				DBM.BossHealth:RemoveBoss(cid)
 			end
 		elseif cid == 102681 then--Taerar
 			timerShadesOfTaerarCD:Stop()
@@ -466,9 +447,6 @@ function mod:OnSync(msg, targetName, guid)
 			timerSeepingFogCD:Stop()
 			if not self:IsEasy() then
 				timerBellowingRoarCD:Start(44.5)
-			end
-			if DBM.BossHealth:IsShown() then
-				DBM.BossHealth:RemoveBoss(cid)
 			end
 		end
 	elseif guid and msg == "IEEU" and not activeBossGUIDS[guid] then
@@ -479,25 +457,16 @@ function mod:OnSync(msg, targetName, guid)
 			timerBreathCD:Start(17, targetName)
 			timerVolatileInfectionCD:Start(19.5)
 			timerEssenceOfCorruptionCD:Start(29.5)
-			if DBM.BossHealth:IsShown() then
-				DBM.BossHealth:AddBoss(cid, Emeriss)
-			end
 		elseif cid == 102682 then -- Lethon
 			timerShadowBurstCD:Stop()
 			timerBreathCD:Start(13, targetName)
 			timerSiphonSpiritCD:Start(20.5)
-			if DBM.BossHealth:IsShown() then
-				DBM.BossHealth:AddBoss(cid, Lethon)
-			end
 		elseif cid == 102681 then -- Taerar
 			timerBellowingRoarCD:Stop()
 			timerBreathCD:Start(17, targetName)
 			timerShadesOfTaerarCD:Start(19.5)--19.5-21
 			countdownShadesOfTaerar:Start(19.5)
 			timerSeepingFogCD:Start(25)
-			if DBM.BossHealth:IsShown() then
-				DBM.BossHealth:AddBoss(cid, Taerar)
-			end
 		end
 	elseif msg == "Shades" then
 		timerShadesOfTaerarCD:Start()

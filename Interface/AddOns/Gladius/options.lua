@@ -67,14 +67,14 @@ end
 --terry	Config call bigfoot@178.com
 function OpenGladius()
 	AceDialog = AceDialog or LibStub("AceConfigDialog-3.0")
-    AceRegistry = AceRegistry or LibStub("AceConfigRegistry-3.0")
+	AceRegistry = AceRegistry or LibStub("AceConfigRegistry-3.0")
       
-    if (not Gladius.options) then
-        Gladius:SetupOptions()
-        AceDialog:SetDefaultSize("Gladius", 830, 530)
-    end
+	if (not Gladius.options) then
+		Gladius:SetupOptions()
+		AceDialog:SetDefaultSize("Gladius", 830, 530)
+	end
       
-    AceDialog:Open("Gladius")
+	AceDialog:Open("Gladius")
 end
 
 SLASH_GLADIUS1 = "/gladius"
@@ -333,7 +333,7 @@ function Gladius:SetupOptions()
 								name = "",
 								width = "full",
 								order = 7,
-							}, 
+							},
 							groupButtons = {
 								type = "toggle",
 								name = L["Group Buttons"],

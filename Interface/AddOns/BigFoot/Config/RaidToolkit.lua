@@ -1,4 +1,4 @@
-﻿
+
 function RaidToolkitConfigFunc()
 	local RaString ={}
 	local DBMString ={}
@@ -208,6 +208,10 @@ function RaidToolkitConfigFunc()
 								loadSkada();
 							end
 						end
+					else
+						if (not BigFoot_IsAddOnLoaded("Recount")) then
+							loadSkada();
+						end
 					end
 				else
 					if (BigFoot_IsAddOnLoadedFromBigFoot("Skada")) then
@@ -231,10 +235,12 @@ function RaidToolkitConfigFunc()
 			"skadaFormatNumber",
 			1,
 			function (arg)
-				if (arg == 1) then
-					bf_SkadaFormatNumber();
-				else
-					Skada.FormatNumber = Skada.originFormatNumber;
+				if BigFoot_IsAddOnLoaded("Skada") then
+					if (arg == 1) then
+						bf_SkadaFormatNumber();
+					else
+						Skada.FormatNumber = Skada.originFormatNumber;
+					end
 				end
 			end,
 			1

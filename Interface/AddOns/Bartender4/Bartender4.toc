@@ -5,7 +5,7 @@
 ## Notes: |cffbc8f8fSimple and Advanced combined - Bartender4 ActionBar AddOn.|r
 ## Notes-zhCN: |cff00ff00Bartender4|r
 ## Notes-zhTW: |cff00ff00Bartender4|r
-## Version: 4.7.10-1-g5c05e08
+## Version: 4.7.10-9-g5429f12
 ## Author: Nevcairiel
 ## X-Email: h.leppkes at gmail dot com
 ## X-Category: Action Bars
@@ -46,6 +46,7 @@ VehicleBar.lua
 BlizzardArt.lua
 ExtraActionBar.lua
 ZoneAbilityBar.lua
+StatusTrackingBar.lua
 
 ## Options ##
 Options\AceGUIWidget-NumberEditBox.lua
@@ -65,6 +66,7 @@ Options\VehicleBar.lua
 Options\BlizzardArt.lua
 Options\ExtraActionBar.lua
 Options\ZoneAbilityBar.lua
+Options\StatusTrackingBar.lua
 
 ## Presets -- needs to be the last ##
 Options\Presets.lua

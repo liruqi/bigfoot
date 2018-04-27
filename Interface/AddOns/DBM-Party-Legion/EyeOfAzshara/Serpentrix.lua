@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1479, "DBM-Party-Legion", 3, 716)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17077 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17398 $"):sub(12, -3))
 mod:SetCreatureID(91808)
 mod:SetEncounterID(1813)
 mod:SetZone(1456)
@@ -26,7 +26,7 @@ local warnToxicWound				= mod:NewTargetAnnounce(191855, 2)
 local warnWinds						= mod:NewSpellAnnounce(191798, 2)
 
 local specWarnToxicWound			= mod:NewSpecialWarningRun(191855, nil, nil, nil, 1, 2)
-local specWarnSubmerge				= mod:NewSpecialWarningSpell(191873, nil, nil, nil, 2)
+local specWarnSubmerge				= mod:NewSpecialWarningSpell(191873, nil, nil, nil, 2, 2)
 local specWarnToxicPool				= mod:NewSpecialWarningMove(191858, nil, nil, nil, 1, 2)
 local specWarnBlazingNova			= mod:NewSpecialWarningInterrupt(192003, false, nil, nil, 1, 2)
 local specWarnArcaneBlast			= mod:NewSpecialWarningInterrupt(192005, false, nil, nil, 1, 2)
@@ -58,7 +58,7 @@ function mod:SPELL_AURA_APPLIED(args)
 			specWarnToxicWound:ScheduleVoice(1.5, "keepmove")
 		end
 	elseif spellId == 191797 and self:AntiSpam(3, 2) then--Violent Winds
-		if not wrathMod then wrathMod = DBM:GetModByName(1492) end
+		if not wrathMod then wrathMod = DBM:GetModByName("1492") end
 		if wrathMod.vb.phase == 2 then return end--Phase 2 against Wrath of Azshara, which means this is happening every 10 seconds
 		warnWinds:Show()
 		if self:IsInCombat() then--Boss engaged it's 30
@@ -100,5 +100,6 @@ mod.SPELL_MISSED = mod.SPELL_DAMAGE
 function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg)
 	if msg:find("spell:191873") then
 		specWarnSubmerge:Show()
+		specWarnSubmerge:Play("phasechange")
 	end
 end

@@ -94,6 +94,7 @@ if (GetLocale() =="zhCN") then
 	SPELL_TIMER_PATTERN_TABLE["ROGUE"]["拆卸"] = {"debuff"};
 	SPELL_TIMER_PATTERN_TABLE["ROGUE"]["打劫"] = {"debuff"};
 	SPELL_TIMER_PATTERN_TABLE["ROGUE"]["铁棍"] = {"debuff"};
+	SPELL_TIMER_PATTERN_TABLE["ROGUE"]["夜刃"] = {"debuff"};
 
 	SPELL_TIMER_PATTERN_TABLE["PRIEST"] = {};
 	SPELL_TIMER_PATTERN_TABLE["PRIEST"]["暗言术：痛"] = {"debuff"};

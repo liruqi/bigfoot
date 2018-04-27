@@ -8,7 +8,7 @@
 ## Notes-zhTW: |cff00ff00DBM-VPYike|r
 ## RequiredDeps: DBM-Core
 ## Author: Yike Xia, Mini_Dragon
-## Version: 7.3.0
+## Version: 7.3.5
 ## X-DBM-Voice: 1
 ## X-DBM-Voice-Name: 夏一可(普通话女)
 ## X-DBM-Voice-ShortName: Yike

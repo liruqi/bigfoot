@@ -3,7 +3,6 @@ local L		= mod:GetLocalizedStrings()
 --BH ADD
 local sndWOP	= mod:SoundMM("SoundWOP")
 local sndWSP	= mod:SoundMM("SoundWSP")
-local LibRange	= LibStub("LibRangeCheck-2.0")
 --BH ADD END
 
 mod:SetRevision(("$Revision: 11365 $"):sub(12, -3))
@@ -118,31 +117,6 @@ local function MyJS()
 	end
 	return false
 end
-local function checksprange()
-	if UnitExists("focus") then
-		if UnitName("focus") == Direname then
-			local min, max = LibRange:getRange("focus")
-			if min and max then
-				if min <= 8 then
-					if mod:AntiSpam(1, 6) then
-						-- DBM.Flash:Shake(1, 0, 0)
-						sndWSP:Play("stilldanger") --危險
-					end
-				elseif min <= 15 then
-					if mod:AntiSpam(4, 5) then
-						-- DBM.Flash:Shake(1, 0, 0)
-						sndWSP:Play("killspirit") --靈魂快打
-					end
---				elseif min >= 60 then
---					if mod:AntiSpam(4, 5) then
---						sndWSP:Play("safenow")
---					end
-				end
-			end	
-		end
-	end
-	mod:Schedule(0.2, checksprange)
-end
 
 local doorNumber = 0
 local direNumber = 0
@@ -239,7 +213,7 @@ function mod:SPELL_CAST_START(args)
 			end
 			sndWOP:Schedule(57, "ex_tt_wmhn")
 		end
-		nhcount = nhcount + 1		
+		nhcount = nhcount + 1
 		sndWOP:Play("aesoon") --準備AE
 		if nhcount == 3 then nhcount = 0 end
 	elseif args:IsSpellID(136587) then
@@ -267,7 +241,7 @@ function mod:SPELL_CAST_SUCCESS(args)
 	if args.spellId == 136487 then
 		specWarnLightTT:Show()
 		sndWOP:Play("ex_tt_sdtt")--閃電圖騰
-	elseif args.spellId == 136512 then		
+	elseif args.spellId == 136512 then
 		qscount = qscount + 1
 		if ((mod.Options.optQS == "QS1") and (qscount % 3 == 1)) or ((mod.Options.optQS == "QS2") and (qscount % 3 == 2)) or ((mod.Options.optQS == "QS3") and (qscount % 3 == 0)) or (mod.Options.optQS == "allQS") then
 			sndWOP:Play("dispelnow") --快驅散
@@ -332,7 +306,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		sndWOP:Schedule(7.5, "countthree")
 		sndWOP:Schedule(8.5, "counttwo")
 		sndWOP:Schedule(9.5, "countone")
-		--BH ADD END		
+		--BH ADD END
 	elseif args.spellId == 136821 then
 		warnRampage:Show(args.destName)
 		specWarnRampage:Show(args.destName)
@@ -376,7 +350,6 @@ function mod:SPELL_AURA_APPLIED(args)
 			-- DBM.Flash:Shake(1, 0, 0)
 			sndWOP:Play("ex_tt_lhsd")
 			sndWOP:Schedule(1,"ex_tt_lhsd")
-			checksprange()
 			-- BH ADD END
 		end
 	elseif args.spellId == 136512 then

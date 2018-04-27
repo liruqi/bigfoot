@@ -160,7 +160,7 @@ hooksecurefunc("GossipFrameOptionsUpdate", function(...)
    tsort(spec_list)
    for idx = 1, #spec_list do
       local spec = spec_list[idx]
-      print(spec_name[spec] and (spec_name[spec] .. ": " .. spec_count[spec]))
+      print(spec_name[spec] .. ": " .. spec_count[spec])
    end
 
    local max_followers = GetFollowerSoftCap(LE_FOLLOWER_TYPE_SHIPYARD_6_2)

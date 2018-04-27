@@ -9,12 +9,16 @@ local L = LibStub("AceLocale-3.0"):GetLocale(OptionsAppName)
 local MinFontSize = 5
 local MaxFontSize = 30
 local MinRangeLimit = 0
-local MaxRangeLimit = 100
+local MaxRangeLimit = 200
 
 local lastConfiguredUd -- stupid hack to remember last open config frame
 local fakeUdForProfiles = {}
 
 local _
+
+local function printf(fmt, ...)
+    return print(fmt:format(...))
+end
 
 local FontOutlines = {
     [""] = L["None"],
@@ -264,7 +268,7 @@ function  RangeDisplay_OptionLoad()
                     type = 'toggle',
                     name = L["Enabled"],
                     order = 113,
-                    disabled = function()
+                    disabled = function() 
                         lastConfiguredUd = ud
                         return false
                     end,
@@ -287,10 +291,16 @@ function  RangeDisplay_OptionLoad()
                     desc = L["Use warning sound for enemy targets only"],
                     order = 116,
                 },
+                checkVisible = {
+                    type = 'toggle',
+                    name = L["Check visibility"],
+                    desc = L["Check if the unit is visible before doing the range check"],
+                    order = 117,
+                },
                 sep1 = {
                     type = 'header',
                     name = "",
-                    order = 118,
+                    order = 119,
                 },
                 font = {
                     type = "select", dialogControl = 'LSM30_Font',
@@ -486,7 +496,7 @@ function  RangeDisplay_OptionLoad()
             opts.args.mouseAnchor = {
                 type = 'toggle',
                 name = L["Anchor to Mouse"],
-                order = 117,
+                order = 118,
             }
         end
         return opts
@@ -518,7 +528,7 @@ function  RangeDisplay_OptionLoad()
     self.optionsLoaded = true
 
     -- remove dummy options frame, ugly hack
-    if self.dummyOpts then
+    if self.dummyOpts then 
         for k, f in ipairs(INTERFACEOPTIONS_ADDONCATEGORIES) do
             if f == self.dummyOpts then
                 tremove(INTERFACEOPTIONS_ADDONCATEGORIES, k)
@@ -536,7 +546,7 @@ function  RangeDisplay_OptionLoad()
         local unitOpts = makeUnitOptions(ud)
         ud.opts = registerSubOptions(ud.unit, unitOpts)
     end
-	local profiles =  AceDBOptions:GetOptionsTable(self.db)
+    local profiles =  AceDBOptions:GetOptionsTable(self.db)
     if LibDualSpec then
         LibDualSpec:EnhanceOptions(profiles, self.db)
     end
@@ -547,3 +557,4 @@ function  RangeDisplay_OptionLoad()
     self.profiles = registerSubOptions('profiles', profiles)
     fakeUdForProfiles.opts = self.profiles
 end
+

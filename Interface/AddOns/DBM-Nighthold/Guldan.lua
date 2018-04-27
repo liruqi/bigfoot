@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(1737, "DBM-Nighthold", nil, 786)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 17112 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 17440 $"):sub(12, -3))
 mod:SetCreatureID(104154)--The Demon Within (111022)
 mod:SetEncounterID(1866)
 mod:SetZone()
@@ -143,7 +143,7 @@ local timerVisionsofDarkTitanCD		= mod:NewCDCountTimer(9, 227008, nil, nil, nil,
 local timerFlameCrashCD				= mod:NewCDCountTimer(20, 227071, nil, nil, nil, 3)
 local timerSummonNightorbCD			= mod:NewCDCountTimer(10.9, 227283, nil, nil, nil, 1, 225133)
 --Shard
---mod:AddTimerLine(DBM:GetSpellInfo(221149))
+mod:AddTimerLine(DBM_ADDS)
 local timerManifestAzzinothCD		= mod:NewCDCountTimer(10.9, 221149, nil, nil, nil, 1, 236237)
 local timerChaosSeedCD				= mod:NewCDTimer(10.9, 221336, nil, nil, nil, 3)
 local timerBulwarkofAzzinothCD		= mod:NewCDTimer(10.9, 221408, nil, nil, nil, 6)
@@ -227,7 +227,6 @@ local function upValueCapsAreStupid(self)
 end
 
 function mod:OnCombatStart(delay)
-	timeStopBuff, parasiteName = DBM:GetSpellInfo(206310), DBM:GetSpellInfo(206847)
 	self.vb.phase = 1
 	self.vb.addsDied = 0
 	self.vb.liquidHellfireCast = 0
@@ -876,7 +875,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(uId, _, _, spellGUID)
 		local count = self.vb.azzCount
 		specWarnManifestAzzinoth:Show(count)
 		specWarnManifestAzzinoth:Play("bigmob")
-		specWarnManifestAzzinoth:Schedulevoice(1.2, nil, "Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\count\\"..count..".ogg")
+		specWarnManifestAzzinoth:ScheduleVoice(1.2, nil, "Interface\\AddOns\\DBM-VP"..DBM.Options.ChosenVoicePack.."\\count\\"..count..".ogg")
 		timerBulwarkofAzzinothCD:Start(15)
 		timerManifestAzzinothCD:Start(40, count+1)
 	elseif spellId == 227071 then -- Flame Crash

@@ -1,6 +1,7 @@
 local _, T = ...
 if T.Mark ~= 50 then return end
 local L, EV, G, api = T.L, T.Evie, T.Garrison, {}
+local GameTooltip = AltGameTooltip or GameTooltip
 
 local function HookOnShow(self, OnShow)
 	self:HookScript("OnShow", OnShow)
@@ -1607,7 +1608,7 @@ do -- tabs
 		interestTab:SetText(L"Missions of Interest")
 		ResizeTabs()
 		T.After0(ResizeTabs)
-		if #GarrisonMissionFrameMissions.inProgressMissions == 0 and (cm and #cm or 0) == 0 or OVERRIDEEXIT then
+		if #GarrisonMissionFrameMissions.inProgressMissions == 0 and (cm and #cm or 0) == 0 then
 			SetTabState(activeTab, nil)
 		else
 			SetTabState(activeTab, GarrisonMissionFrame.selectedTab == 3)
@@ -3722,16 +3723,4 @@ local function rest()
 	else
 		C_Timer.After(0.1, rest)
 	end
-end
-function ZT()
-	C_Timer.After(1, function()
-		activeUI:SetCompletionRewards({}, {}, 0, not not nil)
-		function C_Garrison.GetCompleteMissions()
-			return {}
-		end
-		function C_Garrison.GetInProgressMissions()
-			return {}
-		end
-		C_Timer.After(0.1, rest)
-	end)
 end

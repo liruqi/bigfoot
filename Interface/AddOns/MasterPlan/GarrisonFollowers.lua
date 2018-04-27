@@ -2,6 +2,7 @@ local _, T = ...
 if T.Mark ~= 50 then return end
 local G, L, EV = T.Garrison, T.L, T.Evie
 local countFreeFollowers = G.countFreeFollowers
+local GameTooltip = AltGameTooltip or GameTooltip
 
 local function HookOnShow(self, OnShow)
 	self:HookScript("OnShow", OnShow)
@@ -119,12 +120,18 @@ floatingMechanics:SetScript("OnUpdate", function(self, elapsed)
 	end
 end)
 floatingMechanics:Hide()
-GameTooltip:HookScript("OnShow", function(self)
-	local owner = self:GetOwner()
-	if floatingMechanics:IsShown() and owner and (owner:IsForbidden() or owner:GetParent() ~= floatingMechanics) then
-		floatingMechanics:Hide()
+do -- hide floatingMechanics if GameTooltip triggers elsewhere
+	local function GT_OnShow(self)
+		local owner = (not self:IsForbidden()) and self:GetOwner()
+		if floatingMechanics:IsShown() and owner and (owner:IsForbidden() or owner:GetParent() ~= floatingMechanics) then
+			floatingMechanics:Hide()
+		end
 	end
-end)
+	GameTooltip:HookScript("OnShow", GT_OnShow)
+	if GameTooltip ~= _G.GameTooltip and not _G.GameTooltip:IsForbidden() then
+		_G.GameTooltip:HookScript("OnShow", GT_OnShow)
+	end
+end
 
 local icons = setmetatable({}, {__index=function(self, k)
 	local f = CreateMechanicButton(mechanicsFrame)
@@ -1122,7 +1129,7 @@ do -- Weapon/Armor upgrades and rerolls
 			for i in ("122274 122273 122272 118354 118475 118474 122275 122584 122580 122582 122583 128314"):gmatch("%d+") do
 				local b = T.CreateLazyItemButton(reroll, tonumber(i))
 				b:SetSize(24, 24)
-				b.real:SetScript("PostClick", TargetFollower)
+				b:SetScript("PostClick", TargetFollower)
 				b:Hide()
 				buttons[#buttons+1] = b
 			end
