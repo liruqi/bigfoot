@@ -1,6 +1,6 @@
 if GetLocale()~='zhCN' then return end
 local main= "7.3.0."
-local minor = "685"
+local minor = "689"
 BIGFOOT_VERSION = "zhCN"..main..minor;
 
 function GetMinorVersion()
@@ -8,6 +8,29 @@ function GetMinorVersion()
 end
 
 BigFootChangelog_ah();
+
+	BigFootChangelog_at("2018/06/07 (7.3.0.689)")
+	BigFootChangelog_ar("集合石","升级至最新版本(70300.12)。")
+	BigFootChangelog_ar("竞技语音","升级至最新版本(1.17.2)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.31.17579)。")
+
+
+	BigFootChangelog_at("2018/05/17 (7.3.0.688)")
+	BigFootChangelog_ar("距离显示","升级至最新版本(4.8.1)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.31.17532)。")
+
+
+	BigFootChangelog_at("2018/05/10 (7.3.0.687)")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.29.17509)。")
+
+
+	BigFootChangelog_at("2018/05/04 (7.3.0.686)")
+	BigFootChangelog_ar("世界任务","升级至最新版本(283)。")
+	BigFootChangelog_ar("伤害统计","升级至最新版本(7.3.5c)。")
+	BigFootChangelog_ar("秘境增强","升级至最新版本(0.12.12)。")
+	BigFootChangelog_ar("首领报警","升级至最新版本(7.3.29.17491)。")
+	BigFootChangelog_ar("小地图美化","升级至最新版本(7.3.1)。")
+
 
 	BigFootChangelog_at("2018/04/25 (7.3.0.685)")
 	BigFootChangelog_ar("要塞助手","升级至最新版本(0.112)。")
@@ -786,4 +809,4 @@ BigFootChangelog_ah();
 BigFootChangelog_af();
 
 
-BF_VERSION_CHECKSUM = "62"
+BF_VERSION_CHECKSUM = "50"

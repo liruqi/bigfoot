@@ -730,7 +730,7 @@ end
 
 function BrowsePanel:LFG_LIST_AVAILABILITY_UPDATE()
     self.ActivityDropdown:SetMenuTable(GetActivitesMenuTable(ACTIVITY_FILTER_BROWSE))
-    self.ActivityDropdown:SetValue(Profile:GetLastSearchValue())
+    self.ActivityDropdown:SetValue(Profile:GetLastSearchCode())
     -- self:Refresh()
 end
 
@@ -822,7 +822,7 @@ function BrowsePanel:Search()
     local fullName = activityItem.fullName
     local filters= activityItem.filters
     local baseFilter = activityItem.baseFilter
-    local searchValue = activityItem.value
+    local searchCode = activityItem.value
 
     if not categoryId or not MainPanel:IsVisible() then
         return
@@ -832,9 +832,9 @@ function BrowsePanel:Search()
 
     searchText = LFGListSearchPanel_ParseSearchTerms(searchText)
 
-    Profile:SetLastSearchValue(searchValue)
+    Profile:SetLastSearchCode(searchCode)
 
-    C_LFGList.Search(categoryId, searchText, 0, baseFilter)
+    LfgService:Search(categoryId, searchText, baseFilter, searchCode)
 
     self.searchTimer = nil
     self.searchedInFrame = true
@@ -972,7 +972,7 @@ function BrowsePanel:GetCurrentActivity()
 end
 
 function BrowsePanel:MEETINGSTONE_OPEN()
-    if self.lastReceived and time() - self.lastReceived < 300 then
+    if not LfgService:IsDirty() and self.lastReceived and time() - self.lastReceived < 300 then
         return
     end
     self:DoSearch()
@@ -1119,7 +1119,7 @@ end
 
 function BrowsePanel:QuickSearch(activityCode, mode, loot, searchText)
     self:StartSet()
-    Profile:SetLastSearchValue(activityCode)
+    Profile:SetLastSearchCode(activityCode)
     self.ActivityDropdown:SetValue(activityCode)
     self.ModeDropdown:SetValue(mode or nil)
     self.LootDropdown:SetValue(loot or nil)

@@ -247,6 +247,7 @@ local default_config = {
 		tracker_textsize = 12,
 		use_quest_summary = true, 	--bf@178.com
 		zone_only_tracked = false,
+		low_level_tutorial = false, --
 		bar_anchor = "bottom",
 		use_old_icons = true, 		--bf@178.com
 		history = {
@@ -7149,15 +7150,23 @@ hooksecurefunc ("ToggleWorldMap", function (self)
 							else
 								color = "FFFF3322"
 							end
-							line.name:SetText ("|cFFFFDD00[" .. rewardAmount .. "]|r |c" .. colorByRarity .. title .. "|r")
-							line.timeleft:SetText (timeLeft > 0 and "|c" .. color .. SecondsToTime (timeLeft * 60) .. "|r" or "|cFFFF5500" .. L["S_SUMMARYPANEL_EXPIRED"] .. "|r")
+							
 							if (type (questInfo.rewardTexture) == "string" and questInfo.rewardTexture:find ("icon_artifactpower")) then
 								--for�ando sempre mostrar icone vermelho
 								line.icon:SetTexture ([[Interface\AddOns\WorldQuestTracker\media\icon_artifactpower_blueT]])
+								
+								--format the artifact power amount
+								if (rewardAmount > 100000) then
+									rewardAmount = WorldQuestTracker.ToK (rewardAmount)
+								end
+								
 							else
 								line.icon:SetTexture (questInfo.rewardTexture)
 							end
-
+							
+							line.name:SetText ("|cFFFFDD00[" .. rewardAmount .. "]|r |c" .. colorByRarity .. title .. "|r")
+							line.timeleft:SetText (timeLeft > 0 and "|c" .. color .. SecondsToTime (timeLeft * 60) .. "|r" or "|cFFFF5500" .. L["S_SUMMARYPANEL_EXPIRED"] .. "|r")
+							
 							line.icon:SetTexCoord (5/64, 59/64, 5/64, 59/64)
 							line.name:SetWidth (100)
 
@@ -11954,6 +11963,13 @@ function WorldQuestTracker.UpdateWorldQuestsOnWorldMap (noCache, showFade, isQue
 
 	if (UnitLevel ("player") < 110) then
 		WorldQuestTracker.HideWorldQuestsOnWorldMap()
+		
+		--> show a message telling why world quests aren't shown
+		if (WorldQuestTracker.db.profile and not WorldQuestTracker.db.profile.low_level_tutorial) then
+			WorldQuestTracker.db.profile.low_level_tutorial = true
+			WorldQuestTracker:Msg ("World quests aren't shown because you're below level 110.") --> localize-me
+		end
+		
 		return
 	elseif (not IsQuestFlaggedCompleted (WORLD_QUESTS_AVAILABLE_QUEST_ID)) then
 		WorldQuestTracker.HideWorldQuestsOnWorldMap()
