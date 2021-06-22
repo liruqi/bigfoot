@@ -4,3 +4,4 @@ cd /Applications/World\ of\ Warcraft/_classic_/Interface/AddOns
 
 rm -rv Mapster
 rm -rv HandyNotes*
+rm -rv DBM-*
